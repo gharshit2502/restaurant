@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">-->
+<head>
+<!--    <meta name="_csrf" th:content="${_csrf.token}"/>-->
+    <meta charset="utf-8">
+    <meta name="author" content="Tetiana Rohalska">
+    <meta name="description" content="restaurant">
+    <meta name="keywords" content="restaurant, epam, final project, autumn 2020">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>restaurant</title>
+    <link rel="shortcut icon" th:href="@{/resources/favicon.ico}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/reset.css}"/>
+    <link rel="stylesheet" th:href="@{/css/general.css}"/>
+
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <script th:src="@{/js/general.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/main_request.js}"></script>
+
+</head>
+
+<body>
+<div class="backcolor"></div>
+<div class="body-block shadow-large page_width">
+    <!--        "${#authentication.getPrincipal().getUsername()}"-->
+    <section class="section1">
+        <!--        <a id="authorizedLogin" sec:authorize="isAuthenticated()" sec:authentication="name"></a>-->
+        <a class="abutton" href="/login" th:method="Post" th:text="#{signin}"></a>
+        <a class="abutton" href="/logout" th:method="Post" th:text="#{signout}"></a>
+        <select class="abutton" id="locales">
+            <option value="" th:text="#{lang.change}"></option>
+            <option value="en" th:text="#{lang.en}"></option>
+            <option value="ua" th:text="#{lang.ua}"></option>
+        </select>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#locales").change(function () {
+                    let selectedOption = $('#locales').val();
+                    if (selectedOption !== ''){
+                        window.location.replace('api?lang=' + selectedOption);
+                    }
+                });
+            });
+        </script>
+    </section>
+
+    <header class="section2">
+        <a href="/api"><h2 th:text="#{main.header}"></h2></a>
+        <div class="section3">
+            <a class="header-button" href="order" th:text="#{main.order}"></a>
+        </div>
+    </header>
+
+    <section class="section4">
+        <div class="page_head">
+            <div>
+                <h2><label for="select_menu" th:text="#{main.menu}"></label></h2>
+                <select id="select_menu" class="form-styling" onchange="main.select_wallet_transaction(this)">
+                    <option menu_id="0" th:text="#{main.select.all}"></option>
+                </select>
+            </div>
+
+            <div>
+                <!--                    <a class="button" onclick="transactions.openCreate()">Create</a>-->
+                <!--                    <a class="button" onclick="transactions.openUpdate()">Update</a>-->
+                <!--                    <a class="button" onclick="sendDeleteTransactions()">Delete all transaction by wallet</a>-->
+            </div>
+        </div>
+
+        <div id="dishes_block">
+            <div ng-app="get_form" ng-controller="GetController" data-ng-init="getItems()">
+                <table id="table" ng-model="dishes">
+                    <tr>
+                        <th columns="0" onclick="tableSort(this, 'table')">№</th>
+                        <th columns="1" onclick="tableSort(this, 'table')" th:text="#{menu.dish}"></th>
+                        <th columns="2" onclick="tableSort(this, 'table')" th:text="#{menu.price}"></th>
+                        <th columns="3" onclick="tableSort(this, 'table')" th:text="#{menu.category}"></th>
+                    </tr>
+                    <tbody id="dishes_table">
+                        <tr ng-repeat="i in dishes" class="rows" checked=false>
+                            <td>{{i.id}}</td>
+                            <td>{{i.name}}</td>
+                            <td>{{i.price}}</td>
+                            <td>{{i.category}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+</body>
+<script>
+    f = async () => {
+        let response = await fetch("/");
+
+        if (response.ok) { // если HTTP-статус в диапазоне 200-299
+            // получаем тело ответа (см. про этот метод ниже)
+            let json = await response.json();
+            console.log(response.url);
+        } else {
+            alert("Ошибка HTTP: " + response.status);
+        }
+    }
+</script>
+
+<!--<script type="text/javascript">-->
+<!--    // let authorizedLogin = @{request.ge} ;-->
+<!--    if (authorizedLogin !== 'null') {-->
+<!--        setAuthorizedUser(authorizedLogin);-->
+<!--    }-->
+<!--    setAuthorizedUser = (user) => {-->
+<!--        document.querySelector('#header-login-first').setAttribute('style', 'display: none;');-->
+<!--        document.querySelector('#header-login-second').setAttribute('style', 'display: block;');-->
+<!--        document.querySelector('#authorizedLogin').innerHTML = user;-->
+<!--    }-->
+<!--</script>-->
+
+</html>

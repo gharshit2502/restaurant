@@ -14,15 +14,15 @@ import java.math.BigDecimal;
 
 @Data
 @Entity
-@Table( name="dishes",
-        uniqueConstraints={@UniqueConstraint(columnNames={"name"})})
-public class Dishes {
+public class Dish {
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-    @Column(name = "name")
-    private String name;
+    @Column(name = "name_en")
+    private String name_en;
+    @Column(name = "name_ua")
+    private String name_ua;
     @Column(nullable = false)
     private BigDecimal price;
     @ManyToOne(fetch = FetchType.EAGER)

@@ -30,8 +30,9 @@
     <!--        "${#authentication.getPrincipal().getUsername()}"-->
     <section class="section1">
         <!--        <a id="authorizedLogin" sec:authorize="isAuthenticated()" sec:authentication="name"></a>-->
-        <a class="abutton" href="/login" th:method="Post" th:text="#{signin}"></a>
-        <a class="abutton" href="/logout" th:method="Post" th:text="#{signout}"></a>
+        <a class="abutton" href="login" th:method="Post" th:text="#{signin}"></a>
+        <a class="abutton" href="logout" th:method="Post" th:text="#{signout}"></a>
+        <a class="abutton" href="order" th:text="#{main.order}"></a>
         <select class="abutton" id="locales">
             <option value="" th:text="#{lang.change}"></option>
             <option value="en" th:text="#{lang.en}"></option>
@@ -51,19 +52,19 @@
 
     <header class="section2">
         <a href="/api"><h2 th:text="#{main.header}"></h2></a>
-        <div class="section3">
-            <a class="header-button" href="order" th:text="#{main.order}"></a>
-        </div>
     </header>
 
     <section class="section4">
         <div class="page_head">
-            <div>
-                <h2><label for="select_menu" th:text="#{main.menu}"></label></h2>
-                <select id="select_menu" class="form-styling" onchange="main.select_wallet_transaction(this)">
-                    <option menu_id="0" th:text="#{main.select.all}"></option>
-                </select>
-            </div>
+<!--            <div  ng-app="get_form1" ng-controller="GetController1" data-ng-init="getItems1()"-->
+<!--                  ng-model="categories">-->
+<!--                <h2><label for="select_menu" th:text="#{main.menu}"></label></h2>-->
+<!--                <select id="select_menu" class="form-styling" onchange="main.select_wallet_transaction(this)">-->
+<!--                    <option menu_id="0" th:text="#{main.select.all}"></option>-->
+<!--                    <option ng-repeat="i in categories"-->
+<!--                            menu_id="{{i.id}}">{{i.category}}</option>-->
+<!--                </select>-->
+<!--            </div>-->
 
             <div>
                 <!--                    <a class="button" onclick="transactions.openCreate()">Create</a>-->
@@ -84,9 +85,9 @@
                     <tbody id="dishes_table">
                         <tr ng-repeat="i in dishes" class="rows" checked=false>
                             <td>{{i.id}}</td>
-                            <td>{{i.name}}</td>
+                            <td>{{i.name_en}}</td>
                             <td>{{i.price}}</td>
-                            <td>{{i.category}}</td>
+                            <td>{{i.category.category_en}}</td>
                         </tr>
                     </tbody>
                 </table>

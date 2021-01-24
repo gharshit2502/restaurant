@@ -11,6 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @ToString
-public class DishesDTO {
-    private List<Dish> dishes;
+public class CategoriesDTO {
+    private List<CategoryDTO> categories;
 }

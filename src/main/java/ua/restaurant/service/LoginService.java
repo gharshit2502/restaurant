@@ -1,5 +1,6 @@
 package ua.restaurant.service;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,16 +31,28 @@ public class LoginService {
         return loginRepository.findByEmail(loginDTO.getEmail());
     }
 
-    public void saveNewUser (Login login){
+    public Optional<Login> findByUserLogin (@NonNull String login){
+        // TODO check for user availability. password check
+        return loginRepository.findByLogin(login);
+    }
+
+    public Optional<Login> findById (@NonNull Long id) {
+        return loginRepository.findById(id);
+    }
+
+    public void saveNewUser (@NonNull Login login){
         // TODO inform the user about the replay email
         // TODO exception to endpoint
         try {
             loginRepository.save(login);
         } catch (Exception ex){
-            log.info("{Почтовый адрес уже существует}");
+            log.info("{Логин уже существует}");
         }
 
     }
 
+    public void save(@NonNull Login login) {
+        loginRepository.save(login);
+    }
 
 }

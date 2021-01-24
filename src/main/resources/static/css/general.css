@@ -401,7 +401,7 @@ table, th, td {
 }
 
 th {
-	/*background: #74808a;*/
+	background: rgba(84, 100, 164 ,.3);
 	cursor: pointer;
 }
 td {

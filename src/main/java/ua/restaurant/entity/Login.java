@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table( name="login",
-        uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
+        uniqueConstraints={@UniqueConstraint(columnNames={"login"})})
 public class Login {
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
@@ -22,6 +22,8 @@ public class Login {
     private Long id;
     @Column(name = "login")
     private String login;
+    @Column(name = "password")
+    private String password;
     @Column(nullable = false)
     private String email;
 

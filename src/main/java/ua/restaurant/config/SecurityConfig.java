@@ -27,16 +27,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//                .addFilterBefore(new StatelessAuthFilter(tokenAuthService), UsernamePasswordAuthenticationFilter.class)
+////                .addFilterBefore(new StatelessAuthFilter(tokenAuthService), UsernamePasswordAuthenticationFilter.class)
+//
                 .authorizeRequests()
-                .antMatchers("/", "/css/*", "/js/*").permitAll()
+                .antMatchers("/", "/signup", "/api/get", "/css/*", "/js/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
-
+//
                 .formLogin()
-//                .loginPage("/login")
-//                .usernameParameter("login")
-//                .passwordParameter("password")
+                .loginPage("/login")
+                .usernameParameter("login")
+                .passwordParameter("password")
                 .permitAll()
 
                 .and()

@@ -26,12 +26,12 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public CategoriesDTO getAllCategories() {
+    public List<CategoryDTO> findAll() {
         CategoriesDTO categories = new CategoriesDTO();
         List<CategoryDTO> result = new ArrayList<>();
         List<Category> category = categoryRepository.findAll();
-        for (Category d : category) {
-            result.add(getCategoryDTO(d));
+        for (Category c : category) {
+            result.add(new CategoryDTO(c));
         }
 //        DishesDTO dishesDTO = new DishesDTO();
 //        dishesDTO.setDishes(result);
@@ -40,7 +40,7 @@ public class CategoryService {
 
         categories.setCategories(result);
 //        dishes.setCategories(Arrays.asList(Category.class.getEnumConstants().clone()));
-        return categories;
+        return result;
     }
 
 //    public Optional<Login> findByUserLogin (LoginDTO loginDTO){
@@ -48,17 +48,17 @@ public class CategoryService {
 //        return loginRepository.findByEmail(loginDTO.getEmail());
 //    }
 
-    private CategoryDTO getCategoryDTO(Category c) {
-        if (Localization.getLang().equals(LANGUAGE_EN)) {
-            return CategoryDTO.builder()
-                    .id(c.getId())
-                    .category(c.getCategory_en())
-                    .build();
-        }
-        return CategoryDTO.builder()
-                .id(c.getId())
-                .category(c.getCategory_ua())
-                .build();
-    }
+//    private CategoryDTO getCategoryDTO(Category c) {
+//        if (Localization.getLang().equals(LANGUAGE_EN)) {
+//            return CategoryDTO.builder()
+//                    .id(c.getId())
+//                    .category(c.getCategory_en())
+//                    .build();
+//        }
+//        return CategoryDTO.builder()
+//                .id(c.getId())
+//                .category(c.getCategory_ua())
+//                .build();
+//    }
 
 }

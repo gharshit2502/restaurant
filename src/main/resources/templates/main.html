@@ -30,9 +30,10 @@
     <!--        "${#authentication.getPrincipal().getUsername()}"-->
     <section class="section1">
         <!--        <a id="authorizedLogin" sec:authorize="isAuthenticated()" sec:authentication="name"></a>-->
-        <a class="abutton" href="login" th:method="Post" th:text="#{signin}"></a>
-        <a class="abutton" href="logout" th:method="Post" th:text="#{signout}"></a>
-        <a class="abutton" href="order" th:text="#{main.order}"></a>
+        <a class="abutton" href="/login" th:method="Post" th:text="#{sign.in}"></a>
+<!--        <a class="abutton" href="logout" th:method="Post" th:text="#{signout}"></a>-->
+        <a class="abutton" href="/logout" th:text="#{sign.out}"></a>
+        <a class="abutton" href="/order" th:text="#{main.order}"></a>
         <select class="abutton" id="locales">
             <option value="" th:text="#{lang.change}"></option>
             <option value="en" th:text="#{lang.en}"></option>
@@ -51,30 +52,31 @@
     </section>
 
     <header class="section2">
-        <a href="/api"><h2 th:text="#{main.header}"></h2></a>
+        <a href="/"><h2 th:text="#{main.header}"></h2></a>
     </header>
 
-    <section class="section4">
+    <section class="section4"
+             ng-app="get_form" ng-controller="GetController" data-ng-init="getItems()">
         <div class="page_head">
-<!--            <div  ng-app="get_form1" ng-controller="GetController1" data-ng-init="getItems1()"-->
-<!--                  ng-model="categories">-->
-<!--                <h2><label for="select_menu" th:text="#{main.menu}"></label></h2>-->
-<!--                <select id="select_menu" class="form-styling" onchange="main.select_wallet_transaction(this)">-->
-<!--                    <option menu_id="0" th:text="#{main.select.all}"></option>-->
-<!--                    <option ng-repeat="i in categories"-->
-<!--                            menu_id="{{i.id}}">{{i.category}}</option>-->
-<!--                </select>-->
-<!--            </div>-->
+            <div>
+                <h2><label for="select_menu" th:text="#{main.menu}"></label></h2>
+
+            </div>
 
             <div>
                 <!--                    <a class="button" onclick="transactions.openCreate()">Create</a>-->
                 <!--                    <a class="button" onclick="transactions.openUpdate()">Update</a>-->
                 <!--                    <a class="button" onclick="sendDeleteTransactions()">Delete all transaction by wallet</a>-->
+                <select id="select_menu" class="form-styling" onchange="main.select_wallet_transaction(this)">
+                    <option menu_id="0" th:text="#{main.select.all}"></option>
+                    <option ng-repeat="c in categories"
+                            menu_id="{{c.id}}">{{c.category}}</option>
+                </select>
             </div>
         </div>
 
         <div id="dishes_block">
-            <div ng-app="get_form" ng-controller="GetController" data-ng-init="getItems()">
+            <div>
                 <table id="table" ng-model="dishes">
                     <tr>
                         <th columns="0" onclick="tableSort(this, 'table')">№</th>
@@ -85,9 +87,9 @@
                     <tbody id="dishes_table">
                         <tr ng-repeat="i in dishes" class="rows" checked=false>
                             <td>{{i.id}}</td>
-                            <td>{{i.name_en}}</td>
+                            <td>{{i.name}}</td>
                             <td>{{i.price}}</td>
-                            <td>{{i.category.category_en}}</td>
+                            <td>{{i.category}}</td>
                         </tr>
                     </tbody>
                 </table>

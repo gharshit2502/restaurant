@@ -14,8 +14,9 @@ import static ua.restaurant.config.Constants.LANGUAGE_EN;
 
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "api/")
 public class MainController {
+
     private final DishService dishService;
     private final CategoryService categoryService;
     @Autowired
@@ -23,7 +24,6 @@ public class MainController {
         this.dishService = dishService;
         this.categoryService = categoryService;
     }
-
 
     @GetMapping("/get")
     public DishesDTO getMain() {
@@ -35,9 +35,9 @@ public class MainController {
         return dishService.getAllDishes();
     }
 
-    @GetMapping("/getCat")
-    public CategoriesDTO getCat() {
-        return categoryService.getAllCategories();
-    }
+//    @GetMapping("/getCat")
+//    public CategoriesDTO getCat() {
+//        return categoryService.getAllCategories();
+//    }
 
 }

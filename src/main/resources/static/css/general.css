@@ -51,7 +51,7 @@ body * {
 	box-sizing: border-box;
 }
 .abutton {
-  /*background: #e5eaf5;*/
+  background: none;
   align-items: center;
   color: #494d5f;
   padding: 4px;
@@ -63,7 +63,7 @@ body * {
 .abutton:active,
 .abutton:focus {
   background: rgba(84, 100, 164 ,.3);
-  color: rgba(84, 100, 164 ,.3);
+  color: red;
   border-radius: 3px;
   border: none;
   outline: none;
@@ -132,7 +132,7 @@ body * {
 .section2 {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
+	justify-content: space-around;
 	align-items: center;
 
 	background-color: #ededed;
@@ -140,7 +140,7 @@ body * {
 	border-bottom: 1px solid #d8d8d8;
 }
 .section2 h2 {
-	padding-left: 30px;
+	/*padding-left: 30px;*/
 }
 #logo {
 	height: 64px;
@@ -189,12 +189,9 @@ body * {
 	justify-content: space-between;
 	align-items: center;
 
-	margin: 30px auto 20px auto;
+	margin: 20px auto;
 	border-bottom: 1px solid #5464a4;
 
-}
-.page_head > h2 {
-	display: inline;
 }
 .page {
 	/*min-height: 500px;*/
@@ -258,7 +255,7 @@ body * {
 	padding: 0 15px;
 	border: none;
 	border-radius: 20px;
-	margin-bottom: 20px;
+	/*margin-bottom: 20px;*/
 	background: rgba(84, 100, 164, .3);
 }
 .stat-styling {
@@ -396,13 +393,16 @@ table {
 /*}*/
 
 table, th, td {
-	border: 2px solid #ccc;
+	border: 1px solid rgba(84, 100, 164, .3);
 	padding: 10px;
 }
 
 th {
 	background: rgba(84, 100, 164 ,.3);
 	cursor: pointer;
+}
+th:hover{
+	color: red;
 }
 td {
 	cursor: default;

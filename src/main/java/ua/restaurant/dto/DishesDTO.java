@@ -1,7 +1,6 @@
 package ua.restaurant.dto;
 
 import lombok.*;
-import ua.restaurant.entity.Dish;
 
 import java.util.List;
 
@@ -12,5 +11,6 @@ import java.util.List;
 @Builder
 @ToString
 public class DishesDTO {
-    private List<Dish> dishes;
+    private List<DishDTO> dishes;
+    private List<CategoryDTO> categories;
 }

@@ -3,22 +3,22 @@
 let main = {
     dishes: [],
 
-    showAddWalletItem: function () {
-        let elem = document.querySelector('#select_wallet');
-
-        for (let i in this.wallets) {
-            let option = document.createElement('option');
-            option.setAttribute('wallet_id', this.wallets[i].id);
-            option.innerHTML = this.wallets[i].name;
-            elem.appendChild(option);
-        }
-    },
-    select_wallet_transaction: function (item) {
-        let id = item.options[item.selectedIndex].getAttribute('wallet_id');
-        // console.log(id);
-
-        this.showItems(Number.parseInt(id));
-    },
+    // showAddWalletItem: function () {
+    //     let elem = document.querySelector('#select_wallet');
+    //
+    //     for (let i in this.wallets) {
+    //         let option = document.createElement('option');
+    //         option.setAttribute('wallet_id', this.wallets[i].id);
+    //         option.innerHTML = this.wallets[i].name;
+    //         elem.appendChild(option);
+    //     }
+    // },
+    // select_wallet_transaction: function (item) {
+    //     let id = item.options[item.selectedIndex].getAttribute('wallet_id');
+    //     // console.log(id);
+    //
+    //     this.showItems(Number.parseInt(id));
+    // },
     // showItems: function(id) {
     //     let elem = document.querySelector('#transaction_table');
     //
@@ -63,6 +63,6 @@ let main = {
 
 let init = () => {
     getSelector();
-    main.showAddWalletItem();
+    // main.showAddWalletItem();
 }
 window.onload = init;

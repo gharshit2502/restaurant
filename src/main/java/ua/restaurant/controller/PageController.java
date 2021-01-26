@@ -28,12 +28,12 @@ public class PageController {
 
     @RequestMapping("/login")
     public String loginPage(
-//            @RequestParam(value = "error", required = false) String error,
-//                            @RequestParam(value = "logout", required = false) String logout,
-//                            Model model
+            @RequestParam(value = "error", required = false) String error,
+            @RequestParam(value = "logout", required = false) String logout,
+            Model model
     ){
-//        model.addAttribute("error", error != null);
-//        model.addAttribute("logout", logout != null);
+        model.addAttribute("error", error != null);
+        model.addAttribute("logout", logout != null);
         return "login";
     }
 
@@ -42,6 +42,10 @@ public class PageController {
         return "signup";
     }
 
+    @RequestMapping("/order")
+    public String orderPage(){
+        return "order";
+    }
 
 //    @RequestMapping("/api")
 //    public String mainPage(){

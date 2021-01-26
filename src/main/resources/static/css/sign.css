@@ -79,7 +79,7 @@ label {
 .btn-signup:active,
 .btn-signin:active {
     cursor: pointer;
-    background-color: #5464a4;
+    background-color: #5464a4 !important;
     color: white;
     -webkit-transition: background-color .5s;
     transition: background-color .5s;

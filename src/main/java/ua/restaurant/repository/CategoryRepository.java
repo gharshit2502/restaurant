@@ -1,9 +1,8 @@
 package ua.restaurant.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ua.restaurant.entity.Category;
-import ua.restaurant.entity.Dish;
+import ua.restaurant.entity.Categories;
 
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+public interface CategoryRepository extends JpaRepository<Categories, Long> {
 //    Optional<Dish> findByName(String name);
 }

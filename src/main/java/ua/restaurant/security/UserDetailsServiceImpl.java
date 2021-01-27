@@ -14,6 +14,8 @@ import ua.restaurant.repository.LoginRepository;
 import ua.restaurant.service.LoginService;
 
 import javax.annotation.PostConstruct;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -34,7 +36,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     .login("manager")
                     .password(new BCryptPasswordEncoder().encode("password"))
                     .email("tro@gmail.com")
-                    .role(RoleType.ROLE_MANAGER).build());
+                    .role(RoleType.ROLE_MANAGER)
+                    .time(Timestamp.valueOf(LocalDateTime.now()))
+                    .build());
         }
     }
 

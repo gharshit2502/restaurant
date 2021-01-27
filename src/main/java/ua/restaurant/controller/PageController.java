@@ -11,29 +11,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class PageController {
     @RequestMapping("/")
-    public String mainPage(){
-        Authentication auth =  SecurityContextHolder.getContext().getAuthentication();
+    public String mainPage(@RequestParam(value = "sort", required = false) String sort, Model model){
+//        model.addAttribute(sort, sort != null);
+        System.out.println(sort + " page");
+
         return "main";
     }
 
-//    @RequestMapping("/")
-//    public String mainPage1(){
-//        Authentication auth =  SecurityContextHolder.getContext().getAuthentication();
-////        Object o = auth.getDetails();
-////        SecurityContextHolder.getContext()
-//
-//        return "index";
-//    }
-
 
     @RequestMapping("/login")
-    public String loginPage(
-//            @RequestParam(value = "error", required = false) String error,
-//                            @RequestParam(value = "logout", required = false) String logout,
-//                            Model model
-    ){
-//        model.addAttribute("error", error != null);
-//        model.addAttribute("logout", logout != null);
+    public String loginPage(){
         return "login";
     }
 
@@ -43,13 +30,4 @@ public class PageController {
     }
 
 
-//    @RequestMapping("/api")
-//    public String mainPage(){
-//        return "index.html";
-//    }
-
-    @RequestMapping("/all_user")
-    public String userPage(){
-        return "users/index.html";
-    }
 }

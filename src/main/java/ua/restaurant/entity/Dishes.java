@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -14,7 +15,7 @@ import java.math.BigDecimal;
 
 @Data
 @Entity
-public class Dish {
+public class Dishes {
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -27,5 +28,6 @@ public class Dish {
     private BigDecimal price;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "categoryId", referencedColumnName = "id")
-    private Category category;
+    private Categories categories;
+    private Timestamp time;
 }

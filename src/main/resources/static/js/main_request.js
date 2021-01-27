@@ -1,5 +1,7 @@
 'use strict';
 
+let sort = 'none';
+
 angular.module("get_form", [])
     .controller("GetController", ["$scope", "$http", function ($scope, $http) {
         $scope.dishes = [];
@@ -7,7 +9,7 @@ angular.module("get_form", [])
         $scope.getItems = function () {
             $http({
                 method: "GET",
-                url: "/api/get",
+                url: "/api/get?sort=" + sort,
                 headers: {
                     "Content-Type": "application/json",
                     // 'X-CSRF-TOKEN': token
@@ -27,6 +29,36 @@ angular.module("get_form", [])
             );
         }
     }]);
+
+let get = (sort) => {
+    angular.module("get_form", [])
+        .controller("GetController", ["$scope", "$http", function ($scope, $http) {
+            $scope.dishes = [];
+            $scope.categories = [];
+            $scope.getItems = function () {
+                $http({
+                    method: "GET",
+                    url: "/api/get?sort=" + sort,
+                    headers: {
+                        "Content-Type": "application/json",
+                        // 'X-CSRF-TOKEN': token
+                    }
+                }).then(
+                    function (data) {
+                        console.log(data.data);
+                        // $scope.items_transactions = data.data;
+                        $scope.dishes = data.data.dishes;
+                        $scope.categories = data.data.categories;
+                        // main.dishes = data.data.dishes;
+                        // console.log(data.data.dishes);
+                    },
+                    function (error) {
+                        console.log("error");
+                    }
+                );
+            }
+        }]);
+}
 
 
 let sendDeleteAllTransactions = async () => {

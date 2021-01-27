@@ -44,7 +44,7 @@
                 $("#locales").change(function () {
                     let selectedOption = $('#locales').val();
                     if (selectedOption !== ''){
-                        window.location.replace('api?lang=' + selectedOption);
+                        window.location.replace('?lang=' + selectedOption);
                     }
                 });
             });
@@ -81,7 +81,7 @@
                     <tr>
                         <th columns="0" onclick="tableSort(this, 'table')">№</th>
                         <th columns="1" onclick="tableSort(this, 'table')" th:text="#{menu.dish}"></th>
-                        <th columns="2" onclick="tableSort(this, 'table')" th:text="#{menu.price}"></th>
+                        <th columns="2" onclick="get('price')" th:text="#{menu.price}"></th>
                         <th columns="3" onclick="tableSort(this, 'table')" th:text="#{menu.category}"></th>
                     </tr>
                     <tbody id="dishes_table">

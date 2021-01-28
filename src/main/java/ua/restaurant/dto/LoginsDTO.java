@@ -1,7 +1,7 @@
 package ua.restaurant.dto;
 
 import lombok.*;
-import ua.restaurant.entity.Login;
+import ua.restaurant.entity.Logins;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ import java.util.List;
 @Builder
 @ToString
 public class LoginsDTO {
-    private List<Login> logins;
+    private List<Logins> logins;
 }

@@ -4,17 +4,16 @@ import lombok.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Component;
-import ua.restaurant.entity.Login;
+import ua.restaurant.entity.Logins;
 
 import java.util.Arrays;
 import java.util.Collection;
 
 public class UserAuthentication implements Authentication {
-    private final Login login;
-    private boolean authentificated = true;
+    private final Logins login;
+    private boolean authenticated = true;
 
-    public UserAuthentication(@NonNull Login login) {
+    public UserAuthentication(@NonNull Logins login) {
         this.login = login;
     }
 
@@ -42,12 +41,12 @@ public class UserAuthentication implements Authentication {
 
     @Override
     public boolean isAuthenticated() {
-        return authentificated;
+        return authenticated;
     }
 
     @Override
     public void setAuthenticated(boolean b) throws IllegalArgumentException {
-        this.authentificated = isAuthenticated();
+        this.authenticated = isAuthenticated();
     }
 
     @Override

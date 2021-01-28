@@ -16,7 +16,7 @@ public class Orders {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "loginId", referencedColumnName = "id")
-    private Login login;
+    private Logins login;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "orderListId", referencedColumnName = "id")

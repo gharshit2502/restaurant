@@ -14,7 +14,7 @@ public class Baskets {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "loginId", referencedColumnName = "id")
-    private Login login;
+    private Logins account;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dishId", referencedColumnName = "id")

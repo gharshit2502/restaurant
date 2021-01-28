@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 import lombok.*;
-import ua.restaurant.entity.Login;
+import ua.restaurant.entity.Logins;
 import ua.restaurant.entity.RoleType;
 
 @Data
@@ -30,9 +30,9 @@ public class UserDetailsImpl implements UserDetails {
 //    private boolean credentialsNonExpired;
 //    private boolean enabled;
 
-    private Login login;
+    private Logins login;
 
-    public UserDetailsImpl(Login login) {
+    public UserDetailsImpl(Logins login) {
         this.login = login;
     }
 

@@ -5,15 +5,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ua.restaurant.dto.CategoriesDTO;
 import ua.restaurant.dto.DishesDTO;
-import ua.restaurant.service.CategoryService;
-import ua.restaurant.service.DishService;
+import ua.restaurant.service.CategoriesService;
+import ua.restaurant.service.DishesService;
 
 import java.util.Arrays;
 
@@ -24,12 +21,11 @@ import static ua.restaurant.config.Constants.LANGUAGE_EN;
 @RequestMapping(value = "api/")
 public class MainController {
     private static final Logger LOGGER = LogManager.getLogger(MainController.class);
-    private final DishService dishService;
-    private final CategoryService categoryService;
+    private final DishesService dishesService;
 
     @Autowired
-    public MainController(DishService dishService) {
-        this.dishService = dishService;
+    public MainController(DishesService dishesService) {
+        this.dishesService = dishesService;
     }
 
     @GetMapping("/get")
@@ -47,7 +43,7 @@ public class MainController {
 
         LocaleContextHolder.getLocale().toString().equals(LANGUAGE_EN);
 
-        return dishService.getAllDishes();
+        return dishesService.getAllDishes();
     }
 
     public static void test(Logger log) {

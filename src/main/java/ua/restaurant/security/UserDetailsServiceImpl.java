@@ -8,21 +8,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.restaurant.entity.Login;
+import ua.restaurant.entity.Logins;
 import ua.restaurant.entity.RoleType;
-import ua.restaurant.repository.LoginRepository;
-import ua.restaurant.service.LoginService;
+import ua.restaurant.service.AccountsService;
 
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private LoginService loginService;
+    private AccountsService accountsService;
 
     @PostConstruct
     public void init() {
@@ -31,8 +29,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 //                    loginService.save(login);
 //                });
 
-        if (!loginService.findByUserLogin("manager").isPresent()) {
-            loginService.saveNewUser(Login.builder()
+        if (!accountsService.findByUserLogin("manager").isPresent()) {
+            accountsService.saveNewUser(Logins.builder()
                     .login("manager")
                     .password(new BCryptPasswordEncoder().encode("password"))
                     .email("tro@gmail.com")
@@ -45,7 +43,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
         System.out.println(username);
-        Login login = loginService.findByUserLogin(username).orElseThrow(
+        Logins login = accountsService.findByUserLogin(username).orElseThrow(
                 () -> new UsernameNotFoundException("Could not find user: " + username)
         );
 //        if (login == null

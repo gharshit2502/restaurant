@@ -14,36 +14,36 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
 
-@Component
-public class TokenHandler {
-    private final SecretKey secretKey;
-
-    public TokenHandler() {
-        String jwtKey = "jwtkey1234567890";
-        byte[] decodedKey = BaseEncoding.base64().decode(jwtKey);
-        secretKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
-    }
-
-
-    public Optional<Long> extractLoginId(String token) {
-        try {
-            Jws<Claims> claimsJwt = Jwts.parser()
-                    .setSigningKey(secretKey).parseClaimsJws(token);
-            Claims body = claimsJwt.getBody();
-            return Optional
-                    .ofNullable(body.getId())
-                    .map(Long::getLong);
-        } catch (RuntimeException ex) {
-            // TODO логирование
-            return Optional.empty();
-        }
-    }
-
-    public String generateAccessToken(Long id, LocalDateTime expires) {
-        return Jwts.builder()
-                .setId(id.toString())
-                .setExpiration(Date.from(expires.atZone(ZoneId.systemDefault()).toInstant()))
-                .signWith(SignatureAlgorithm.HS512, secretKey)
-                .compact();
-    }
-}
+//@Component
+//public class TokenHandler {
+//    private final SecretKey secretKey;
+//
+//    public TokenHandler() {
+//        String jwtKey = "jwtkey1234567890";
+//        byte[] decodedKey = BaseEncoding.base64().decode(jwtKey);
+//        secretKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
+//    }
+//
+//
+//    public Optional<Long> extractLoginId(String token) {
+//        try {
+//            Jws<Claims> claimsJwt = Jwts.parser()
+//                    .setSigningKey(secretKey).parseClaimsJws(token);
+//            Claims body = claimsJwt.getBody();
+//            return Optional
+//                    .ofNullable(body.getId())
+//                    .map(Long::getLong);
+//        } catch (RuntimeException ex) {
+//            // TODO логирование
+//            return Optional.empty();
+//        }
+//    }
+//
+//    public String generateAccessToken(Long id, LocalDateTime expires) {
+//        return Jwts.builder()
+//                .setId(id.toString())
+//                .setExpiration(Date.from(expires.atZone(ZoneId.systemDefault()).toInstant()))
+//                .signWith(SignatureAlgorithm.HS512, secretKey)
+//                .compact();
+//    }
+//}

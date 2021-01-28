@@ -5,7 +5,7 @@ import ua.restaurant.entity.Dishes;
 
 import java.util.List;
 
-public interface DishRepository extends JpaRepository<Dishes, Long> {
+public interface DishesRepository extends JpaRepository<Dishes, Long> {
 //    Optional<Dish> findByName(String name);
     public List<Dishes> findAllByOrderByIdDesc();
     public List<Dishes> findAllByOrderByPriceAscIdAsc();

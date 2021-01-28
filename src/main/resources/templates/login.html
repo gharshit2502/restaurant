@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<!--    <meta name="_csrf" th:content="${_csrf.token}"/>-->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta charset="utf-8">
     <meta name="author" content="Tetiana Rohalska">
     <meta name="description" content="restaurant">
@@ -39,15 +39,17 @@
         <section class="section4">
         <main>
             <div class="frame">
-                <form class="form-signin">
+                <form class="form-signin" method="post" action="/login">
+                    <input name="${_csrf.parameterName}" value="${_csrf.token}" type="hidden">
                     <label for="login" th:text="#{sign.username}"></label>
-                    <input id="login" class="form-styling" type="text" required autofocus/>
+                    <input name="login" id="login" class="form-styling" type="text" required autofocus/>
                     <label for="password" th:text="#{sign.password}">Password</label>
                     <div>
-                        <input id="password" class="form-styling" type="password" autocomplete="on" required/>
+                        <input name="password" id="password" class="form-styling" type="password" autocomplete="on" required/>
                         <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                     </div>
-                    <input class="btn-signin" type="button" onclick="sendAuthorization('login')" th:value="#{sign.in}">
+                    <button type="submit" class="btn btn-default">Log in</button>
+<!--                    <input class="btn-signin" type="button" onclick="sendAuthorization('login')" th:value="#{sign.in}">-->
                 </form>
 <!--                <div class="forgot">-->
 <!--                    <a class="forgot-button" href="#">Forgot your password?</a>-->

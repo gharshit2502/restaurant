@@ -27,9 +27,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-////                .addFilterBefore(new StatelessAuthFilter(tokenAuthService), UsernamePasswordAuthenticationFilter.class)
-//
+//                .csrf().disable()
+//                .addFilterBefore(new StatelessAuthFilter(tokenAuthService), UsernamePasswordAuthenticationFilter.class)
+
                 .authorizeRequests()
+
+//                .antMatchers("/admin/**").hasRole("ROLE_ADMIN")
+//                .antMatchers("/anonymous*").anonymous()
+
                 .antMatchers("/", "/signup", "/api/get", "/css/*", "/js/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -38,10 +43,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .loginPage("/login")
 //                .usernameParameter("login")
 //                .passwordParameter("password")
+//                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/", true)
+//                .failureUrl("/login.html?error=true")
+//                .failureHandler(authenticationFailureHandler())
                 .permitAll()
 
                 .and()
                 .logout()
+//                .logoutUrl("/perform_logout")
+//                .deleteCookies("JSESSIONID")
+//                .logoutSuccessHandler(logoutSuccessHandler());
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .permitAll();
     }
@@ -52,7 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        auth.inMemoryAuthentication()
 //                .withUser("user").password("password").roles("USER");
 
-        auth.userDetailsService(userDetailsServiceImpl)
+        auth
+                .userDetailsService(userDetailsServiceImpl)
                 .passwordEncoder(passwordEncoder());
     }
 

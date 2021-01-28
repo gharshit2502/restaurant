@@ -29,5 +29,9 @@ public class PageController {
         return "signup";
     }
 
+    @RequestMapping("/order")
+    public String orderPage(){
+        return "order";
+    }
 
 }

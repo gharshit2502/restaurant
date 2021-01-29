@@ -1,9 +1,11 @@
 package ua.restaurant.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -33,5 +35,6 @@ public class Logins {
 //    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "id"))
     @Enumerated(EnumType.STRING)
     private RoleType role;
-    private Timestamp time;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime time;
 }

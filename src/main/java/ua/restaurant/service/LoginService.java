@@ -10,7 +10,6 @@ import ua.restaurant.entity.Logins;
 import ua.restaurant.entity.RoleType;
 import ua.restaurant.repository.LoginsRepository;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -39,7 +38,7 @@ public class LoginService {
                     .login(loginDTO.getLogin())
                     .email(loginDTO.getEmail())
                     .role(role)
-                    .time(Timestamp.valueOf(LocalDateTime.now()))
+                    .time(LocalDateTime.now())
                     .password(new BCryptPasswordEncoder().encode(loginDTO.getPassword())).build());
         } catch (Exception e){
             log.info("Логин уже существует: " + loginDTO.getLogin());

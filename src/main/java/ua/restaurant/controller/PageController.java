@@ -1,7 +1,7 @@
 package ua.restaurant.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -17,13 +17,28 @@ public class PageController {
     }
 
     @RequestMapping("/signup")
-    public String registrationPage(Model model){
+    public String registrationPage(){
         return "signup";
     }
 
-    @RequestMapping("/order")
-    public String orderPage(){
-        return "order";
+    @RequestMapping("/basket")
+    public String basketPage(){
+        return "basket";
+    }
+
+    @RequestMapping("/orders")
+    public String ordersPage(){
+        return "orders";
+    }
+
+    @RequestMapping("/payment")
+    public String paymentPage(){
+        return "payment";
+    }
+
+    @RequestMapping("manager/orders")
+    public String ordersManagerPage(){
+        return "orders_manager";
     }
 
 }

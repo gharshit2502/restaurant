@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">-->
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <!--    <meta name="_user" th:content="${}"/>-->
+
+    <meta charset="utf-8">
+    <meta name="author" content="Tetiana Rohalska">
+    <meta name="description" content="restaurant">
+    <meta name="keywords" content="restaurant, final project, autumn 2020">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>restaurant</title>
+    <link rel="shortcut icon" th:href="@{/resources/favicon.ico}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/reset.css}"/>
+    <link rel="stylesheet" th:href="@{/css/general.css}"/>
+
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <script th:src="@{/js/general.js}"></script>
+    <script th:src="@{/js/orders_request.js}"></script>
+
+</head>
+
+<body>
+<div class="backcolor"></div>
+<div class="body-block shadow-large page_width">
+    <section class="section1">
+        <a id="authorizedLogin" th:text="${#request.getUserPrincipal().getName()}"></a>
+        <a class="abutton" href="/" th:text="#{main.menu}"></a>
+        <a class="abutton" href="/basket" th:text="#{main.basket}"></a>
+        <a class="abutton" href="/orders" th:text="#{main.orders}"></a>
+        <select class="abutton" id="locales">
+            <option value="" th:text="#{lang.change}"></option>
+            <option value="en" th:text="#{lang.en}"></option>
+            <option value="ua" th:text="#{lang.ua}"></option>
+        </select>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#locales").change(function () {
+                    let selectedOption = $('#locales').val();
+                    if (selectedOption !== ''){
+                        window.location.replace('?lang=' + selectedOption);
+                    }
+                });
+            });
+        </script>
+    </section>
+
+    <header class="section2">
+        <a href="/"><h2 th:text="#{main.header}"></h2></a>
+        <a href="/"><h2 th:text="#{orders.manager}"></h2></a>
+    </header>
+
+    <section class="section4"
+             ng-app="get_form" ng-controller="GetController" data-ng-init="getAllItems()">
+        <div class="page_head">
+            <div>
+                <h2 th:text="#{main.orders}"></h2>
+            </div>
+        </div>
+
+        <div class="page_head">
+            <div style="margin: 20px 0;">
+                <p>Stages: NEW, PAYED, CONFIRM_PAYMENT, COOKING, DELIVERY, DONE</p>
+                <label th:text="#{orders.action}"></label>
+                <input ng-model="orderId"/>
+            </div>
+            <div>
+                <a class="button" ng-click="confirmAction(orderId)" th:text="#{orders.button}"></a>
+            </div>
+        </div>
+
+        <div>
+            <p>Output Message: {{msg}}</p>
+            <p>StatusCode: {{statusval}}</p>
+            <p>Status: {{statustext}}</p>
+            <p>Response Headers: {{headers}}</p>
+        </div>
+
+        <div id="dishes_block">
+            <div>
+                <table id="table" ng-model="orders">
+                    <tr>
+                        <th columns="0" onclick="tableSort(this, 'table')" th:text="#{orders.number}"></th>
+                        <th columns="1" onclick="tableSort(this, 'table')" th:text="#{orders.time}"></th>
+                        <th columns="2" onclick="tableSort(this, 'table')" th:text="#{orders.status}"></th>
+                        <th columns="3" onclick="tableSort(this, 'table')" th:text="#{orders.totalPrice}"></th>
+                    </tr>
+                    <tbody id="dishes_table">
+                    <tr ng-repeat="i in orders" class="rows" checked=false>
+                        <td>{{i.id}}</td>
+                        <td>{{i.time}}</td>
+                        <td>{{i.status}}</td>
+                        <td>{{i.totalPrice}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+</body>
+
+</html>

@@ -2,8 +2,14 @@ package ua.restaurant.entity;
 
 public enum Status {
     NEW,
-    PAID,
+    PAYED,
+    PAYMENT_CONFIRM,
     COOKING,
     DELIVERY,
-    DONE
+    DONE;
+
+    private static final Status[] statuses = values();
+    public Status next() {
+        return statuses[(this.ordinal() + 1) % statuses.length];
+    }
 }

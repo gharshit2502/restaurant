@@ -67,17 +67,19 @@ angular.module("get_form", [])
             console.log(object);
             $http({
                 method: "POST",
-                url: "/api/basket/add",
+                url: "/api/basket/create",
                 headers: {
                     "Content-Type": "application/json",
                     'X-CSRF-TOKEN': token
                 },
                 data: JSON.stringify(object)
             }).then(function (response) {
-                if (response.data)
+                if (response.data) {
                     $scope.msg = "Post Data Submitted Successfully!";
+                    alert("Dish "+dishId+" successfully added.")
+                }
             }, function (response) {
-                $scope.msg = "Service not Exists";
+                $scope.msg = "Cannot submit";
                 $scope.statusval = response.status;
                 $scope.statustext = response.statusText;
                 $scope.headers = response.headers();

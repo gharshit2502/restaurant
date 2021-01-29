@@ -1,10 +1,19 @@
 package ua.restaurant.entity;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@ToString
 
 @Data
 @Entity
@@ -18,14 +27,15 @@ public class Orders {
     @JoinColumn(name = "loginId", referencedColumnName = "id")
     private Logins login;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "orderListId", referencedColumnName = "id")
-    private OrdersReceipts orderList;
+//    @OneToMany(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "orderListId", referencedColumnName = "id")
+//    private OrdersReceipts orderList;
 
     private BigDecimal totalPrice;
 
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private Timestamp time;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime time;
 }

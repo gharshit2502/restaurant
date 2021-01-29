@@ -106,7 +106,7 @@
     <meta charset="utf-8">
     <meta name="author" content="Tetiana Rohalska">
     <meta name="description" content="restaurant">
-    <meta name="keywords" content="restaurant, epam, final project, autumn 2020">
+    <meta name="keywords" content="restaurant, final project, autumn 2020">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>restaurant</title>
     <link rel="shortcut icon" th:href="@{/resources/favicon.ico}" type="image/x-icon">
@@ -119,21 +119,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 
     <script th:src="@{/js/general.js}"></script>
-    <script th:src="@{/js/main.js}"></script>
-    <script th:src="@{/js/order_request.js}"></script>
+    <script th:src="@{/js/basket_request.js}"></script>
 
 </head>
 
 <body>
 <div class="backcolor"></div>
 <div class="body-block shadow-large page_width">
-    <!--            "${#authentication.getPrincipal().getUsername()}"-->
     <section class="section1">
-        <a id="authorizedLogin" sec:authorize="isAuthenticated()" sec:authentication="name"></a>
-        <!--        <a id="authorizedLogin"></a>-->
-        <a class="abutton" href="/login" th:method="Post" th:text="#{sign.in}"></a>
-        <a class="abutton" href="/logout" th:text="#{sign.out}"></a>
-        <a class="abutton" href="/order" th:text="#{main.order}"></a>
+        <a id="authorizedLogin" th:text="${#request.getUserPrincipal().getName()}"></a>
+        <a class="abutton" href="/" th:text="#{main.menu}"></a>
+        <a class="abutton" href="/basket" th:text="#{main.basket}"></a>
+        <a class="abutton" href="/orders" th:text="#{main.orders}"></a>
         <select class="abutton" id="locales">
             <option value="" th:text="#{lang.change}"></option>
             <option value="en" th:text="#{lang.en}"></option>
@@ -159,13 +156,7 @@
              ng-app="get_form" ng-controller="GetController" data-ng-init="getItems()">
         <div class="page_head">
             <div>
-                <h2 th:text="#{main.menu}"></h2>
-            </div>
-
-            <div>
-                <a class="button" onclick="" th:text="#{button.add}"></a>
-                <!--                    <a class="button" onclick="transactions.openUpdate()">Update</a>-->
-                <!--                    <a class="button" onclick="sendDeleteTransactions()">Delete all transaction by wallet</a>-->
+                <h2 th:text="#{main.basket}"></h2>
             </div>
         </div>
 
@@ -188,6 +179,24 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+
+        <div class="page_head">
+            <div style="margin: 20px 0;">
+<!--                <label th:text="#{main.addDishId}"></label>-->
+<!--                <input ng-model="dishId"/>-->
+                <a class="button" ng-click="postdata()" th:text="#{basket.create}"></a>
+            </div>
+            <div>
+                <a class="button" ng-click="deleteAll()" th:text="#{basket.deleteAll}"></a>
+            </div>
+        </div>
+
+        <div>
+            <p>Output Message: {{msg}}</p>
+            <p>StatusCode: {{statusval}}</p>
+            <p>Status: {{statustext}}</p>
+            <p>Response Headers: {{headers}}</p>
         </div>
 
     </section>

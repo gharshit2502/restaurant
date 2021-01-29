@@ -56,6 +56,19 @@ public class BasketsService {
                 .collect(Collectors.toList());
     }
 
+    public List<DishDTO> findAllDishes() {
+        return basketRepository.findAll().stream()
+                .map(Baskets::getDishes)
+                .map(d -> DishDTO.builder()
+                        .id(d.getId())
+                        .price(d.getPrice())
+                        .name(LocaleContextHolder.getLocale().equals(Locale.ENGLISH) ? d.getName_en() : d.getName_ua())
+                        .category(LocaleContextHolder.getLocale().equals(Locale.ENGLISH)
+                                ? d.getCategories().getCategory_en() : d.getCategories().getCategory_ua())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public Baskets saveNewItem (@NonNull BasketItemDTO basketItemDTO, String username) throws NoSuchElementException {
         try {
@@ -78,9 +91,11 @@ public class BasketsService {
         }
     }
 
-    public void delete(@NonNull BasketItemDTO basketItemDTO) {
-        dishesRepository.deleteById(basketItemDTO.getDishId());
-    }
+//    public void delete(@NonNull BasketItemDTO basketItemDTO) {
+//        dishesRepository.deleteById(basketItemDTO.getDishId());
 
+    public void deleteByLogin(@NonNull String username) {
+        basketRepository.deleteBasketsByLoginLoginContains(username);
+    }
 
 }

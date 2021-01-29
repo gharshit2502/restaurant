@@ -15,20 +15,20 @@ import ua.restaurant.security.UserDetailsServiceImpl;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsServiceImpl;
+    public SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl) {
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//                .csrf().disable()
-//                .addFilterBefore(new StatelessAuthFilter(tokenAuthService), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                    .antMatchers("/**", "/signup", "/api/get", "/css/*", "/js/*").permitAll()
-//                    .antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name())
-//                    .antMatchers("/order").hasAuthority(RoleType.ROLE_MANAGER.name())
-//                    .antMatchers("/anonymous*").anonymous()
+                    .antMatchers("/", "/signup", "/api/get", "/css/*", "/js/*").permitAll()
+                    .antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name())
+                    .antMatchers("/manager/**").hasAuthority(RoleType.ROLE_MANAGER.name())
                 .anyRequest().authenticated()
                 .and()
 

@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta name="author" content="Tetiana Rohalska">
     <meta name="description" content="restaurant">
-    <meta name="keywords" content="restaurant, epam, final project, autumn 2020">
+    <meta name="keywords" content="restaurant, final project, autumn 2020">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>restaurant</title>
     <link rel="shortcut icon" th:href="@{/resources/favicon.ico}" type="image/x-icon">
@@ -30,13 +30,13 @@
 <body>
 <div class="backcolor"></div>
 <div class="body-block shadow-large page_width">
-<!--            "${#authentication.getPrincipal().getUsername()}"-->
     <section class="section1">
-        <a id="authorizedLogin" sec:authorize="isAuthenticated()" sec:authentication="name"></a>
-<!--        <a id="authorizedLogin"></a>-->
+<!--        <a id="authorizedLogin" th:text="${#request.getUserPrincipal().getName()}"></a>-->
         <a class="abutton" href="/login" th:method="Post" th:text="#{sign.in}"></a>
+        <a class="abutton" href="/signup" th:text="#{sign.up}"></a>
         <a class="abutton" href="/logout" th:text="#{sign.out}"></a>
-        <a class="abutton" href="/order" th:text="#{main.order}"></a>
+        <a class="abutton" href="/basket" th:text="#{main.basket}"></a>
+        <a class="abutton" href="/orders" th:text="#{main.orders}"></a>
         <select class="abutton" id="locales">
             <option value="" th:text="#{lang.change}"></option>
             <option value="en" th:text="#{lang.en}"></option>
@@ -66,20 +66,12 @@
             </div>
 
             <div>
-                <!--                    <a class="button" onclick="transactions.openCreate()">Create</a>-->
-                <!--                    <a class="button" onclick="transactions.openUpdate()">Update</a>-->
-                <!--                    <a class="button" onclick="sendDeleteTransactions()">Delete all transaction by wallet</a>-->
 <!--                <label for="select_menu" th:text="#{main.menu}"></label>-->
 <!--                <select id="select_menu" class="form-styling" onchange="main.select_wallet_transaction(this)">-->
 <!--                    <option menu_id="0" th:text="#{main.select.all}"></option>-->
 <!--                    <option ng-repeat="c in categories"-->
 <!--                            menu_id="{{c.id}}">{{c.category}}</option>-->
 <!--                </select>-->
-            </div>
-            <div>
-                <a class="button" onclick="" th:text="#{button.add}"></a>
-                <!--                    <a class="button" onclick="transactions.openUpdate()">Update</a>-->
-                <!--                    <a class="button" onclick="sendDeleteTransactions()">Delete all transaction by wallet</a>-->
             </div>
         </div>
 
@@ -104,17 +96,21 @@
             </div>
         </div>
 
-        <div>
-            <div>
-                dishId : <input ng-model="dishId" /><br/><br/>
-                <!--            Adress : <input ng-model="adress" /><br/><br/>-->
-                <input type="button" value="Send" ng-click="postdata(dishId)" /> <br/><br/>
+        <div class="page_head">
+            <div style="margin: 20px 0;">
+                <label th:text="#{main.addDishId}"></label>
+                <input ng-model="dishId"/>
             </div>
-            <p>Output Message : {{msg}}</p>
+            <div>
+                <a class="button" ng-click="postdata(dishId)" th:text="#{button.add}"></a>
+            </div>
+        </div>
+
+        <div>
+            <p>Output Message: {{msg}}</p>
             <p>StatusCode: {{statusval}}</p>
             <p>Status: {{statustext}}</p>
             <p>Response Headers: {{headers}}</p>
-
         </div>
 
     </section>

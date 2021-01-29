@@ -4,6 +4,7 @@ import lombok.NonNull;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import ua.restaurant.service.LoginService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -38,24 +40,26 @@ public class BasketController {
         return basketsService.findAllDishes(request.getUserPrincipal().getName());
     }
 
-    @PostMapping("/add")
-    public Baskets add (@RequestBody BasketItemDTO basketItemDTO, HttpServletRequest request, HttpServletResponse response) throws NoSuchElementException {
+    @PostMapping("/create")
+    public Baskets add (@RequestBody BasketItemDTO basketItemDTO, HttpServletRequest request, HttpServletResponse response) throws NoSuchElementException, IOException {
         try {
             log.info("add new item to basket: " + basketItemDTO.toString());
             return basketsService.saveNewItem(basketItemDTO, request.getUserPrincipal().getName());
         } catch (Exception e){
+            response.sendError(HttpStatus.BAD_REQUEST.value());
             log.info("Cannot add");
         }
         return null;
     }
 
-    @PostMapping("/delete")
-    public boolean delete (@RequestBody BasketItemDTO basketItemDTO, HttpServletRequest request, HttpServletResponse response) throws NoSuchElementException {
+    @PostMapping("/deleteAll")
+    public boolean delete (HttpServletRequest request, HttpServletResponse response) throws NoSuchElementException, IOException {
         try {
-            log.info("delete item from basket: " + basketItemDTO.toString());
-            basketsService.delete(basketItemDTO);
+            log.info("delete all items from basket for user: " + request.getUserPrincipal().getName());
+            basketsService.deleteByLogin(request.getUserPrincipal().getName());
             return true;
         } catch (Exception e){
+            response.sendError(HttpStatus.BAD_REQUEST.value());
             log.info("Cannot delete");
         }
         return false;

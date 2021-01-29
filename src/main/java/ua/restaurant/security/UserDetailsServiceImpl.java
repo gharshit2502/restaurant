@@ -19,16 +19,19 @@ import java.time.LocalDateTime;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+    private final LoginService loginService;
 
     @Autowired
-    private LoginService loginService;
+    private UserDetailsServiceImpl(LoginService loginService) {
+        this.loginService = loginService;
+    }
 
     @PostConstruct
     public void init() {
         if (!loginService.findByUserLogin("manager").isPresent()) {
             loginService.saveNewUser(LoginDTO.builder()
                     .login("manager")
-                    .password(new BCryptPasswordEncoder().encode("password"))
+                    .password("password")
                     .email("tro@gmail.com")
                     .build(), RoleType.ROLE_MANAGER);
         }

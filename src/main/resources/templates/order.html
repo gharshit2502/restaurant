@@ -1,95 +1,198 @@
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
+<!--<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">-->
+<!--<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>-->
+<!--<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>-->
+<!--&lt;!&ndash;&#45;&#45;&#45;&#45; Include the above in your HEAD tag &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
 
-<div class="container">
-    <div class="row">
-        <div class="col-xs-8">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <h5><span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart</h5>
-                            </div>
-                            <div class="col-xs-6">
-                                <button type="button" class="btn btn-primary btn-sm btn-block">
-                                    <span class="glyphicon glyphicon-share-alt"></span> Continue shopping
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-xs-2"><img class="img-responsive" src="http://placehold.it/100x70">
-                        </div>
-                        <div class="col-xs-4">
-                            <h4 class="product-name"><strong>Product name</strong></h4><h4><small>Product description</small></h4>
-                        </div>
-                        <div class="col-xs-6">
-                            <div class="col-xs-6 text-right">
-                                <h6><strong>25.00 <span class="text-muted">x</span></strong></h6>
-                            </div>
-                            <div class="col-xs-4">
-                                <input type="text" class="form-control input-sm" value="1">
-                            </div>
-                            <div class="col-xs-2">
-                                <button type="button" class="btn btn-link btn-xs">
-                                    <span class="glyphicon glyphicon-trash"> </span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-xs-2"><img class="img-responsive" src="http://placehold.it/100x70">
-                        </div>
-                        <div class="col-xs-4">
-                            <h4 class="product-name"><strong>Product name</strong></h4><h4><small>Product description</small></h4>
-                        </div>
-                        <div class="col-xs-6">
-                            <div class="col-xs-6 text-right">
-                                <h6><strong>25.00 <span class="text-muted">x</span></strong></h6>
-                            </div>
-                            <div class="col-xs-4">
-                                <input type="text" class="form-control input-sm" value="1">
-                            </div>
-                            <div class="col-xs-2">
-                                <button type="button" class="btn btn-link btn-xs">
-                                    <span class="glyphicon glyphicon-trash"> </span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="text-center">
-                            <div class="col-xs-9">
-                                <h6 class="text-right">Added items?</h6>
-                            </div>
-                            <div class="col-xs-3">
-                                <button type="button" class="btn btn-default btn-sm btn-block">
-                                    Update cart
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    <div class="row text-center">
-                        <div class="col-xs-9">
-                            <h4 class="text-right">Total <strong>$50.00</strong></h4>
-                        </div>
-                        <div class="col-xs-3">
-                            <button type="button" class="btn btn-success btn-block">
-                                Checkout
-                            </button>
-                        </div>
-                    </div>
-                </div>
+<!--<div class="container">-->
+<!--    <div class="row">-->
+<!--        <div class="col-xs-8">-->
+<!--            <div class="panel panel-info">-->
+<!--                <div class="panel-heading">-->
+<!--                    <div class="panel-title">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-xs-6">-->
+<!--                                <h5><span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart</h5>-->
+<!--                            </div>-->
+<!--                            <div class="col-xs-6">-->
+<!--                                <button type="button" class="btn btn-primary btn-sm btn-block">-->
+<!--                                    <span class="glyphicon glyphicon-share-alt"></span> Continue shopping-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="panel-body">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-xs-2"><img class="img-responsive" src="http://placehold.it/100x70">-->
+<!--                        </div>-->
+<!--                        <div class="col-xs-4">-->
+<!--                            <h4 class="product-name"><strong>Product name</strong></h4><h4><small>Product description</small></h4>-->
+<!--                        </div>-->
+<!--                        <div class="col-xs-6">-->
+<!--                            <div class="col-xs-6 text-right">-->
+<!--                                <h6><strong>25.00 <span class="text-muted">x</span></strong></h6>-->
+<!--                            </div>-->
+<!--                            <div class="col-xs-4">-->
+<!--                                <input type="text" class="form-control input-sm" value="1">-->
+<!--                            </div>-->
+<!--                            <div class="col-xs-2">-->
+<!--                                <button type="button" class="btn btn-link btn-xs">-->
+<!--                                    <span class="glyphicon glyphicon-trash"> </span>-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <hr>-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-xs-2"><img class="img-responsive" src="http://placehold.it/100x70">-->
+<!--                        </div>-->
+<!--                        <div class="col-xs-4">-->
+<!--                            <h4 class="product-name"><strong>Product name</strong></h4><h4><small>Product description</small></h4>-->
+<!--                        </div>-->
+<!--                        <div class="col-xs-6">-->
+<!--                            <div class="col-xs-6 text-right">-->
+<!--                                <h6><strong>25.00 <span class="text-muted">x</span></strong></h6>-->
+<!--                            </div>-->
+<!--                            <div class="col-xs-4">-->
+<!--                                <input type="text" class="form-control input-sm" value="1">-->
+<!--                            </div>-->
+<!--                            <div class="col-xs-2">-->
+<!--                                <button type="button" class="btn btn-link btn-xs">-->
+<!--                                    <span class="glyphicon glyphicon-trash"> </span>-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <hr>-->
+<!--                    <div class="row">-->
+<!--                        <div class="text-center">-->
+<!--                            <div class="col-xs-9">-->
+<!--                                <h6 class="text-right">Added items?</h6>-->
+<!--                            </div>-->
+<!--                            <div class="col-xs-3">-->
+<!--                                <button type="button" class="btn btn-default btn-sm btn-block">-->
+<!--                                    Update cart-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="panel-footer">-->
+<!--                    <div class="row text-center">-->
+<!--                        <div class="col-xs-9">-->
+<!--                            <h4 class="text-right">Total <strong>$50.00</strong></h4>-->
+<!--                        </div>-->
+<!--                        <div class="col-xs-3">-->
+<!--                            <button type="button" class="btn btn-success btn-block">-->
+<!--                                Checkout-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">-->
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <!--    <meta name="_user" th:content="${}"/>-->
+
+    <meta charset="utf-8">
+    <meta name="author" content="Tetiana Rohalska">
+    <meta name="description" content="restaurant">
+    <meta name="keywords" content="restaurant, epam, final project, autumn 2020">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>restaurant</title>
+    <link rel="shortcut icon" th:href="@{/resources/favicon.ico}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/reset.css}"/>
+    <link rel="stylesheet" th:href="@{/css/general.css}"/>
+
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <script th:src="@{/js/general.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/order_request.js}"></script>
+
+</head>
+
+<body>
+<div class="backcolor"></div>
+<div class="body-block shadow-large page_width">
+    <!--            "${#authentication.getPrincipal().getUsername()}"-->
+    <section class="section1">
+        <a id="authorizedLogin" sec:authorize="isAuthenticated()" sec:authentication="name"></a>
+        <!--        <a id="authorizedLogin"></a>-->
+        <a class="abutton" href="/login" th:method="Post" th:text="#{sign.in}"></a>
+        <a class="abutton" href="/logout" th:text="#{sign.out}"></a>
+        <a class="abutton" href="/order" th:text="#{main.order}"></a>
+        <select class="abutton" id="locales">
+            <option value="" th:text="#{lang.change}"></option>
+            <option value="en" th:text="#{lang.en}"></option>
+            <option value="ua" th:text="#{lang.ua}"></option>
+        </select>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#locales").change(function () {
+                    let selectedOption = $('#locales').val();
+                    if (selectedOption !== ''){
+                        window.location.replace('?lang=' + selectedOption);
+                    }
+                });
+            });
+        </script>
+    </section>
+
+    <header class="section2">
+        <a href="/"><h2 th:text="#{main.header}"></h2></a>
+    </header>
+
+    <section class="section4"
+             ng-app="get_form" ng-controller="GetController" data-ng-init="getItems()">
+        <div class="page_head">
+            <div>
+                <h2 th:text="#{main.menu}"></h2>
+            </div>
+
+            <div>
+                <a class="button" onclick="" th:text="#{button.add}"></a>
+                <!--                    <a class="button" onclick="transactions.openUpdate()">Update</a>-->
+                <!--                    <a class="button" onclick="sendDeleteTransactions()">Delete all transaction by wallet</a>-->
             </div>
         </div>
-    </div>
+
+        <div id="dishes_block">
+            <div>
+                <table id="table" ng-model="dishes">
+                    <tr>
+                        <th columns="0" onclick="tableSort(this, 'table')">№</th>
+                        <th columns="1" onclick="tableSort(this, 'table')" th:text="#{menu.dish}"></th>
+                        <th columns="2" onclick="tableSort(this, 'table')" th:text="#{menu.price}"></th>
+                        <th columns="3" onclick="tableSort(this, 'table')" th:text="#{menu.category}"></th>
+                    </tr>
+                    <tbody id="dishes_table">
+                    <tr ng-repeat="i in dishes" class="rows" checked=false>
+                        <td>{{i.id}}</td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.price}}</td>
+                        <td>{{i.category}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+
 </div>
+</body>
+
+</html>

@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">-->
 <head>
-<!--    <meta name="_csrf" th:content="${_csrf.token}"/>-->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+<!--    <meta name="_user" th:content="${}"/>-->
+
     <meta charset="utf-8">
     <meta name="author" content="Tetiana Rohalska">
     <meta name="description" content="restaurant">
@@ -27,11 +30,11 @@
 <body>
 <div class="backcolor"></div>
 <div class="body-block shadow-large page_width">
-    <!--        "${#authentication.getPrincipal().getUsername()}"-->
+<!--            "${#authentication.getPrincipal().getUsername()}"-->
     <section class="section1">
-        <!--        <a id="authorizedLogin" sec:authorize="isAuthenticated()" sec:authentication="name"></a>-->
+        <a id="authorizedLogin" sec:authorize="isAuthenticated()" sec:authentication="name"></a>
+<!--        <a id="authorizedLogin"></a>-->
         <a class="abutton" href="/login" th:method="Post" th:text="#{sign.in}"></a>
-<!--        <a class="abutton" href="logout" th:method="Post" th:text="#{signout}"></a>-->
         <a class="abutton" href="/logout" th:text="#{sign.out}"></a>
         <a class="abutton" href="/order" th:text="#{main.order}"></a>
         <select class="abutton" id="locales">
@@ -59,19 +62,24 @@
              ng-app="get_form" ng-controller="GetController" data-ng-init="getItems()">
         <div class="page_head">
             <div>
-                <h2><label for="select_menu" th:text="#{main.menu}"></label></h2>
-
+                <h2 th:text="#{main.menu}"></h2>
             </div>
 
             <div>
                 <!--                    <a class="button" onclick="transactions.openCreate()">Create</a>-->
                 <!--                    <a class="button" onclick="transactions.openUpdate()">Update</a>-->
                 <!--                    <a class="button" onclick="sendDeleteTransactions()">Delete all transaction by wallet</a>-->
-                <select id="select_menu" class="form-styling" onchange="main.select_wallet_transaction(this)">
-                    <option menu_id="0" th:text="#{main.select.all}"></option>
-                    <option ng-repeat="c in categories"
-                            menu_id="{{c.id}}">{{c.category}}</option>
-                </select>
+<!--                <label for="select_menu" th:text="#{main.menu}"></label>-->
+<!--                <select id="select_menu" class="form-styling" onchange="main.select_wallet_transaction(this)">-->
+<!--                    <option menu_id="0" th:text="#{main.select.all}"></option>-->
+<!--                    <option ng-repeat="c in categories"-->
+<!--                            menu_id="{{c.id}}">{{c.category}}</option>-->
+<!--                </select>-->
+            </div>
+            <div>
+                <a class="button" onclick="" th:text="#{button.add}"></a>
+                <!--                    <a class="button" onclick="transactions.openUpdate()">Update</a>-->
+                <!--                    <a class="button" onclick="sendDeleteTransactions()">Delete all transaction by wallet</a>-->
             </div>
         </div>
 
@@ -96,22 +104,45 @@
             </div>
         </div>
 
+        <div>
+            <div>
+                dishId : <input ng-model="dishId" /><br/><br/>
+                <!--            Adress : <input ng-model="adress" /><br/><br/>-->
+                <input type="button" value="Send" ng-click="postdata(dishId)" /> <br/><br/>
+            </div>
+            <p>Output Message : {{msg}}</p>
+            <p>StatusCode: {{statusval}}</p>
+            <p>Status: {{statustext}}</p>
+            <p>Response Headers: {{headers}}</p>
+
+        </div>
+
     </section>
 
 </div>
 </body>
 <script>
-    f = async () => {
-        let response = await fetch("/");
 
-        if (response.ok) { // если HTTP-статус в диапазоне 200-299
-            // получаем тело ответа (см. про этот метод ниже)
-            let json = await response.json();
-            console.log(response.url);
-        } else {
-            alert("Ошибка HTTP: " + response.status);
-        }
-    }
+    // f = async () => {
+    //     let response = await fetch("/");
+    //
+    //     if (response.ok) { // если HTTP-статус в диапазоне 200-299
+    //         // получаем тело ответа (см. про этот метод ниже)
+    //         let json = await response.json();
+    //         console.log(response.url);
+    //     } else {
+    //         alert("Ошибка HTTP: " + response.status);
+    //     }
+    // }
+
+
+    // setAuthorizedUser = () => {
+    //     // document.querySelector('#header-login-first').setAttribute('style', 'display: none;');
+    //     // document.querySelector('#header-login-second').setAttribute('style', 'display: block;');
+    //     document.querySelector('#authorizedLogin').innerHTML = document.querySelector('meta[name="_user"]').content;
+    // }
+    // console.log(document.querySelector('meta[name="_user"]').content);
+    // setAuthorizedUser();
 </script>
 
 <!--<script type="text/javascript">-->

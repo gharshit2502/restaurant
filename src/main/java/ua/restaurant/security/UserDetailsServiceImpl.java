@@ -8,9 +8,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import ua.restaurant.dto.LoginDTO;
 import ua.restaurant.entity.Logins;
 import ua.restaurant.entity.RoleType;
-import ua.restaurant.service.AccountsService;
+import ua.restaurant.service.LoginService;
 
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
@@ -20,30 +21,23 @@ import java.time.LocalDateTime;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private AccountsService accountsService;
+    private LoginService loginService;
 
     @PostConstruct
     public void init() {
-//        loginService.findByUserLogin("manager").ifPresent(login -> {
-//                    login.setPassword(new BCryptPasswordEncoder().encode("password"));
-//                    loginService.save(login);
-//                });
-
-        if (!accountsService.findByUserLogin("manager").isPresent()) {
-            accountsService.saveNewUser(Logins.builder()
+        if (!loginService.findByUserLogin("manager").isPresent()) {
+            loginService.saveNewUser(LoginDTO.builder()
                     .login("manager")
                     .password(new BCryptPasswordEncoder().encode("password"))
                     .email("tro@gmail.com")
-                    .role(RoleType.ROLE_MANAGER)
-                    .time(Timestamp.valueOf(LocalDateTime.now()))
-                    .build());
+                    .build(), RoleType.ROLE_MANAGER);
         }
     }
 
     @Override
     public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
         System.out.println(username);
-        Logins login = accountsService.findByUserLogin(username).orElseThrow(
+        Logins login = loginService.findByUserLogin(username).orElseThrow(
                 () -> new UsernameNotFoundException("Could not find user: " + username)
         );
 //        if (login == null
@@ -53,6 +47,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 //        }
         System.out.println(login.getLogin());
         System.out.println(login.getPassword());
+
         return new UserDetailsImpl(login);
     }
 

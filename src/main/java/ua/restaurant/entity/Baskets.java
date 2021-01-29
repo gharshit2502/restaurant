@@ -1,8 +1,15 @@
 package ua.restaurant.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@ToString
 
 @Data
 @Entity
@@ -14,7 +21,7 @@ public class Baskets {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "loginId", referencedColumnName = "id")
-    private Logins account;
+    private Logins login;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dishId", referencedColumnName = "id")

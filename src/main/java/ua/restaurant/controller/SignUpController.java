@@ -1,44 +1,44 @@
 package ua.restaurant.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ua.restaurant.dto.LoginDTO;
 import ua.restaurant.entity.Logins;
 import ua.restaurant.entity.RoleType;
-import ua.restaurant.repository.LoginsRepository;
+import ua.restaurant.service.LoginService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 
+@Slf4j
 @Controller
 @RequestMapping("/signup")
 public class SignUpController {
-//    @Autowired
-//    private Token token;
-//    @Autowired
-//    private MailSender mailSender;
+    private final LoginService loginService;
+
     @Autowired
-    private LoginsRepository loginsRepository;
+    public SignUpController(LoginService loginService) {
+        this.loginService = loginService;
+    }
 
     @PostMapping
-    public void postSignUp(@RequestBody Logins login, HttpServletResponse response) throws IOException {
-        if (!loginsRepository.findByLogin(login.getLogin()).isPresent()) {
-            login.setRole(RoleType.ROLE_CUSTOMER);
-            login.setPassword(new BCryptPasswordEncoder().encode(login.getPassword()));
-//            login.setPassword(BCrypt.hashpw(login.getPassword(), BCrypt.gensalt()));
-//            user.setToken(token.getJWTToken(user.getLogin()));
-//            user.setValidationStatus(0);
-            loginsRepository.save(login);
-//            mailSender.sendMailConfirmation(user);
-//            response.sendRedirect("/");
+    public void postSignUp(@RequestBody LoginDTO loginDTO, HttpServletResponse response) throws IOException {
 
-        } else {
-            response.sendError(111, "pipec");
+        // TODO validation input
+
+        try {
+            loginService.saveNewUser(loginDTO, RoleType.ROLE_CUSTOMER);
+            response.sendRedirect("login");
+        } catch (NoSuchElementException e) {
+            response.sendError(HttpStatus.BAD_REQUEST.value());
         }
-        response.encodeRedirectURL("/login");
     }
 
 }

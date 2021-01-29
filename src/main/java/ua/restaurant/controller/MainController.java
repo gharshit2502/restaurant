@@ -4,19 +4,16 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ua.restaurant.dto.DishesDTO;
-import ua.restaurant.service.CategoriesService;
+import ua.restaurant.dto.DishDTO;
 import ua.restaurant.service.DishesService;
 
 import java.util.Arrays;
+import java.util.List;
 
-import static ua.restaurant.config.Constants.LANGUAGE_EN;
-
-
+//@Slf4j
 @RestController
 @RequestMapping(value = "api/")
 public class MainController {
@@ -29,21 +26,19 @@ public class MainController {
     }
 
     @GetMapping("/get")
-    public DishesDTO getMain() {
+    public List<DishDTO> getMain() {
 //        log.info("{}", loginService.getAllUsers());
 //        LOGGER.trace(LocaleContextHolder.getLocale().toString());
 
-        test(LOGGER);
+//        test(LOGGER);
+//
+//        LOGGER.trace("A TRACE Message");
+//        LOGGER.debug("A DEBUG Message");
+//        LOGGER.info("An INFO Message");
+//        LOGGER.warn("A WARN Message");
+//        LOGGER.error("An ERROR Message");
 
-        LOGGER.trace("A TRACE Message");
-        LOGGER.debug("A DEBUG Message");
-        LOGGER.info("An INFO Message");
-        LOGGER.warn("A WARN Message");
-        LOGGER.error("An ERROR Message");
-
-        LocaleContextHolder.getLocale().toString().equals(LANGUAGE_EN);
-
-        return dishesService.getAllDishes();
+        return dishesService.findAllDishes();
     }
 
     public static void test(Logger log) {

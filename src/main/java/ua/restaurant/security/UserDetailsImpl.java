@@ -14,8 +14,8 @@ import ua.restaurant.entity.Logins;
 import ua.restaurant.entity.RoleType;
 
 @Data
-//@Getter
-//@Setter
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 //@AllArgsConstructor

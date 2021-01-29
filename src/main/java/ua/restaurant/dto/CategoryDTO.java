@@ -15,13 +15,4 @@ import static ua.restaurant.config.Constants.LANGUAGE_EN;
 public class CategoryDTO {
     private Long id;
     private String category;
-
-    public CategoryDTO(Categories c) {
-        this.id = c.getId();
-        if (LocaleContextHolder.getLocale().toString().equals(LANGUAGE_EN)) {
-            this.category = c.getCategory_en();
-        } else {
-            this.category = c.getCategory_ua();
-        }
-    }
 }

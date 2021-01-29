@@ -18,16 +18,4 @@ public class DishDTO {
     private String name;
     private BigDecimal price;
     private String category;
-
-    public DishDTO(Dishes d) {
-        this.id = d.getId();
-        this.price = d.getPrice();
-        if (LocaleContextHolder.getLocale().toString().equals(LANGUAGE_EN)) {
-            this.name = d.getName_en();
-            this.category = d.getCategories().getCategory_en();
-        } else {
-            this.name = d.getName_ua();
-            this.category = d.getCategories().getCategory_ua();
-        }
-    }
 }

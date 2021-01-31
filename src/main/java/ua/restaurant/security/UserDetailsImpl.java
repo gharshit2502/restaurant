@@ -4,14 +4,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.lang.annotation.Documented;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 
 import lombok.*;
 import ua.restaurant.entity.Logins;
-import ua.restaurant.entity.RoleType;
 
 @Data
 @Getter
@@ -20,7 +17,6 @@ import ua.restaurant.entity.RoleType;
 @NoArgsConstructor
 //@AllArgsConstructor
 
-//@Documented(collection = "login")
 public class UserDetailsImpl implements UserDetails {
 //    private List<RoleType> authorities;
 //    private String username;
@@ -40,7 +36,7 @@ public class UserDetailsImpl implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority =
                 new SimpleGrantedAuthority(login.getRole().name());
-        return Arrays.asList(authority);
+        return Collections.singletonList(authority);
     }
 
     @Override

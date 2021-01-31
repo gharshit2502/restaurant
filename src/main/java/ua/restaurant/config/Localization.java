@@ -11,14 +11,11 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Locale;
 
-import static ua.restaurant.config.Constants.LANGUAGE_EN;
-import static ua.restaurant.config.Constants.LANGUAGE_UA;
-
 @Configuration
 public class Localization implements WebMvcConfigurer {
     /**
      * Added interceptor for change locale
-     * @param registry
+     * @param registry interseptor
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -26,8 +23,8 @@ public class Localization implements WebMvcConfigurer {
     }
 
     /**
-     * Set
-     * @return
+     * Set locale
+     * @return localeResolver
      */
     @Bean
     public LocaleResolver localeResolver() {
@@ -38,7 +35,7 @@ public class Localization implements WebMvcConfigurer {
 
     /**
      * Change locale
-     * @return
+     * @return LocaleChangeInterceptor
      */
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
@@ -47,9 +44,8 @@ public class Localization implements WebMvcConfigurer {
         return lci;
     }
 
-    public static String getLang() {
-        return (LocaleContextHolder.getLocale().toString().equals(LANGUAGE_EN)
-                ? LANGUAGE_EN : LANGUAGE_UA);
+    public static boolean isLocaleEnglish() {
+        return LocaleContextHolder.getLocale().equals(Locale.ENGLISH);
     }
 
 }

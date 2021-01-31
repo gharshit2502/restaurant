@@ -1,12 +1,10 @@
 package ua.restaurant.security;
 
-//import google.common.collect.ImmutableList;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.restaurant.dto.LoginDTO;
 import ua.restaurant.entity.Logins;
@@ -14,8 +12,6 @@ import ua.restaurant.entity.RoleType;
 import ua.restaurant.service.LoginService;
 
 import javax.annotation.PostConstruct;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -54,7 +50,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new UserDetailsImpl(login);
     }
 
-//    public Optional<Login> findById(Long id) {
-//        return loginService.findById(id);
-//    }
 }

@@ -35,7 +35,7 @@ angular.module("get_form", [])
         $scope.getItems = function () {
             $http({
                 method: "GET",
-                url: "/api/get?sort=" + sort,
+                url: "/api/get/2",
                 headers: {
                     "Content-Type": "application/json",
                     'X-CSRF-TOKEN': token

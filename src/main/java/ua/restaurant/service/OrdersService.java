@@ -1,48 +1,41 @@
 package ua.restaurant.service;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.restaurant.dto.BasketItemDTO;
 import ua.restaurant.dto.DishDTO;
 import ua.restaurant.dto.OrderItemDTO;
 import ua.restaurant.entity.*;
 import ua.restaurant.repository.*;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Locale;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class OrdersService {
 
     private final OrdersRepository ordersRepository;
-//    private final DishesRepository dishesRepository;
+    private final LoginsRepository loginsRepository;
+    private final BasketsService basketsService;
 
     @Autowired
-    private LoginsRepository loginsRepository;
-    @Autowired
-    private BasketsService basketsService;
-
-    @Autowired
-    public OrdersService(OrdersRepository ordersRepository) {
+    public OrdersService(OrdersRepository ordersRepository,
+                         LoginsRepository loginsRepository,
+                         BasketsService basketsService) {
         this.ordersRepository = ordersRepository;
+        this.loginsRepository = loginsRepository;
+        this.basketsService = basketsService;
     }
 
     public List<Orders> findAllOrders(String username) {
         return ordersRepository.findOrdersByLogin_Login(username);
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Europe/Madrid")
     public List<Orders> findAllOrders() {
         return ordersRepository.findAll();
     }

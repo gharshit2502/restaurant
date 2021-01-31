@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "page.size",
+      "type": "java.lang.Integer",
+      "description": "Number of rows on front (pagination).",
+      "defaultValue": 5
+    }
+  ] }

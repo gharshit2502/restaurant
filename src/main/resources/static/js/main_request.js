@@ -1,7 +1,19 @@
 'use strict';
 
 let token = document.querySelector('meta[name="_csrf"]').content;
-let sort = 'none';
+let sortField = 'id';
+let sortDirection = 'asc';
+let pageNo = 1;
+
+let queryString = window.location.search;
+console.log(queryString);
+let urlParams = new URLSearchParams(queryString);
+
+if (urlParams.has('pageNo')) {
+    pageNo = urlParams.get('pageNo');
+    sortField = urlParams.get('sortField');
+    sortDirection = urlParams.get('sortDirection');
+}
 
 // let app = angular.module('postserviceApp', []);
 // app.controller('postserviceCtrl', function ($scope, $http) {
@@ -29,13 +41,14 @@ let sort = 'none';
 
 angular.module("get_form", [])
     .controller("GetController", ["$scope", "$http", function ($scope, $http) {
-        $scope.dishes = [];
-        $scope.categories = [];
-
+        $scope.pageable = {};
         $scope.getItems = function () {
             $http({
                 method: "GET",
-                url: "/api/get/2",
+                url: "/api/get/" + pageNo
+                    + '?sortField=' + sortField
+                    + "&sortDirection=" + sortDirection
+                ,
                 headers: {
                     "Content-Type": "application/json",
                     'X-CSRF-TOKEN': token
@@ -43,11 +56,12 @@ angular.module("get_form", [])
             }).then(
                 function (data) {
                     console.log(data.data);
-                    // $scope.items_transactions = data.data;
-                    $scope.dishes = data.data;
-                    $scope.categories = data.data.categories;
-                    // main.dishes = data.data.dishes;
-                    // console.log(data.data.dishes);
+                    $scope.dishes = data.data.dishes;
+                    $scope.pageable.page = data.data.currentPage;
+                    $scope.pageable.totalPages = data.data.totalPages;
+                    $scope.pageable.sortField = data.data.sortField;
+                    $scope.pageable.sortDirection = data.data.sortDirection;
+
                 },
                 function (error) {
                     console.log("error");
@@ -88,64 +102,13 @@ angular.module("get_form", [])
 
     }]);
 
-let get = (sort) => {
-    angular.module("get_form", [])
-        .controller("GetController", ["$scope", "$http", function ($scope, $http) {
-            $scope.dishes = [];
-            $scope.categories = [];
-            $scope.getItems = function () {
-                $http({
-                    method: "GET",
-                    url: "/api/get?sort=" + sort,
-                    headers: {
-                        "Content-Type": "application/json",
-                        // 'X-CSRF-TOKEN': token
-                    }
-                }).then(
-                    function (data) {
-                        console.log(data.data);
-                        // $scope.items_transactions = data.data;
-                        $scope.dishes = data.data.dishes;
-                        $scope.categories = data.data.categories;
-                        // main.dishes = data.data.dishes;
-                        // console.log(data.data.dishes);
-                    },
-                    function (error) {
-                        console.log("error");
-                    }
-                );
-            }
-        }]);
-}
-
-
-let sendDeleteAllTransactions = async () => {
-    let item = document.querySelector('#select_wallet');
-    let id = item.options[item.selectedIndex].getAttribute('wallet_id');
-    if (id === '0') {
-        alert('invalid wallet');
-        return;
+let sorting = (field) => {
+    sortField = field;
+    if (sortDirection === 'asc') {
+        sortDirection = 'desc';
+    } else {
+        sortDirection = 'asc'
     }
-    if (!confirm('Delete all transaction in this wallet?')) return;
-
-    let elem = main.wallets[0];
-    for (let i in main.wallets) {
-        if (main.wallets[i].id === Number.parseInt(id)) {
-            elem = main.wallets[i];
-            break;
-        }
-    }
-    let formData = new FormData();
-    formData.append('id', elem.id);
-    formData.append('name', elem.name);
-    formData.append('balance', elem.balance);
-    formData.append('currency_id', elem.currency.id);
-    formData.append('user_id', elem.user.id);
-
-    let jsonString = formToJson(formData);
-    console.log(jsonString);
-
-    await send('api/transaction/deleteAllByWallet', jsonString, errorMsg);
-
+    location.replace('/?pageNo='+ pageNo + '&sortField=' + field + '&sortDirection=' + sortDirection);
 }
 

@@ -193,6 +193,21 @@ body * {
 	border-bottom: 1px solid #5464a4;
 
 }
+
+.pages {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+
+	margin: 20px auto;
+}
+.pagination a {
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+}
+
 .page {
 	/*min-height: 500px;*/
 	

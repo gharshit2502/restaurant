@@ -6,19 +6,22 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ua.restaurant.dto.DishDTO;
+import ua.restaurant.dto.PageableDishesDTO;
 import ua.restaurant.entity.Dishes;
 import ua.restaurant.repository.DishesRepository;
 import ua.restaurant.utils.Converter;
-
-import java.util.List;
 
 @Slf4j
 @Service
 public class DishesService {
     @Value( "${page.size}" )
     private int pageSize;
+    @Value( "${page.sortDefault}" )
+    private String sortDefault;
+    @Value( "${page.sortDirectionDefault}" )
+    private String sortDirectionDefault;
 
     private final DishesRepository dishesRepository;
 
@@ -27,23 +30,31 @@ public class DishesService {
         this.dishesRepository = dishesRepository;
     }
 
-    public List<DishDTO> findAllDishes() {
-        return Converter.dishesToDishesDTO(dishesRepository.findAll());
-    }
+    public PageableDishesDTO findAllDishesPaginated(int pageNo,
+                                                    String sortField, String sortDirection) {
+        sortField = sortField == null ? sortDefault : sortField;
+        sortDirection = sortDirection == null ? sortDirectionDefault : sortDirection;
 
-    public List<DishDTO> findAllDishesPaginated(int pageNo) {
-        Page<Dishes> page = findPaginated(pageNo);
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+
+        Page<Dishes> page = dishesRepository.findAll(pageable);
 
         log.info(page.getContent().toString());
         log.info(String.valueOf(page.getTotalPages()));
         log.info(String.valueOf(page.getTotalElements()));
+        log.info(String.valueOf(page.getSort()));
 
-        return Converter.dishesToDishesDTO(page.getContent());
-    }
 
-    public Page<Dishes> findPaginated(int pageNo) {
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-        return this.dishesRepository.findAll(pageable);
+        return PageableDishesDTO.builder()
+                .dishes(Converter.dishesToDishesDTO(page.getContent()))
+                .currentPage(pageNo)
+                .totalPages(page.getTotalPages())
+                .sortField(sortField)
+                .sortDirection(sortDirection)
+                .build();
     }
 
 }

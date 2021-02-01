@@ -1,11 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">-->
 <head>
     <meta name="_csrf" th:content="${_csrf.token}"/>
-<!--    <meta name="_user" th:content="${}"/>-->
-
     <meta charset="utf-8">
     <meta name="author" content="Tetiana Rohalska">
     <meta name="description" content="restaurant">
@@ -79,10 +76,10 @@
             <div>
                 <table id="table" ng-model="dishes">
                     <tr>
-                        <th columns="0" onclick="tableSort(this, 'table')">№</th>
-                        <th columns="1" onclick="tableSort(this, 'table')" th:text="#{menu.dish}"></th>
-                        <th columns="2" onclick="get('price')" th:text="#{menu.price}"></th>
-                        <th columns="3" onclick="tableSort(this, 'table')" th:text="#{menu.category}"></th>
+                        <th columns="0" onclick="sorting('id')">№</th>
+                        <th columns="1" onclick="sorting('name')" th:text="#{menu.dish}"></th>
+                        <th columns="2" onclick="sorting('price')" th:text="#{menu.price}"></th>
+                        <th columns="3" onclick="sorting('category')" th:text="#{menu.category}"></th>
                     </tr>
                     <tbody id="dishes_table">
                         <tr ng-repeat="i in dishes" class="rows" checked=false>
@@ -94,6 +91,17 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+
+        <div class="pages" ng-model="pageable">
+            <div th:text="#{page.current} + ' {{pageable.page}}'"></div>
+
+            <div class="pagination">
+                <a ng-repeat="x in [].constructor(pageable.totalPages) track by $index"
+                   class="abutton" href="/?pageNo={{$index+1}}&sortField={{pageable.sortField}}&sortDirection={{pageable.sortDirection}}">{{ $index+1 }}</a>
+            </div>
+
+            <div th:text="#{page.total} + ' {{pageable.totalPages}}'"></div>
         </div>
 
         <div class="page_head">

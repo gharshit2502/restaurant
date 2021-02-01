@@ -28,10 +28,6 @@ public class LoginService {
         return loginsRepository.findByLogin(login);
     }
 
-    public Optional<Logins> findById (@NonNull Long id) {
-        return loginsRepository.findById(id);
-    }
-
     public Logins saveNewUser (@NonNull LoginDTO loginDTO, RoleType role) throws NoSuchElementException {
         try {
             return loginsRepository.save(Logins.builder()

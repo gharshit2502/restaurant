@@ -52,7 +52,8 @@ public class BasketController {
             return true;
         } catch (Exception e){
             response.sendError(HttpStatus.BAD_REQUEST.value());
-            log.warn("Cannot delete");
+            e.printStackTrace();
+            log.warn("Cannot delete all");
             return false;
         }
     }

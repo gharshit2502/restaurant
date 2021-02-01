@@ -62,8 +62,9 @@ public class BasketsService {
         }
     }
 
+    @Transactional
     public void deleteByLogin(@NonNull String username) {
-        basketRepository.deleteBasketsByLoginLoginContains(username);
+        basketRepository.deleteByLogin_Login(username);
     }
 
 }

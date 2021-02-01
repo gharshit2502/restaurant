@@ -42,12 +42,6 @@ public class DishesService {
 
         Page<Dishes> page = dishesRepository.findAll(pageable);
 
-        log.info(page.getContent().toString());
-        log.info(String.valueOf(page.getTotalPages()));
-        log.info(String.valueOf(page.getTotalElements()));
-        log.info(String.valueOf(page.getSort()));
-
-
         return PageableDishesDTO.builder()
                 .dishes(Converter.dishesToDishesDTO(page.getContent()))
                 .currentPage(pageNo)

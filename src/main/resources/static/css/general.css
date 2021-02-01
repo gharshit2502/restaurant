@@ -20,9 +20,9 @@ a {
 :focus {outline: none;}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  /* display: none; <- Crashes Chrome on hover */
-  -webkit-appearance: none;
-  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+	/* display: none; <- Crashes Chrome on hover */
+	-webkit-appearance: none;
+	margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 /*input:-internal-autofill-selected {*/
 /*	background-color: rgba(183, 201, 109,.3) !important;*/
@@ -51,43 +51,44 @@ body * {
 	box-sizing: border-box;
 }
 .abutton {
-  background: none;
-  align-items: center;
-  color: #494d5f;
-  padding: 4px;
-  margin: 0 5px;
-  border: none;
-  outline: none;
+	background: none;
+	align-items: center;
+	color: #494d5f;
+	padding: 4px;
+	margin: 0 5px;
+	border: none;
+	outline: none;
 }
 .abutton:hover,
 .abutton:active,
 .abutton:focus {
-  background: rgba(84, 100, 164 ,.3);
-  color: red;
-  border-radius: 3px;
-  border: none;
-  outline: none;
+	background: rgba(84, 100, 164 ,.3);
+	color: red;
+	border-radius: 3px;
+	border: none;
+	outline: none;
 }
 
 .button-empty {
-  cursor: default;
-  background: transparent;
-  color: transparent;
+	cursor: default;
+	background: transparent;
+	color: transparent;
 }
 .button {
-  background: rgba(84, 100, 164 ,.3);
-  padding: 8px;
-  margin: 0 5px;
-  border-radius: 4px;
-  border: none;
-  outline: none;
+	background: rgba(84, 100, 164 ,.3);
+	padding: 8px;
+	margin: 0 5px;
+	border-radius: 4px;
+	border: none;
+	outline: none;
 }
 .button:hover,
 .button:active,
 .button:focus {
-  background: #5464a4;
-  border: none;
-  cursor: pointer;
+  	background: #5464a4;
+	color: white;
+  	border: none;
+  	cursor: pointer;
 }
 /* -------------------------------------------------------- *
  * ------------------------ GENERAL ----------------------- *
@@ -164,11 +165,11 @@ body * {
 .header-button:hover,
 .header-button:active,
 .header-button:focus {
-  background-color: #cccccc;
+	background-color: #cccccc;
 }
 .active {
-  background-color: #f4f4f4 !important;
-  border-radius: 5px 5px 0 0;
+	background-color: #f4f4f4 !important;
+	border-radius: 5px 5px 0 0;
 }
 
 /* -------------------------------------------------------- *
@@ -262,7 +263,7 @@ body * {
 	margin-bottom: 30px;
 }
 .window_form label {
-  display: block;
+	display: block;
 }
 .form-styling {
 	width: 100%;
@@ -357,8 +358,8 @@ body * {
   border-top: 1px solid #d7dce6;
 }*/
 .window-controls a {
-  font-size: .8em;
-  color: #74808a;
+	font-size: .8em;
+	color: #74808a;
 }
 
 

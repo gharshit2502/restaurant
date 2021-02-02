@@ -17,10 +17,7 @@ angular.module("get_form", [])
             }).then(
                 function (data) {
                     console.log(data.data);
-                    // $scope.items_transactions = data.data;
                     $scope.orders = data.data;
-                    // main.dishes = data.data.dishes;
-                    // console.log(data.data.dishes);
                 },
                 function (error) {
                     console.log("error");
@@ -49,11 +46,9 @@ angular.module("get_form", [])
                 }
             );
         }
-        $scope.orderId = null;
-        // $scope.lblMsg = null;
-        $scope.confirmAction = function (orderId) {
-            // console.log(object);
-            let object = { "orderId": orderId }
+        $scope.itemId = null;
+        $scope.confirmAction = function (itemId) {
+            let object = { "itemId": itemId }
             console.log(object);
             $http({
                 method: "POST",

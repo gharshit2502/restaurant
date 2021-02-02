@@ -13,6 +13,7 @@ import ua.restaurant.utils.Constants;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -23,11 +24,24 @@ public class LoginService {
         this.loginsRepository = loginsRepository;
     }
 
-//    public Optional<Logins> findByUserLogin (@NonNull String login){
-//        // TODO check for user availability. password check
-//        return loginsRepository.findByLogin(login);
-//    }
+    /**
+     * For creating manager in the first place
+     * @param login String login
+     * @return Login object
+     */
+    public Optional<Logins> findByUserLogin (@NonNull String login){
+        // TODO check for user availability. password check
+        return loginsRepository.findByLogin(login);
+    }
 
+    /**
+     * Registration
+     * @param loginDTO parameters of new user
+     * @param role role
+     * @return Saved user
+     * @throws NoSuchElementException
+     *          if login already exists in database
+     */
     public Logins saveNewUser (@NonNull LoginDTO loginDTO, RoleType role) throws NoSuchElementException {
         try {
             return loginsRepository.save(Logins.builder()

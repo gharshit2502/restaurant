@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import ua.restaurant.dto.OrderItemDTO;
+import ua.restaurant.dto.ItemDTO;
 import ua.restaurant.entity.Orders;
 import ua.restaurant.service.OrdersService;
 
@@ -45,9 +45,9 @@ public class OrdersController {
     }
 
     @PutMapping("/confirm")
-    public boolean confirm (@RequestBody OrderItemDTO item) {
+    public boolean confirm (@RequestBody ItemDTO item) {
         try {
-            log.info("Confirm action for order: " + item.toString());
+            log.info("Confirm action for order #: " + item.toString());
             ordersService.confirm(item);
             return true;
         } catch (Exception e){
@@ -57,10 +57,10 @@ public class OrdersController {
     }
 
     @PutMapping("/payment")
-    public boolean payment (HttpServletRequest request) {
+    public boolean payment (@RequestBody ItemDTO item) {
         try {
-            log.info("Pay for order from: " + request.getUserPrincipal().getName());
-            ordersService.payment();
+            log.info("Get payment for order #: " + item.getItemId());
+            ordersService.payment(item.getItemId());
             return true;
         } catch (Exception e){
             log.warn(e.getMessage());

@@ -67,10 +67,10 @@
             <div style="margin: 20px 0;">
                 <p>Stages: NEW, PAYED, CONFIRM_PAYMENT, COOKING, DELIVERY, DONE</p>
                 <label th:text="#{orders.action}"></label>
-                <input ng-model="orderId"/>
+                <input ng-model="itemId"/>
             </div>
             <div>
-                <a class="button" ng-click="confirmAction(orderId)" th:text="#{orders.button}"></a>
+                <a class="button" ng-click="confirmAction(itemId)" th:text="#{orders.button}"></a>
             </div>
         </div>
 

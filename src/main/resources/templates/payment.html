@@ -33,21 +33,6 @@
         <a class="abutton" href="/" th:text="#{main.menu}"></a>
         <a class="abutton" href="/basket" th:text="#{main.basket}"></a>
         <a class="abutton" href="/orders" th:text="#{main.orders}"></a>
-        <select class="abutton" id="locales">
-            <option value="" th:text="#{lang.change}"></option>
-            <option value="en" th:text="#{lang.en}"></option>
-            <option value="ua" th:text="#{lang.ua}"></option>
-        </select>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $("#locales").change(function () {
-                    let selectedOption = $('#locales').val();
-                    if (selectedOption !== ''){
-                        window.location.replace('?lang=' + selectedOption);
-                    }
-                });
-            });
-        </script>
     </section>
 
     <header class="section2">
@@ -62,7 +47,16 @@
             </div>
         </div>
 
-        <a class="abutton" href="" ng-click="payment()" th:text="#{payment.button}"></a>
+        <div class="page_head">
+            <p style="display: inline-block">
+                <span th:text="#{payment.str1}"></span>
+                <span id="orderNo"></span>
+                <span th:text="#{payment.str2}"></span>
+                <span id="totalPrice"></span>
+                <span th:text="#{payment.str3}"></span>
+            </p>
+            <a class="button" href="" ng-click="payment()" th:text="#{payment.button}"></a>
+        </div>
 
     </section>
 

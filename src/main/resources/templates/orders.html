@@ -3,8 +3,6 @@
 <!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">-->
 <head>
     <meta name="_csrf" th:content="${_csrf.token}"/>
-    <!--    <meta name="_user" th:content="${}"/>-->
-
     <meta charset="utf-8">
     <meta name="author" content="Tetiana Rohalska">
     <meta name="description" content="restaurant">
@@ -60,12 +58,6 @@
             <div>
                 <h2 th:text="#{main.orders}"></h2>
             </div>
-
-<!--            <div>-->
-<!--                <a class="button" onclick="" th:text="#{button.add}"></a>-->
-<!--                &lt;!&ndash;                    <a class="button" onclick="transactions.openUpdate()">Update</a>&ndash;&gt;-->
-<!--                &lt;!&ndash;                    <a class="button" onclick="sendDeleteTransactions()">Delete all transaction by wallet</a>&ndash;&gt;-->
-<!--            </div>-->
         </div>
 
         <div id="dishes_block">
@@ -76,6 +68,7 @@
                         <th columns="1" onclick="tableSort(this, 'table')" th:text="#{orders.time}"></th>
                         <th columns="2" onclick="tableSort(this, 'table')" th:text="#{orders.status}"></th>
                         <th columns="3" onclick="tableSort(this, 'table')" th:text="#{orders.totalPrice}"></th>
+                        <th columns="4" th:text="#{basket.action}"></th>
                     </tr>
                     <tbody id="dishes_table">
                     <tr ng-repeat="i in orders" class="rows" checked=false>
@@ -83,6 +76,12 @@
                         <td>{{i.time}}</td>
                         <td>{{i.status}}</td>
                         <td>{{i.totalPrice}}</td>
+                        <td>
+                            <a id="button{{i.id}}" class="button"
+                               th:text="#{orders.pay}"
+                               href="/payment?orderNo={{i.id}}&totalPrice={{i.totalPrice}}"></a>
+                        </td>
+
                     </tr>
                     </tbody>
                 </table>

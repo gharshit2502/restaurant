@@ -15,30 +15,6 @@ if (urlParams.has('pageNo')) {
     sortDirection = urlParams.get('sortDirection');
 }
 
-// let app = angular.module('postserviceApp', []);
-// app.controller('postserviceCtrl', function ($scope, $http) {
-//     $scope.name = null;
-//     $scope.age = null;
-//     $scope.adress = null;
-//     $scope.lblMsg = null;
-//     $scope.postdata = function (name, age, address) {
-//         let data = {
-//             name: name,
-//             age: age,
-//             address: address
-//         };
-//         $http.post('/api/users/post', JSON.stringify(data)).then(function (response) {
-//             if (response.data)
-//                 $scope.msg = "Post Data Submitted Successfully!";
-//         }, function (response) {
-//             $scope.msg = "Service not Exists";
-//             $scope.statusval = response.status;
-//             $scope.statustext = response.statusText;
-//             $scope.headers = response.headers();
-//         });
-//     };
-// });
-
 angular.module("get_form", [])
     .controller("GetController", ["$scope", "$http", function ($scope, $http) {
         $scope.pageable = {};
@@ -69,14 +45,7 @@ angular.module("get_form", [])
             );
         }
         $scope.dishId = null;
-        $scope.lblMsg = null;
         $scope.postdata = function (dishId) {
-            // let formData = new FormData();
-            // formData.append('dishId', dishId);
-            // let object = {};
-            // formData.forEach(function (value, key) {
-            //     object[key] = value;
-            // });
             let object = { "dishId": dishId }
             console.log(object);
             $http({
@@ -90,10 +59,9 @@ angular.module("get_form", [])
             }).then(function (response) {
                 if (response.data) {
                     $scope.msg = "Post Data Submitted Successfully!";
-                    alert("Dish "+dishId+" successfully added.")
+                    alert("Dish " + dishId + " successfully added.")
                 }
             }, function (response) {
-                // $scope.msg = "Cannot submit";
                 console.log(response);
                 alert((response.data.message === undefined) ? 'Wrong input.' : response.data.message);
 
@@ -116,3 +84,7 @@ let sorting = (field) => {
     location.replace('/?pageNo='+ pageNo + '&sortField=' + field + '&sortDirection=' + sortDirection);
 }
 
+let init = () => {
+    getSelector();
+}
+window.onload = init;

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.dto.DishDTO;
-import ua.restaurant.dto.OrderItemDTO;
+import ua.restaurant.dto.ItemDTO;
 import ua.restaurant.entity.*;
 import ua.restaurant.repository.*;
 import ua.restaurant.utils.Constants;
@@ -50,48 +50,59 @@ public class OrdersService {
 
     // TODO make query
 
+    /**
+     * Create order from users basket items,
+     * clean basket
+     * @return saved order
+     * @throws NoSuchElementException
+     *          if basket is empty
+     *          if cannot delete items
+     *          if cannot save
+     */
     @Transactional
     public Orders saveNewItem () throws NoSuchElementException {
-        try {
-            Logins user = ContextHelpers.getAuthorizedLogin();
+        Logins user = ContextHelpers.getAuthorizedLogin();
 
-            List<Baskets> basketsItems = basketRepository.findAllByLogin_Id(user.getId());
-            if (basketsItems.isEmpty()) {
-                throw new NoSuchElementException(Constants.EMPTY_LIST);
-            }
-
-            List<DishDTO> dishes = Converter.basketToDishesDTO(basketsItems);
-
-            BigDecimal total = dishes.stream()
-                    .map(DishDTO::getPrice)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add);
-            log.info(total.toString());
-
-            basketRepository.deleteByLogin_Id(user.getId());
-            log.info(Constants.DELETE_ALL_BASKET);
-
-            // TODO create orderList
-
-            return ordersRepository.save(Orders.builder()
-                    .login(user)
-                    .totalPrice(total)
-                    .status(Status.NEW)
-                    .time(LocalDateTime.now())
-                    .build());
-        } catch (Exception e) {
-            log.info("Cannot create order");
-            throw new NoSuchElementException();
+        List<Baskets> basketsItems = basketRepository.findAllByLogin_Id(user.getId());
+        if (basketsItems.isEmpty()) {
+            log.info("empty");
+            throw new NoSuchElementException(Constants.EMPTY_LIST);
         }
+
+        List<DishDTO> dishes = Converter.basketToDishesDTO(basketsItems);
+
+        BigDecimal total = dishes.stream()
+                .map(DishDTO::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        log.info(total.toString());
+
+        basketRepository.deleteByLogin_Id(user.getId());
+        log.info(Constants.DELETE_ALL_BASKET);
+
+        // TODO create orderList
+
+        return ordersRepository.save(Orders.builder()
+                .login(user)
+                .totalPrice(total)
+                .status(Status.NEW)
+                .time(LocalDateTime.now())
+                .build());
+
     }
 
+    /**
+     * Manager confirm next order stage
+     * @param item given order
+     */
     @Transactional
-    public void confirm(OrderItemDTO item) {
+    public void confirm(ItemDTO item) {
 
         // TODO make query
+        // TODO exception msg
 
-        Orders order = ordersRepository.findById(item.getOrderId())
+        Orders order = ordersRepository.findById(item.getItemId())
                 .orElseThrow(() -> new NoSuchElementException(
-                        Constants.ORDER_NOT_FOUND + item.getOrderId()));
+                        Constants.ORDER_NOT_FOUND + item.getItemId()));
 
         if (!order.getStatus().equals(Status.DONE) &&
                 !order.getStatus().equals(Status.NEW)) {
@@ -100,18 +111,17 @@ public class OrdersService {
         }
     }
 
+    /**
+     * update order status if user payed for it.
+     * @param id order id
+     */
     @Transactional
-    public void payment() {
-
-        // TODO make query, Make pay by order id
-
-        Orders order = ordersRepository
-                .findTopByLogin_IdOrderByTimeDesc(ContextHelpers.getAuthorizedLogin().getId())
-                .orElseThrow(() -> new NoSuchElementException(
-                        Constants.ORDER_NOT_FOUND));
-
-        if (order.getStatus().equals(Status.NEW)) {
-            ordersRepository.updateStatus(order.getId(), Status.PAYED);
+    public void payment(Long id) {
+        try {
+            Long loginId = ContextHelpers.getAuthorizedLogin().getId();
+            ordersRepository.updateStatus(id, loginId, Status.PAYED);
+        } catch (Exception e) {
+            throw new NoSuchElementException(Constants.ORDER_NOT_FOUND + id);
         }
     }
 }

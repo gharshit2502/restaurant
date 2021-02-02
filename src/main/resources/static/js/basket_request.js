@@ -17,20 +17,15 @@ angular.module("get_form", [])
             }).then(
                 function (data) {
                     console.log(data.data);
-                    // $scope.items_transactions = data.data;
                     $scope.dishes = data.data;
-                    // main.dishes = data.data.dishes;
-                    // console.log(data.data.dishes);
                 },
                 function (error) {
                     console.log("error");
                 }
             );
         }
-        $scope.items = null;
-        // $scope.lblMsg = null;
+
         $scope.postdata = function () {
-            // console.log(object);
             $http({
                 method: "POST",
                 url: "/api/orders/create",
@@ -41,13 +36,42 @@ angular.module("get_form", [])
             }).then(function (response) {
                 if (response.data) {
                     $scope.items = response.data;
-                    console.log("good, url: " + $scope.items);
                     $scope.msg = "Post Data Submitted Successfully!";
-                    window.location.replace("/payment");
+                    alert("Order successfully created.")
+                    // window.location.replace("/payment");
                 }
             }, function (response) {
-                alert("Basket is empty!");
-                $scope.msg = "Service not Exists";
+                // alert("Basket is empty!");
+                alert(response.data.message);
+
+                $scope.msg = response.data.message;
+                $scope.statusval = response.status;
+                $scope.statustext = response.statusText;
+                $scope.headers = response.headers();
+            });
+        };
+
+        $scope.delete = function (event) {
+            let id = event.currentTarget.getAttribute('id');
+            console.log(id);
+            let object = { "dishId": id }
+            console.log(object);
+            $http({
+                method: "DELETE",
+                url: "/api/basket/delete",
+                headers: {
+                    "Content-Type": "application/json",
+                    'X-CSRF-TOKEN': token
+                },
+                data: JSON.stringify(object)
+            }).then(function (response) {
+                console.log(response);
+                window.location.reload();
+            }, function (response) {
+                // $scope.msg = "Cannot delete all";
+                alert(response.data.message);
+
+                $scope.msg = response.data.message;
                 $scope.statusval = response.status;
                 $scope.statustext = response.statusText;
                 $scope.headers = response.headers();
@@ -63,13 +87,13 @@ angular.module("get_form", [])
                     'X-CSRF-TOKEN': token
                 }
             }).then(function (response) {
-                // if (response.data)
-                //     $scope.items = response.data;
-                // console.log("good, url: " + $scope.items);
-                // $scope.msg = "Post Data Submitted Successfully!";
+                console.log(response);
                 window.location.reload();
             }, function (response) {
-                $scope.msg = "Basket is empty!";
+                // $scope.msg = "Cannot delete all";
+                alert(response.data.message);
+
+                $scope.msg = response.data.message;
                 $scope.statusval = response.status;
                 $scope.statustext = response.statusText;
                 $scope.headers = response.headers();

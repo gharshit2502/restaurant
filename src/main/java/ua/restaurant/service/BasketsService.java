@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.utils.Constants;
-import ua.restaurant.dto.BasketItemDTO;
+import ua.restaurant.dto.ItemDTO;
 import ua.restaurant.dto.DishDTO;
 import ua.restaurant.entity.Baskets;
 import ua.restaurant.entity.Dishes;
@@ -44,27 +44,40 @@ public class BasketsService {
 
     /**
      * Save new dish to users basket
-     * @param basketItemDTO dto request from user
+     * @param itemDTO dto request from user
      * @return saved basket entity
      * @throws NoSuchElementException
      *      - if dish not found
      *      - if cannot save
      */
     @Transactional
-    public Baskets saveNewItem (@NonNull BasketItemDTO basketItemDTO) {
+    public Baskets saveNewItem (@NonNull ItemDTO itemDTO) {
         Logins user = ContextHelpers.getAuthorizedLogin();
 
         // TODO maybe make custom query for one call to db
 
-        Dishes dish = dishesRepository.findById(basketItemDTO.getDishId())
+        Dishes dish = dishesRepository.findById(itemDTO.getItemId())
                 .orElseThrow(() ->
-                        new NoSuchElementException(Constants.DISH_NOT_FOUND + basketItemDTO.getDishId()));
+                        new NoSuchElementException(Constants.DISH_NOT_FOUND + itemDTO.getItemId()));
         log.info(dish.toString());
 
         return basketRepository.save(Baskets.builder()
                 .login(user)
                 .dishes(dish)
                 .build());
+    }
+
+    /**
+     * delete one item from users basket
+     * @param id id of dish, than need to be deleted
+     */
+    @Transactional
+    public void delete(@NonNull Long id) {
+        List<Baskets> list = basketRepository.findBasketsByDishes_Id(id);
+        if (list.isEmpty()) {
+            throw new NoSuchElementException(Constants.EMPTY_LIST);
+        }
+        basketRepository.delete(list.get(0));
     }
 
     /**

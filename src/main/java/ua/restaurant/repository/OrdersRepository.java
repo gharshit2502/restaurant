@@ -8,13 +8,13 @@ import ua.restaurant.entity.Orders;
 import ua.restaurant.entity.Status;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface OrdersRepository extends JpaRepository<Orders, Long> {
     List<Orders> findOrdersByLogin_Id(Long id);
-    Optional<Orders> findTopByLogin_IdOrderByTimeDesc(Long id);
 
     @Modifying
-    @Query("UPDATE Orders o set o.status = :status where o.id = :id")
-    void updateStatus(@Param(value = "id") long id, @Param(value = "status") Status status);
+    @Query("UPDATE Orders o SET o.status = :status WHERE o.id = :id AND o.login.id = :loginId")
+    void updateStatus(@Param(value = "id") Long id,
+                      @Param(value = "loginId") Long loginId,
+                      @Param(value = "status") Status status);
 }

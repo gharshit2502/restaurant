@@ -2,16 +2,18 @@
 
 let token = document.querySelector('meta[name="_csrf"]').content;
 
+let urlParams = new URLSearchParams(window.location.search);
+let orderNo = urlParams.get('orderNo');
+let totalPrice = urlParams.get('totalPrice');
+
 angular.module("get_form", [])
     .controller("GetController", ["$scope", "$http", function ($scope, $http) {
-        $scope.orderId = null;
-        // $scope.lblMsg = null;
-        $scope.payment = function (orderId) {
-            // console.log(object);
-            let object = { "orderId": orderId }
+
+        $scope.payment = function () {
+            let object = { "itemId": orderNo }
             console.log(object);
             $http({
-                method: "POST",
+                method: "PUT",
                 url: "/api/orders/payment",
                 headers: {
                     "Content-Type": "application/json",
@@ -21,16 +23,21 @@ angular.module("get_form", [])
             }).then(function (response) {
                 if (response.data) {
                     console.log("good");
-                    $scope.msg = "Post Data Submitted Successfully!";
-                    location.replace("/basket")
+                    location.replace("/orders")
                 }
             }, function (response) {
                 console.log(response.status);
+
+                alert(response.data.message);
                 $scope.msg = "Cannot get payment";
-                $scope.statusval = response.status;
-                $scope.statustext = response.statusText;
-                $scope.headers = response.headers();
+
             });
         };
 
     }]);
+
+let init = () => {
+    document.getElementById('orderNo').innerHTML = orderNo;
+    document.getElementById('totalPrice').innerHTML = totalPrice;
+}
+window.onload = init;

@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @ToString
-public class OrderItemDTO {
-    Long orderId;
+public class ItemDTO {
+    Long itemId;
 }

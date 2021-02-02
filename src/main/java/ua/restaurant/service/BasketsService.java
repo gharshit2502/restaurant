@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.restaurant.utils.Constants;
 import ua.restaurant.dto.BasketItemDTO;
 import ua.restaurant.dto.DishDTO;
 import ua.restaurant.entity.Baskets;
@@ -12,7 +13,7 @@ import ua.restaurant.entity.Dishes;
 import ua.restaurant.entity.Logins;
 import ua.restaurant.repository.BasketRepository;
 import ua.restaurant.repository.DishesRepository;
-import ua.restaurant.repository.LoginsRepository;
+import ua.restaurant.utils.ContextHelpers;
 import ua.restaurant.utils.Converter;
 
 import java.util.List;
@@ -24,47 +25,55 @@ public class BasketsService {
 
     private final BasketRepository basketRepository;
     private final DishesRepository dishesRepository;
-    private final LoginsRepository loginsRepository;
 
     @Autowired
     public BasketsService(BasketRepository basketRepository,
-                          DishesRepository dishesRepository,
-                          LoginsRepository loginsRepository) {
+                          DishesRepository dishesRepository) {
         this.basketRepository = basketRepository;
         this.dishesRepository = dishesRepository;
-        this.loginsRepository = loginsRepository;
     }
 
-    public List<DishDTO> findAllDishes(String username) {
+    /**
+     * Get all dishes, that are in authorized user basket
+     * @return list of baskets
+     */
+    public List<DishDTO> findAllDishes() {
         return Converter.basketToDishesDTO(
-                basketRepository.findAllByLogin_LoginContains(username));
+                basketRepository.findAllByLogin_Id(ContextHelpers.getAuthorizedLogin().getId()));
     }
 
+    /**
+     * Save new dish to users basket
+     * @param basketItemDTO dto request from user
+     * @return saved basket entity
+     * @throws NoSuchElementException
+     *      - if dish not found
+     *      - if cannot save
+     */
     @Transactional
-    public Baskets saveNewItem (@NonNull BasketItemDTO basketItemDTO, String username) throws NoSuchElementException {
-        try {
-            // TODO check wrong dish id
-            Logins user = loginsRepository.findByLogin(username)
-                    .orElseThrow(NoSuchElementException::new);
-            log.info(user.toString());
+    public Baskets saveNewItem (@NonNull BasketItemDTO basketItemDTO) {
+        Logins user = ContextHelpers.getAuthorizedLogin();
 
-            Dishes dish = dishesRepository.findById(basketItemDTO.getDishId())
-                    .orElseThrow(NoSuchElementException::new);
-            log.info(dish.toString());
+        // TODO maybe make custom query for one call to db
 
-            return basketRepository.save(Baskets.builder()
-                    .login(user)
-                    .dishes(dish)
-                    .build());
-        } catch (Exception e) {
-            log.info("Dish do not exist, id: " + basketItemDTO.getDishId());
-            throw new NoSuchElementException();
-        }
+        Dishes dish = dishesRepository.findById(basketItemDTO.getDishId())
+                .orElseThrow(() ->
+                        new NoSuchElementException(Constants.DISH_NOT_FOUND + basketItemDTO.getDishId()));
+        log.info(dish.toString());
+
+        return basketRepository.save(Baskets.builder()
+                .login(user)
+                .dishes(dish)
+                .build());
     }
 
+    /**
+     * delete all items from users basket
+     * @param id authorized user id
+     */
     @Transactional
-    public void deleteByLogin(@NonNull String username) {
-        basketRepository.deleteByLogin_Login(username);
+    public void deleteByLogin(@NonNull Long id) {
+        basketRepository.deleteByLogin_Id(id);
     }
 
 }

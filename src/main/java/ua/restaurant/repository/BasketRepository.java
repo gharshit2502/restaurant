@@ -6,7 +6,7 @@ import ua.restaurant.entity.Baskets;
 import java.util.List;
 
 public interface BasketRepository  extends JpaRepository<Baskets, Long> {
-    List<Baskets> findAllByLogin_LoginContains(String username);
-    void deleteByLogin_Login(String username);
+    List<Baskets> findAllByLogin_Id(Long id);
+    void deleteByLogin_Id(Long id);
 
 }

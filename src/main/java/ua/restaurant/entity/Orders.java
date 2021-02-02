@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 
-@Data
 @Entity
 public class Orders {
     @Id

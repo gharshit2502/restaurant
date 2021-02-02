@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="author" content="Tetiana Rohalska">
+    <meta name="description" content="restaurant">
+    <meta name="keywords" content="restaurant, final project, autumn 2020">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>404 Not Found</title>
+    <link rel="shortcut icon" th:href="@{/resources/favicon.ico}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body style="text-align: center; font-family: 'Montserrat', sans-serif">
+<!--<h2 style="color: burlywood; position: relative; margin-top: 40vh">404 Not Found</h2>-->
+<!--&lt;!&ndash;<h2 style="color: burlywood; position: relative;">Ubay developers say:</h2>&ndash;&gt;-->
+<!--<h1 style="color: darkred">Resource not found!</h1>-->
+
+<h1 style="color: darkred; position: relative; margin-top: 40vh">
+    <span th:text="${status}"></span> <span th:text="${error}"></span>
+</h1>
+<p>Path: <span th:text="${path}"></span></p>
+<p th:text="${message}"></p>
+
+</body>
+</html>

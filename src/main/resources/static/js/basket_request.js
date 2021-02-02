@@ -56,17 +56,17 @@ angular.module("get_form", [])
 
         $scope.deleteAll = function () {
             $http({
-                method: "POST",
+                method: "DELETE",
                 url: "/api/basket/deleteAll",
                 headers: {
                     "Content-Type": "application/json",
                     'X-CSRF-TOKEN': token
                 }
             }).then(function (response) {
-                if (response.data)
-                    $scope.items = response.data;
-                console.log("good, url: " + $scope.items);
-                $scope.msg = "Post Data Submitted Successfully!";
+                // if (response.data)
+                //     $scope.items = response.data;
+                // console.log("good, url: " + $scope.items);
+                // $scope.msg = "Post Data Submitted Successfully!";
                 window.location.reload();
             }, function (response) {
                 $scope.msg = "Basket is empty!";

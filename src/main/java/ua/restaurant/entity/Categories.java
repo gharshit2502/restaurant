@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Builder
 @ToString
 
-@Data
 @Entity
 public class Categories {
     @Id

@@ -13,7 +13,6 @@ import java.sql.Timestamp;
 @Builder
 @ToString
 
-@Data
 @Entity
 public class Dishes {
     @Id

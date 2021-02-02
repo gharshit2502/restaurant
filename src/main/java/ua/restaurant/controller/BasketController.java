@@ -1,20 +1,19 @@
 package ua.restaurant.controller;
 
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import ua.restaurant.dto.BasketItemDTO;
 import ua.restaurant.dto.DishDTO;
 import ua.restaurant.entity.Baskets;
 import ua.restaurant.service.BasketsService;
+import ua.restaurant.utils.Constants;
+import ua.restaurant.utils.ContextHelpers;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Slf4j
 @RestController
@@ -28,33 +27,34 @@ public class BasketController {
     }
 
     @GetMapping("/get")
-    public List<DishDTO> getDishes(HttpServletRequest request) {
-        return basketsService.findAllDishes(request.getUserPrincipal().getName());
+    public ResponseEntity<List<DishDTO>> getDishes() {
+        return ResponseEntity.ok(basketsService.findAllDishes());
     }
 
     @PostMapping("/create")
-    public Baskets add (@RequestBody BasketItemDTO basketItemDTO, HttpServletRequest request, HttpServletResponse response) throws NoSuchElementException, IOException {
+    public ResponseEntity<Baskets> add (@RequestBody BasketItemDTO basketItemDTO) {
         try {
             log.info("Add new item to basket: " + basketItemDTO.toString());
-            return basketsService.saveNewItem(basketItemDTO, request.getUserPrincipal().getName());
+            return ResponseEntity.ok(
+                    basketsService.saveNewItem(basketItemDTO));
         } catch (Exception e) {
-            response.sendError(HttpStatus.BAD_REQUEST.value());
-            log.warn("Cannot add");
-            return null;
+            log.warn(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
-    @PostMapping("/deleteAll")
-    public boolean delete (HttpServletRequest request, HttpServletResponse response) throws NoSuchElementException, IOException {
+    // TODO delete one
+
+    @DeleteMapping("/deleteAll")
+    public boolean delete () {
         try {
-            log.info("delete all items from basket for user: " + request.getUserPrincipal().getName());
-            basketsService.deleteByLogin(request.getUserPrincipal().getName());
+            log.info("delete all items from basket for user: " + ContextHelpers.getAuthorizedLogin().getLogin());
+            basketsService.deleteByLogin(ContextHelpers.getAuthorizedLogin().getId());
             return true;
-        } catch (Exception e){
-            response.sendError(HttpStatus.BAD_REQUEST.value());
-            e.printStackTrace();
-            log.warn("Cannot delete all");
-            return false;
+        } catch (Exception e) {
+            log.warn(Constants.ERROR_DELETE_ALL);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, Constants.ERROR_DELETE_ALL);
+
         }
     }
 

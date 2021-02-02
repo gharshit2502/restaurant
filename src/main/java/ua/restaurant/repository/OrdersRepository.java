@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrdersRepository extends JpaRepository<Orders, Long> {
-    List<Orders> findOrdersByLogin_Login(String username);
-    Optional<Orders> findTopByLogin_LoginOrderByTimeDesc(String username);
+    List<Orders> findOrdersByLogin_Id(Long id);
+    Optional<Orders> findTopByLogin_IdOrderByTimeDesc(Long id);
 
     @Modifying
     @Query("UPDATE Orders o set o.status = :status where o.id = :id")

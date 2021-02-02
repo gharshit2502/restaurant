@@ -93,9 +93,13 @@ angular.module("get_form", [])
                     alert("Dish "+dishId+" successfully added.")
                 }
             }, function (response) {
-                $scope.msg = "Cannot submit";
+                // $scope.msg = "Cannot submit";
+                console.log(response);
+                alert((response.data.message === undefined) ? 'Wrong input.' : response.data.message);
+
+                $scope.msg = response.data.message;
                 $scope.statusval = response.status;
-                $scope.statustext = response.statusText;
+                $scope.statustext = response.error;
                 $scope.headers = response.headers();
             });
         };

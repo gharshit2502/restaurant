@@ -1,6 +1,7 @@
 package ua.restaurant.security;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +14,7 @@ import ua.restaurant.service.LoginService;
 
 import javax.annotation.PostConstruct;
 
+@Slf4j
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final LoginService loginService;
@@ -35,7 +37,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
-        System.out.println(username);
         Logins login = loginService.findByUserLogin(username).orElseThrow(
                 () -> new UsernameNotFoundException("Could not find user: " + username)
         );
@@ -44,8 +45,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 //        ) {
 //            throw new UsernameNotFoundException("Could not find user: " + username);
 //        }
-        System.out.println(login.getLogin());
-        System.out.println(login.getPassword());
+        log.info(login.getLogin());
+        log.info(login.getPassword());
 
         return new UserDetailsImpl(login);
     }

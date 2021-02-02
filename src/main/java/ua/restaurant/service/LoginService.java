@@ -9,10 +9,10 @@ import ua.restaurant.dto.LoginDTO;
 import ua.restaurant.entity.Logins;
 import ua.restaurant.entity.RoleType;
 import ua.restaurant.repository.LoginsRepository;
+import ua.restaurant.utils.Constants;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -23,10 +23,10 @@ public class LoginService {
         this.loginsRepository = loginsRepository;
     }
 
-    public Optional<Logins> findByUserLogin (@NonNull String login){
-        // TODO check for user availability. password check
-        return loginsRepository.findByLogin(login);
-    }
+//    public Optional<Logins> findByUserLogin (@NonNull String login){
+//        // TODO check for user availability. password check
+//        return loginsRepository.findByLogin(login);
+//    }
 
     public Logins saveNewUser (@NonNull LoginDTO loginDTO, RoleType role) throws NoSuchElementException {
         try {
@@ -36,9 +36,8 @@ public class LoginService {
                     .role(role)
                     .time(LocalDateTime.now())
                     .password(new BCryptPasswordEncoder().encode(loginDTO.getPassword())).build());
-        } catch (Exception e){
-            log.info("Логин уже существует: " + loginDTO.getLogin());
-            throw new NoSuchElementException();
+        } catch (Exception e) {
+            throw new NoSuchElementException(Constants.LOGIN_EXISTS + loginDTO.getLogin());
         }
     }
 

@@ -44,8 +44,4 @@ public class Localization implements WebMvcConfigurer {
         return lci;
     }
 
-    public static boolean isLocaleEnglish() {
-        return LocaleContextHolder.getLocale().equals(Locale.ENGLISH);
-    }
-
 }

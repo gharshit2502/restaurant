@@ -1,6 +1,5 @@
 package ua.restaurant.service;
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +8,9 @@ import ua.restaurant.dto.DishDTO;
 import ua.restaurant.dto.OrderItemDTO;
 import ua.restaurant.entity.*;
 import ua.restaurant.repository.*;
+import ua.restaurant.utils.Constants;
+import ua.restaurant.utils.ContextHelpers;
+import ua.restaurant.utils.Converter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,48 +22,53 @@ import java.util.NoSuchElementException;
 public class OrdersService {
 
     private final OrdersRepository ordersRepository;
-    private final LoginsRepository loginsRepository;
-    private final BasketsService basketsService;
+    private final BasketRepository basketRepository;
 
     @Autowired
     public OrdersService(OrdersRepository ordersRepository,
-                         LoginsRepository loginsRepository,
-                         BasketsService basketsService) {
+                         BasketRepository basketRepository) {
         this.ordersRepository = ordersRepository;
-        this.loginsRepository = loginsRepository;
-        this.basketsService = basketsService;
+        this.basketRepository = basketRepository;
     }
 
-    public List<Orders> findAllOrders(String username) {
-        return ordersRepository.findOrdersByLogin_Login(username);
+    /**
+     * Gets all user orders
+     * @return list of orders
+     */
+    public List<Orders> findAllUserOrders() {
+        return ordersRepository.findOrdersByLogin_Id(
+                ContextHelpers.getAuthorizedLogin().getId());
     }
 
+    /**
+     * Gets all orders for manager order page
+     * @return list of orders
+     */
     public List<Orders> findAllOrders() {
         return ordersRepository.findAll();
     }
 
+    // TODO make query
+
     @Transactional
-    public Orders saveNewItem (@NonNull String username) throws NoSuchElementException {
+    public Orders saveNewItem () throws NoSuchElementException {
         try {
-            Logins user = loginsRepository.findByLogin(username)
-                    .orElseThrow(NoSuchElementException::new);
-            log.info(user.toString());
-            log.info(username);
+            Logins user = ContextHelpers.getAuthorizedLogin();
 
-            List<DishDTO> basketsItems = basketsService.findAllDishes(username);
-            log.info(basketsItems.toString());
+            List<Baskets> basketsItems = basketRepository.findAllByLogin_Id(user.getId());
             if (basketsItems.isEmpty()) {
-                throw new NoSuchElementException();
+                throw new NoSuchElementException(Constants.EMPTY_LIST);
             }
-            log.info(basketsItems.toString());
 
-            BigDecimal total = basketsItems.stream()
+            List<DishDTO> dishes = Converter.basketToDishesDTO(basketsItems);
+
+            BigDecimal total = dishes.stream()
                     .map(DishDTO::getPrice)
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
             log.info(total.toString());
 
-            basketsService.deleteByLogin(username);
-            log.info("delete success");
+            basketRepository.deleteByLogin_Id(user.getId());
+            log.info(Constants.DELETE_ALL_BASKET);
 
             // TODO create orderList
 
@@ -79,8 +86,12 @@ public class OrdersService {
 
     @Transactional
     public void confirm(OrderItemDTO item) {
+
+        // TODO make query
+
         Orders order = ordersRepository.findById(item.getOrderId())
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new NoSuchElementException(
+                        Constants.ORDER_NOT_FOUND + item.getOrderId()));
 
         if (!order.getStatus().equals(Status.DONE) &&
                 !order.getStatus().equals(Status.NEW)) {
@@ -90,9 +101,14 @@ public class OrdersService {
     }
 
     @Transactional
-    public void payment(String username) {
-        Orders order = ordersRepository.findTopByLogin_LoginOrderByTimeDesc(username)
-                .orElseThrow(NoSuchElementException::new);
+    public void payment() {
+
+        // TODO make query, Make pay by order id
+
+        Orders order = ordersRepository
+                .findTopByLogin_IdOrderByTimeDesc(ContextHelpers.getAuthorizedLogin().getId())
+                .orElseThrow(() -> new NoSuchElementException(
+                        Constants.ORDER_NOT_FOUND));
 
         if (order.getStatus().equals(Status.NEW)) {
             ordersRepository.updateStatus(order.getId(), Status.PAYED);

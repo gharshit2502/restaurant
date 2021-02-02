@@ -4,15 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import ua.restaurant.dto.OrderItemDTO;
 import ua.restaurant.entity.Orders;
 import ua.restaurant.service.OrdersService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Slf4j
 @RestController
@@ -26,8 +24,8 @@ public class OrdersController {
     }
 
     @GetMapping("/get")
-    public List<Orders> getOrders(HttpServletRequest request) {
-        return ordersService.findAllOrders(request.getUserPrincipal().getName());
+    public List<Orders> getOrders() {
+        return ordersService.findAllUserOrders();
     }
 
     @GetMapping("/getAll")
@@ -36,40 +34,37 @@ public class OrdersController {
     }
 
     @PostMapping("/create")
-    public Orders add (HttpServletRequest request, HttpServletResponse response) throws NoSuchElementException, IOException {
+    public Orders add (HttpServletRequest request) {
         try {
-            log.info("Adding new order to user: " + request.getUserPrincipal().getName());
-            return ordersService.saveNewItem(request.getUserPrincipal().getName());
+            log.info("Adding new order for user: " + request.getUserPrincipal().getName());
+            return ordersService.saveNewItem();
         } catch (Exception e){
-            response.sendError(HttpStatus.BAD_REQUEST.value());
-            log.warn("Cannot add");
-            return null;
+            log.warn(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
-    @PostMapping("/confirm")
-    public boolean confirm (@RequestBody OrderItemDTO item, HttpServletResponse response) throws NoSuchElementException, IOException {
+    @PutMapping("/confirm")
+    public boolean confirm (@RequestBody OrderItemDTO item) {
         try {
             log.info("Confirm action for order: " + item.toString());
             ordersService.confirm(item);
             return true;
         } catch (Exception e){
-            response.sendError(HttpStatus.BAD_REQUEST.value());
-            log.warn("Cannot confirm");
-            return false;
+            log.warn(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
-    @PostMapping("/payment")
-    public boolean payment (HttpServletRequest request, HttpServletResponse response) throws NoSuchElementException, IOException {
+    @PutMapping("/payment")
+    public boolean payment (HttpServletRequest request) {
         try {
             log.info("Pay for order from: " + request.getUserPrincipal().getName());
-            ordersService.payment(request.getUserPrincipal().getName());
+            ordersService.payment();
             return true;
         } catch (Exception e){
-            response.sendError(HttpStatus.BAD_REQUEST.value());
-            log.warn("Cannot get payment");
-            return false;
+            log.warn(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 }

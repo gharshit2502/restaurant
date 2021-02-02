@@ -30,6 +30,15 @@ public class DishesService {
         this.dishesRepository = dishesRepository;
     }
 
+    // TODO filter by category
+
+    /**
+     * Gets paginated dto for main page
+     * @param pageNo page number
+     * @param sortField // TODO sort be name and category
+     * @param sortDirection asc or desc
+     * @return dto for front
+     */
     public PageableDishesDTO findAllDishesPaginated(int pageNo,
                                                     String sortField, String sortDirection) {
         sortField = sortField == null ? sortDefault : sortField;

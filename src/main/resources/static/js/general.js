@@ -1,10 +1,29 @@
 'use strict';
 
+/**
+ * shows 'eye' animation in passwords fields
+ */
+$(".toggle-password").click(function() {
+    $(this).toggleClass("fa-eye fa-eye-slash");
+    let input = $($(this).attr("toggle"));
+    if (input.attr("type") === "password") {
+        input.attr("type", "text");
+    } else {
+        input.attr("type", "password");
+    }
+});
+
+/**
+ * allow to select row from table
+ */
+
 let setSelectedElement = (elem, check, color) => {
     elem.setAttribute("checked", check);
     elem.setAttribute("style", "background: " + color + ";");
 }
-
+/**
+ * ----------------------------
+ */
 let getSelector = () => {
     document.querySelectorAll('.rows')
         .forEach(item => item.addEventListener('click', function() {
@@ -18,11 +37,28 @@ let getSelector = () => {
             if (previous !== null) {
                 setSelectedElement(previous, "false", "none");
             }
-            setSelectedElement(this, "true", "rgba(183, 201, 109,.3)");
+            setSelectedElement(this, "true", "rgba(84, 100, 164, .3)");
 
         }));
 }
 
+/**
+ * hides 'pay' buttons where they don't need to be
+ */
+let getSelectedRowId = () => {
+    let items = document.querySelectorAll('.rows');
+    items.forEach((elem) => {
+        let tags = elem.getElementsByTagName("td");
+        if (tags[2].innerHTML !== 'NEW') {
+            let link = elem.getElementsByTagName('a');
+            link[0].className = 'hidden';
+        }
+    });
+}
+
+/**
+ * JS sort table fields
+ */
 let tableSort = (item, table) => {
     let tbl, rows, switching, shouldSwitch,
         i, n, row1, row2, direction, switchCount = 0;
@@ -54,7 +90,9 @@ let tableSort = (item, table) => {
         }
     }
 }
-
+/**
+ * ----------------------------
+ */
 let tableSortComparator = (row1, row2) => {
     let num1 = Number.parseFloat(row1);
     let num2 = Number.parseFloat(row2);
@@ -64,7 +102,9 @@ let tableSortComparator = (row1, row2) => {
     }
     return row1 > row2;
 }
-
+/**
+ * ----------------------------
+ */
 function isFloatOrInteger(n) {
     return n === +n;
 }

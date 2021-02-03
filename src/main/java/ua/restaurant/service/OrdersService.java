@@ -71,9 +71,7 @@ public class OrdersService {
 
         List<DishDTO> dishes = Converter.basketToDishesDTO(basketsItems);
 
-        BigDecimal total = dishes.stream()
-                .map(DishDTO::getPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal total = Converter.getTotalPrice(dishes);
         log.info(total.toString());
 
         basketRepository.deleteByLogin_Id(user.getId());
@@ -97,7 +95,7 @@ public class OrdersService {
     @Transactional
     public void confirm(ItemDTO item) {
 
-        // TODO make query
+        // TODO make UPDATE query
         // TODO exception msg
 
         Orders order = ordersRepository.findById(item.getItemId())
@@ -121,7 +119,7 @@ public class OrdersService {
             Long loginId = ContextHelpers.getAuthorizedLogin().getId();
             ordersRepository.updateStatus(id, loginId, Status.PAYED);
         } catch (Exception e) {
-            throw new NoSuchElementException(Constants.ORDER_NOT_FOUND + id);
+            throw new NoSuchElementException(Constants.ORDER_PAYED + id);
         }
     }
 }

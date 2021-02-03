@@ -58,23 +58,21 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
 //        return super.handleHttpMessageNotReadable(ex, headers, status, request);
 //    }
 //
-//    @Override
-//    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-//        List<String> errors = new ArrayList<>();
-//        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-//            errors.add(error.getField() + ": " + error.getDefaultMessage());
-//        }
-//        for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
-//            errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
-//        }
-//        log.error("handleMethodArgumentNotValid on work");
-//        ApiError apiError =
-//                new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
-//        return handleExceptionInternal(
-//                ex, apiError, headers, apiError.getStatus(), request);
-//
-////        return super.handleMethodArgumentNotValid(ex, headers, status, request);
-//    }
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        List<String> errors = new ArrayList<>();
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            errors.add(error.getField() + ": " + error.getDefaultMessage());
+        }
+        for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
+            errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
+        }
+        log.error("handleMethodArgumentNotValid on work");
+        ApiError apiError =
+                new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
+        return handleExceptionInternal(
+                ex, apiError, headers, apiError.getStatus(), request);
+    }
 
 //    @Override
 //    protected ResponseEntity<Object> handleNoHandlerFoundException(

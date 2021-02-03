@@ -2,8 +2,8 @@ package ua.restaurant.dto;
 
 import lombok.*;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
@@ -12,10 +12,15 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @ToString
 public class LoginDTO {
-    @NotBlank
+    @NotBlank (message = "{error.signup.login}")
     private String login;
-    @Email(message = "${validatedValue} is not valid")
+
+    @Pattern(regexp = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,6}$",
+            message = "{error.signup.email}")
     private String email;
+
     @NotBlank
+    @Pattern(regexp = "^[a-z0-9._%+-]{2,6}$",
+            message = "{error.signup.password}")
     private String password;
 }

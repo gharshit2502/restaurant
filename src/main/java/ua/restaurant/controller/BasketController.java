@@ -6,15 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import ua.restaurant.dto.BasketDTO;
 import ua.restaurant.dto.ItemDTO;
-import ua.restaurant.dto.DishDTO;
 import ua.restaurant.entity.Baskets;
 import ua.restaurant.service.BasketsService;
 import ua.restaurant.utils.Constants;
 import ua.restaurant.utils.ContextHelpers;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -27,7 +26,7 @@ public class BasketController {
     }
 
     @GetMapping("/get")
-    public ResponseEntity<List<DishDTO>> getDishes() {
+    public ResponseEntity<BasketDTO> getDishes() {
         log.info(Constants.GET_ALL_BASKET_DISHES + ContextHelpers.getAuthorizedLogin().getLogin());
         return ResponseEntity.ok(basketsService.findAllDishes());
     }

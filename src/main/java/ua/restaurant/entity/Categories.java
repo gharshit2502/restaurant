@@ -16,9 +16,9 @@ public class Categories {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-    @Column(name = "category_en")
-    private String category_en;
-    @Column(name = "category_ua")
-    private String category_ua;
+    @Column(name = "categoryEn")
+    private String categoryEn;
+    @Column(name = "categoryUa")
+    private String categoryUa;
 
 }

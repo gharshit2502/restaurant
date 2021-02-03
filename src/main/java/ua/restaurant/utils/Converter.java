@@ -6,6 +6,7 @@ import ua.restaurant.entity.Baskets;
 import ua.restaurant.entity.Categories;
 import ua.restaurant.entity.Dishes;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,9 +20,9 @@ public class Converter {
                 .map(d -> DishDTO.builder()
                         .id(d.getId())
                         .price(d.getPrice())
-                        .name(ContextHelpers.isLocaleEnglish() ? d.getName_en() : d.getName_ua())
+                        .name(ContextHelpers.isLocaleEnglish() ? d.getNameEn() : d.getNameUa())
                         .category(ContextHelpers.isLocaleEnglish()
-                                ? d.getCategories().getCategory_en() : d.getCategories().getCategory_ua())
+                                ? d.getCategories().getCategoryEn() : d.getCategories().getCategoryUa())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -32,11 +33,17 @@ public class Converter {
                 .map(d -> DishDTO.builder()
                         .id(d.getId())
                         .price(d.getPrice())
-                        .name(ContextHelpers.isLocaleEnglish() ? d.getName_en() : d.getName_ua())
+                        .name(ContextHelpers.isLocaleEnglish() ? d.getNameEn() : d.getNameUa())
                         .category(ContextHelpers.isLocaleEnglish()
-                                ? d.getCategories().getCategory_en() : d.getCategories().getCategory_ua())
+                                ? d.getCategories().getCategoryEn() : d.getCategories().getCategoryUa())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public static BigDecimal getTotalPrice(List<DishDTO> dishes) {
+        return dishes.stream()
+                .map(DishDTO::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public static List<CategoryDTO> categoriesToCategoriesDTO(List<Categories> list) {
@@ -44,7 +51,7 @@ public class Converter {
                 .map(c -> CategoryDTO.builder()
                         .id(c.getId())
                         .category(ContextHelpers.isLocaleEnglish()
-                                ? c.getCategory_en() : c.getCategory_ua())
+                                ? c.getCategoryEn() : c.getCategoryUa())
                         .build())
                 .collect(Collectors.toList());
     }

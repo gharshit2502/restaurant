@@ -19,10 +19,10 @@ public class Dishes {
     @GeneratedValue (strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-    @Column(name = "name_en")
-    private String name_en;
-    @Column(name = "name_ua")
-    private String name_ua;
+    @Column(name = "nameEn")
+    private String nameEn;
+    @Column(name = "nameUa")
+    private String nameUa;
     @Column(nullable = false)
     private BigDecimal price;
     @ManyToOne(fetch = FetchType.EAGER)

@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import ua.restaurant.config.Bundler;
 import ua.restaurant.dto.PageableDishesDTO;
 import ua.restaurant.entity.Dishes;
 import ua.restaurant.repository.DishesRepository;
@@ -24,10 +25,12 @@ public class DishesService {
     private String sortDirectionDefault;
 
     private final DishesRepository dishesRepository;
-
+    private final Bundler bundler;
     @Autowired
-    public DishesService(DishesRepository dishesRepository) {
+    public DishesService(DishesRepository dishesRepository,
+                         Bundler bundler) {
         this.dishesRepository = dishesRepository;
+        this.bundler = bundler;
     }
 
     // TODO filter by category
@@ -41,7 +44,8 @@ public class DishesService {
      */
     public PageableDishesDTO findAllDishesPaginated(int pageNo,
                                                     String sortField, String sortDirection) {
-        sortField = sortField == null ? sortDefault : sortField;
+        sortField = sortField == null ? sortDefault :
+                (sortField.equals("name")) ? bundler.getMsg("db.name") : sortField;
         sortDirection = sortDirection == null ? sortDirectionDefault : sortDirection;
 
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?

@@ -3,6 +3,7 @@ package ua.restaurant.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ua.restaurant.dto.ItemDTO;
@@ -11,7 +12,6 @@ import ua.restaurant.service.OrdersService;
 import ua.restaurant.utils.Constants;
 import ua.restaurant.utils.ContextHelpers;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -20,29 +20,28 @@ import java.util.List;
 @RequestMapping(value = "/api/orders")
 public class OrdersController {
     private final OrdersService ordersService;
-
     @Autowired
     public OrdersController(OrdersService ordersService) {
         this.ordersService = ordersService;
     }
 
     @GetMapping("/get")
-    public List<Orders> getOrders() {
+    public ResponseEntity<List<Orders>> getOrders() {
         log.info(Constants.GET_ALL_ORDER_USER + ContextHelpers.getAuthorizedLogin().getLogin());
-        return ordersService.findAllUserOrders();
+        return ResponseEntity.ok(ordersService.findAllUserOrders());
     }
 
     @GetMapping("/getAll")
-    public List<Orders> getAllOrders() {
+    public ResponseEntity<List<Orders>> getAllOrders() {
         log.info(Constants.GET_ALL_ORDER_MANAGER + ContextHelpers.getAuthorizedLogin().getLogin());
-        return ordersService.findAllOrders();
+        return ResponseEntity.ok(ordersService.findAllOrders());
     }
 
     @PostMapping("/create")
-    public Orders add () {
+    public ResponseEntity<Orders> add () {
         log.info(Constants.ADD_NEW_ORDER + ContextHelpers.getAuthorizedLogin().getLogin());
         try {
-            return ordersService.saveNewItem();
+            return ResponseEntity.ok(ordersService.saveNewItem());
         } catch (Exception e){
             log.warn(e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

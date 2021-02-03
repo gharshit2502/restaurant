@@ -87,9 +87,9 @@
                 <table id="table" ng-model="dishes">
                     <tr>
                         <th columns="0" onclick="sorting('id')">№</th>
-                        <th columns="1" onclick="sorting('name')" th:text="#{menu.dish}"></th>
+                        <th columns="1" onclick="sorting('name', this)" th:text="#{menu.dish}"></th>
                         <th columns="2" onclick="sorting('price')" th:text="#{menu.price}"></th>
-                        <th columns="3" onclick="sorting('category')" th:text="#{menu.category}"></th>
+                        <th columns="3" onclick="sorting('categories')" th:text="#{menu.category}"></th>
                     </tr>
                     <tbody id="dishes_table">
                         <tr ng-repeat="i in dishes" class="rows" checked=false>
@@ -135,40 +135,5 @@
 
 </div>
 </body>
-<script>
-
-    // f = async () => {
-    //     let response = await fetch("/");
-    //
-    //     if (response.ok) { // если HTTP-статус в диапазоне 200-299
-    //         // получаем тело ответа (см. про этот метод ниже)
-    //         let json = await response.json();
-    //         console.log(response.url);
-    //     } else {
-    //         alert("Ошибка HTTP: " + response.status);
-    //     }
-    // }
-
-
-    // setAuthorizedUser = () => {
-    //     // document.querySelector('#header-login-first').setAttribute('style', 'display: none;');
-    //     // document.querySelector('#header-login-second').setAttribute('style', 'display: block;');
-    //     document.querySelector('#authorizedLogin').innerHTML = document.querySelector('meta[name="_user"]').content;
-    // }
-    // console.log(document.querySelector('meta[name="_user"]').content);
-    // setAuthorizedUser();
-</script>
-
-<!--<script type="text/javascript">-->
-<!--    // let authorizedLogin = @{request.ge} ;-->
-<!--    if (authorizedLogin !== 'null') {-->
-<!--        setAuthorizedUser(authorizedLogin);-->
-<!--    }-->
-<!--    setAuthorizedUser = (user) => {-->
-<!--        document.querySelector('#header-login-first').setAttribute('style', 'display: none;');-->
-<!--        document.querySelector('#header-login-second').setAttribute('style', 'display: block;');-->
-<!--        document.querySelector('#authorizedLogin').innerHTML = user;-->
-<!--    }-->
-<!--</script>-->
 
 </html>

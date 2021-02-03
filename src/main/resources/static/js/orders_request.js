@@ -74,3 +74,8 @@ angular.module("get_form", [])
         };
 
     }]);
+
+let init = () => {
+    getSelectedRowId();
+}
+window.onload = init;

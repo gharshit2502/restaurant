@@ -4,7 +4,6 @@ let token = document.querySelector('meta[name="_csrf"]').content;
 
 angular.module("get_form", [])
     .controller("GetController", ["$scope", "$http", function ($scope, $http) {
-        $scope.dishes = [];
 
         $scope.getItems = function () {
             $http({
@@ -17,7 +16,8 @@ angular.module("get_form", [])
             }).then(
                 function (data) {
                     console.log(data.data);
-                    $scope.dishes = data.data;
+                    $scope.dishes = data.data.dishes;
+                    $scope.totalPrice = data.data.totalPrice;
                 },
                 function (error) {
                     console.log("error");

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.restaurant.dto.BasketDTO;
 import ua.restaurant.utils.Constants;
 import ua.restaurant.dto.ItemDTO;
 import ua.restaurant.dto.DishDTO;
@@ -37,10 +38,14 @@ public class BasketsService {
      * Get all dishes, that are in authorized user basket
      * @return list of baskets
      */
-    public List<DishDTO> findAllDishes() {
-        return Converter.basketToDishesDTO(
+    public BasketDTO findAllDishes() {
+        List<DishDTO> dishes = Converter.basketToDishesDTO(
                 basketRepository.findAllByLogin_Id(
                         ContextHelpers.getAuthorizedLogin().getId()));
+        return BasketDTO.builder()
+                .dishes(dishes)
+                .totalPrice(Converter.getTotalPrice(dishes))
+                .build();
     }
 
     /**

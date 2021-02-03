@@ -75,12 +75,9 @@ angular.module("get_form", [])
     }]);
 
 let sorting = (field) => {
+    sortDirection = (sortDirection === 'asc') ? 'desc' : 'asc';
     sortField = field;
-    if (sortDirection === 'asc') {
-        sortDirection = 'desc';
-    } else {
-        sortDirection = 'asc'
-    }
+
     location.replace('/?pageNo='+ pageNo + '&sortField=' + field + '&sortDirection=' + sortDirection);
 }
 

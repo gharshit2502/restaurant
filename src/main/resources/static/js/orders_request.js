@@ -51,7 +51,7 @@ angular.module("get_form", [])
             let object = { "itemId": itemId }
             console.log(object);
             $http({
-                method: "POST",
+                method: "PUT",
                 url: "/api/orders/confirm",
                 headers: {
                     "Content-Type": "application/json",

@@ -44,9 +44,9 @@ angular.module("get_form", [])
                 }
             );
         }
-        $scope.dishId = null;
-        $scope.postdata = function (dishId) {
-            let object = { "dishId": dishId }
+        $scope.itemId = null;
+        $scope.postdata = function (itemId) {
+            let object = { "itemId": itemId }
             console.log(object);
             $http({
                 method: "POST",
@@ -59,7 +59,7 @@ angular.module("get_form", [])
             }).then(function (response) {
                 if (response.data) {
                     $scope.msg = "Post Data Submitted Successfully!";
-                    alert("Dish " + dishId + " successfully added.")
+                    alert("Dish " + itemId + " successfully added.")
                 }
             }, function (response) {
                 console.log(response);

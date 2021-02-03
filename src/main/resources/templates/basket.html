@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
-<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">-->
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta charset="utf-8">
@@ -32,6 +32,8 @@
         <a class="abutton" href="/" th:text="#{main.menu}"></a>
         <a class="abutton" href="/basket" th:text="#{main.basket}"></a>
         <a class="abutton" href="/orders" th:text="#{main.orders}"></a>
+        <a class="abutton" href="/manager/orders" th:text="#{main.manager}"
+           sec:authorize="hasRole('ROLE_MANAGER')"></a>
         <select class="abutton" id="locales">
             <option value="" th:text="#{lang.change}"></option>
             <option value="en" th:text="#{lang.en}"></option>
@@ -95,12 +97,12 @@
             </div>
         </div>
 
-        <div>
-            <p>Output Message: {{msg}}</p>
-            <p>StatusCode: {{statusval}}</p>
-            <p>Status: {{statustext}}</p>
-            <p>Response Headers: {{headers}}</p>
-        </div>
+<!--        <div>-->
+<!--            <p>Output Message: {{msg}}</p>-->
+<!--            <p>StatusCode: {{statusval}}</p>-->
+<!--            <p>Status: {{statustext}}</p>-->
+<!--            <p>Response Headers: {{headers}}</p>-->
+<!--        </div>-->
 
     </section>
 

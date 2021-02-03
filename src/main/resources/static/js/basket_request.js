@@ -54,7 +54,7 @@ angular.module("get_form", [])
         $scope.delete = function (event) {
             let id = event.currentTarget.getAttribute('id');
             console.log(id);
-            let object = { "dishId": id }
+            let object = { "itemId": id }
             console.log(object);
             $http({
                 method: "DELETE",

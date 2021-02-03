@@ -39,7 +39,8 @@ public class BasketsService {
      */
     public List<DishDTO> findAllDishes() {
         return Converter.basketToDishesDTO(
-                basketRepository.findAllByLogin_Id(ContextHelpers.getAuthorizedLogin().getId()));
+                basketRepository.findAllByLogin_Id(
+                        ContextHelpers.getAuthorizedLogin().getId()));
     }
 
     /**
@@ -57,8 +58,8 @@ public class BasketsService {
         // TODO maybe make custom query for one call to db
 
         Dishes dish = dishesRepository.findById(itemDTO.getItemId())
-                .orElseThrow(() ->
-                        new NoSuchElementException(Constants.DISH_NOT_FOUND + itemDTO.getItemId()));
+                .orElseThrow(() -> new NoSuchElementException(
+                        Constants.DISH_NOT_FOUND + itemDTO.getItemId()));
         log.info(dish.toString());
 
         return basketRepository.save(Baskets.builder()

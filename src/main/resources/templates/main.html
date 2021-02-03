@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">-->
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta charset="utf-8">
@@ -27,12 +28,22 @@
 <div class="backcolor"></div>
 <div class="body-block shadow-large page_width">
     <section class="section1">
-<!--        <a id="authorizedLogin" th:text="${#request.getUserPrincipal().getName()}"></a>-->
-        <a class="abutton" href="/login" th:method="Post" th:text="#{sign.in}"></a>
-        <a class="abutton" href="/signup" th:text="#{sign.up}"></a>
-        <a class="abutton" href="/logout" th:text="#{sign.out}"></a>
+        <a class="abutton" href="/login" th:method="Post" th:text="#{sign.in}"
+           sec:authorize="!isAuthenticated()"></a>
+
+        <a class="abutton" href="/signup" th:text="#{sign.up}"
+           sec:authorize="!isAuthenticated()"></a>
+
+        <a class="abutton" href="/logout" th:text="#{sign.out}"
+           sec:authorize="isAuthenticated()"></a>
+
         <a class="abutton" href="/basket" th:text="#{main.basket}"></a>
+
         <a class="abutton" href="/orders" th:text="#{main.orders}"></a>
+
+        <a class="abutton" href="/manager/orders" th:text="#{main.manager}"
+           sec:authorize="hasRole('ROLE_MANAGER')"></a>
+
         <select class="abutton" id="locales">
             <option value="" th:text="#{lang.change}"></option>
             <option value="en" th:text="#{lang.en}"></option>
@@ -103,7 +114,7 @@
             <div th:text="#{page.total} + ' {{pageable.totalPages}}'"></div>
         </div>
 
-        <div class="page_head">
+        <div class="page_head" sec:authorize="isAuthenticated()">
             <div style="margin: 20px 0;">
                 <label th:text="#{main.addDishId}"></label>
                 <input ng-model="dishId"/>
@@ -113,12 +124,12 @@
             </div>
         </div>
 
-        <div>
-            <p>Output Message: {{msg}}</p>
-            <p>StatusCode: {{statusval}}</p>
-            <p>Error: {{statustext}}</p>
-            <p>Response Headers: {{headers}}</p>
-        </div>
+<!--        <div>-->
+<!--            <p>Output Message: {{msg}}</p>-->
+<!--            <p>StatusCode: {{statusval}}</p>-->
+<!--            <p>Error: {{statustext}}</p>-->
+<!--            <p>Response Headers: {{headers}}</p>-->
+<!--        </div>-->
 
     </section>
 

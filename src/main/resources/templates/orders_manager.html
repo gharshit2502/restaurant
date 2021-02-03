@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">-->
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta name="_csrf" th:content="${_csrf.token}"/>
-    <!--    <meta name="_user" th:content="${}"/>-->
-
     <meta charset="utf-8">
     <meta name="author" content="Tetiana Rohalska">
     <meta name="description" content="restaurant">
@@ -33,6 +32,8 @@
         <a class="abutton" href="/" th:text="#{main.menu}"></a>
         <a class="abutton" href="/basket" th:text="#{main.basket}"></a>
         <a class="abutton" href="/orders" th:text="#{main.orders}"></a>
+        <a class="abutton" href="/manager/orders" th:text="#{main.manager}"
+           sec:authorize="hasRole('ROLE_MANAGER')"></a>
         <select class="abutton" id="locales">
             <option value="" th:text="#{lang.change}"></option>
             <option value="en" th:text="#{lang.en}"></option>

@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ua.restaurant.dto.PageableDishesDTO;
 import ua.restaurant.service.DishesService;
+import ua.restaurant.utils.Constants;
 
 @Slf4j
 @RestController
 @RequestMapping(value = "api/")
 public class MainController {
     private final DishesService dishesService;
-
     @Autowired
     public MainController(DishesService dishesService) {
         this.dishesService = dishesService;
@@ -25,8 +25,8 @@ public class MainController {
     findPaginated(@PathVariable (value = "pageNo") int pageNo,
                   @RequestParam (value = "sortField", required = false) String sortField,
                   @RequestParam (value = "sortDirection", required = false) String sortDirection)  {
+        log.info(Constants.GET_PAGE_DISHES + pageNo);
         try {
-            log.info("Get page of dishes #" + pageNo);
             return ResponseEntity.ok(dishesService.findAllDishesPaginated(pageNo, sortField, sortDirection));
         } catch (Exception e) {
             log.warn(e.getMessage());

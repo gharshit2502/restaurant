@@ -11,8 +11,10 @@ import org.springframework.web.server.ResponseStatusException;
 import ua.restaurant.dto.LoginDTO;
 import ua.restaurant.entity.RoleType;
 import ua.restaurant.service.LoginService;
+import ua.restaurant.utils.Constants;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -26,12 +28,10 @@ public class SignUpController {
     }
 
     @PostMapping
-    public boolean postSignUp(@RequestBody LoginDTO loginDTO, HttpServletResponse response) {
-
-        // TODO validation input
-
+    public boolean postSignUp(@Valid @RequestBody LoginDTO loginDTO,
+                              HttpServletResponse response) {
+        log.info(Constants.REGISTRATION + loginDTO.toString());
         try {
-            log.info("Registration of user: " + loginDTO.toString());
             loginService.saveNewUser(loginDTO, RoleType.ROLE_CUSTOMER);
             response.sendRedirect("login");
             return true;

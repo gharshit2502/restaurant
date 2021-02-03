@@ -13,6 +13,7 @@ import ua.restaurant.service.BasketsService;
 import ua.restaurant.utils.Constants;
 import ua.restaurant.utils.ContextHelpers;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -20,7 +21,6 @@ import java.util.List;
 @RequestMapping(value = "/api/basket")
 public class BasketController {
     private final BasketsService basketsService;
-
     @Autowired
     public BasketController(BasketsService basketsService) {
         this.basketsService = basketsService;
@@ -28,13 +28,14 @@ public class BasketController {
 
     @GetMapping("/get")
     public ResponseEntity<List<DishDTO>> getDishes() {
+        log.info(Constants.GET_ALL_BASKET_DISHES + ContextHelpers.getAuthorizedLogin().getLogin());
         return ResponseEntity.ok(basketsService.findAllDishes());
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Baskets> add (@RequestBody ItemDTO itemDTO) {
+    public ResponseEntity<Baskets> add (@Valid @RequestBody ItemDTO itemDTO) {
+        log.info(Constants.ADD_NEW_DISH + itemDTO.toString());
         try {
-            log.info("Add new item to basket: " + itemDTO.toString());
             return ResponseEntity.ok(
                     basketsService.saveNewItem(itemDTO));
         } catch (Exception e) {
@@ -44,11 +45,9 @@ public class BasketController {
     }
 
     @DeleteMapping("/delete")
-    public boolean delete (@RequestBody ItemDTO itemDTO) {
+    public boolean delete (@Valid @RequestBody ItemDTO itemDTO) {
+        log.info(Constants.DELETE_ONE + itemDTO.getItemId());
         try {
-
-            log.info("delete one item from basket for user: " + ContextHelpers.getAuthorizedLogin().getLogin());
-            System.out.println(itemDTO.getItemId());
             basketsService.delete(itemDTO.getItemId());
             return true;
         } catch (Exception e) {
@@ -59,8 +58,8 @@ public class BasketController {
 
     @DeleteMapping("/deleteAll")
     public boolean deleteAll () {
+        log.info(Constants.DELETE_ALL + ContextHelpers.getAuthorizedLogin().getLogin());
         try {
-            log.info("delete all items from basket for user: " + ContextHelpers.getAuthorizedLogin().getLogin());
             basketsService.deleteByLogin(ContextHelpers.getAuthorizedLogin().getId());
             return true;
         } catch (Exception e) {

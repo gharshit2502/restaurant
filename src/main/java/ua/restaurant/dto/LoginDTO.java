@@ -11,6 +11,9 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @Builder
 @ToString
+
+// income, for registration
+
 public class LoginDTO {
     @NotBlank (message = "{error.signup.login}")
     private String login;

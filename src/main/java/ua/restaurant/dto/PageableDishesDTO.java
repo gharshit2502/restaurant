@@ -12,6 +12,8 @@ import java.util.List;
 @Builder
 @ToString
 
+// no validation, send to main page
+
 public class PageableDishesDTO {
     private List<DishDTO> dishes;
     private int currentPage;

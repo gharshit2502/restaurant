@@ -10,6 +10,8 @@ import ua.restaurant.dto.PageableDishesDTO;
 import ua.restaurant.service.DishesService;
 import ua.restaurant.utils.Constants;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RestController
 @RequestMapping(value = "api/")
@@ -22,12 +24,15 @@ public class MainController {
 
     @GetMapping("/get/{pageNo}")
     public ResponseEntity<PageableDishesDTO>
-    findPaginated(@PathVariable (value = "pageNo") int pageNo,
-                  @RequestParam (value = "sortField", required = false) String sortField,
-                  @RequestParam (value = "sortDirection", required = false) String sortDirection)  {
+    findPaginated(@Valid @PathVariable (value = "pageNo") Integer pageNo,
+                  @Valid @RequestParam (value = "sortField", required = false) String sortField,
+                  @Valid @RequestParam (value = "sortDirection", required = false) String sortDirection,
+                  @Valid @RequestParam (value = "categoryId", required = false) Integer categoryId)  {
         log.info(Constants.GET_PAGE_DISHES + pageNo);
         try {
-            return ResponseEntity.ok(dishesService.findAllDishesPaginated(pageNo, sortField, sortDirection));
+            return ResponseEntity.ok(
+                    dishesService.findAllDishesPaginated(
+                            pageNo, sortField, sortDirection, categoryId));
         } catch (Exception e) {
             log.warn(e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

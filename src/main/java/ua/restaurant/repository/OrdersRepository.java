@@ -11,10 +11,13 @@ import java.util.List;
 
 public interface OrdersRepository extends JpaRepository<Orders, Long> {
     List<Orders> findOrdersByLogin_Id(Long id);
+    List<Orders> findOrdersByOrderByIdAsc();
 
     @Modifying
-    @Query("UPDATE Orders o SET o.status = :status WHERE o.id = :id AND o.login.id = :loginId")
+    @Query("UPDATE Orders o SET o.status = :statusPayed " +
+            "WHERE o.id = :id AND o.status = :statusNew AND o.login.id = :loginId")
     void updateStatus(@Param(value = "id") Long id,
                       @Param(value = "loginId") Long loginId,
-                      @Param(value = "status") Status status);
+                      @Param(value = "statusNew") Status statusNew,
+                      @Param(value = "statusPayed") Status statusPayed);
 }

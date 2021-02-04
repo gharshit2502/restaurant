@@ -20,6 +20,7 @@ angular.module("get_form", [])
                     $scope.orders = data.data;
                 },
                 function (error) {
+                    console.log(error);
                     console.log("error");
                 }
             );
@@ -36,19 +37,19 @@ angular.module("get_form", [])
             }).then(
                 function (data) {
                     console.log(data.data);
-                    // $scope.items_transactions = data.data;
                     $scope.orders = data.data;
-                    // main.dishes = data.data.dishes;
-                    // console.log(data.data.dishes);
                 },
                 function (error) {
+                    console.log(error);
                     console.log("error");
                 }
             );
         }
         $scope.itemId = null;
-        $scope.confirmAction = function (itemId) {
-            let object = { "itemId": itemId }
+        $scope.confirmAction = function (event) {
+            let id = event.currentTarget.getAttribute('id');
+            console.log(id);
+            let object = { "itemId": id }
             console.log(object);
             $http({
                 method: "PUT",
@@ -60,22 +61,26 @@ angular.module("get_form", [])
                 data: JSON.stringify(object)
             }).then(function (response) {
                 if (response.data) {
-                    console.log("good");
-                    $scope.msg = "Post Data Submitted Successfully!";
                     location.reload();
                 }
             }, function (response) {
+                alertErrors(response);
                 console.log(response.status);
-                $scope.msg = "Order doesn't exists, also you cannot confirm NEW or DONE orders";
-                $scope.statusval = response.status;
-                $scope.statustext = response.statusText;
-                $scope.headers = response.headers();
             });
         };
 
     }]);
 
-let init = () => {
-    getSelectedRowId();
-}
-window.onload = init;
+
+
+// let init = () => {
+//     let items = document.querySelectorAll('.rows');
+//     items.forEach((elem) => {
+//         let tags = elem.getElementsByTagName("td");
+//         if (tags[2].innerHTML === 'NEW') {
+//             let link = elem.getElementsByTagName('a');
+//             link[0].className = 'button';
+//         }
+//     });
+// }
+// window.onload = init;

@@ -14,12 +14,10 @@ $(document).ready(function () {
 
 function checkPasswordMatch() {
     if (match) {
-        // showConfWindow();
         return true;
     } else {
         $("#confirmpassword").val('');
         alert('Passwords do not match!');
-        // alert('Passwords do not match!');
         return false;
     }
 }
@@ -48,17 +46,10 @@ angular.module("get_form", [])
             }).then(function (response) {
                 if (response.data) {
                     alert('Success')
-                    location.replace(response.url)
+                    location.replace('/login');
                 }
             }, function (response) {
-                console.log(response);
-                let msg = response.message;
-                if (msg === undefined) {
-                    for (let i in response.data.errors) {
-                        msg += response.data.errors[i] + "\n";
-                    }
-                }
-                alert(msg);
+                alertErrors(response);
             });
         };
 

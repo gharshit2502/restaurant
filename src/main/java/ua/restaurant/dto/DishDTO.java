@@ -10,6 +10,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 @ToString
+
+// no validation, internal use for orders service
+
 public class DishDTO {
     private Long id;
     private String name;

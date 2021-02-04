@@ -12,6 +12,8 @@ import java.util.List;
 @Builder
 @ToString
 
+// no validation, send to basket page
+
 public class BasketDTO {
     private List<DishDTO> dishes;
     private BigDecimal totalPrice;

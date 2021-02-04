@@ -45,10 +45,8 @@ public class OrdersService {
      * @return list of orders
      */
     public List<Orders> findAllOrders() {
-        return ordersRepository.findAll();
+        return ordersRepository.findOrdersByOrderByIdAsc();
     }
-
-    // TODO make query
 
     /**
      * Create order from users basket items,
@@ -61,6 +59,8 @@ public class OrdersService {
      */
     @Transactional
     public Orders saveNewItem () throws NoSuchElementException {
+        // TODO make query
+
         Logins user = ContextHelpers.getAuthorizedLogin();
 
         List<Baskets> basketsItems = basketRepository.findAllByLogin_Id(user.getId());
@@ -115,9 +115,14 @@ public class OrdersService {
      */
     @Transactional
     public void payment(Long id) {
-        try {
-            Long loginId = ContextHelpers.getAuthorizedLogin().getId();
-            ordersRepository.updateStatus(id, loginId, Status.PAYED);
+        Long loginId = ContextHelpers.getAuthorizedLogin().getId();
+        Orders order = ordersRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException(Constants.ORDER_NOT_FOUND + id));
+        if (!order.getStatus().equals(Status.NEW)) {
+            throw new NoSuchElementException(Constants.ORDER_PAYED + id);
+        }
+        try {  // update does not throw exception (if id not found or status isn't NEW)
+            ordersRepository.updateStatus(id, loginId, Status.NEW, Status.PAYED);
         } catch (Exception e) {
             throw new NoSuchElementException(Constants.ORDER_PAYED + id);
         }

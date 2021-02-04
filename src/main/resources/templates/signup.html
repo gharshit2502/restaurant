@@ -17,8 +17,9 @@
     <link rel="stylesheet" th:href="@{/css/sign.css}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+<!--    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<!--    <script th:src="@{/js/general.js}"></script>-->
     <script th:src="@{/js/signup_request.js}"></script>
 </head>
 
@@ -27,6 +28,7 @@
 <div class="body-block shadow-large page_width">
 
     <section class="section1">
+        <a class="abutton" href="/login" th:text="#{sign.in}"></a>
         <a class="abutton" href="/" th:text="#{main.menu}"></a>
     </section>
 
@@ -69,5 +71,8 @@
 </div>
 
 </body>
+
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+<script th:src="@{/js/general.js}"></script>
 
 </html>

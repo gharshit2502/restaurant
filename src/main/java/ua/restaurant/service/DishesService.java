@@ -40,10 +40,11 @@ public class DishesService {
      * @param pageNo page number
      * @param sortField // TODO sort be name and category
      * @param sortDirection asc or desc
+     * @param categoryId if there is filter by categories
      * @return dto for front
      */
-    public PageableDishesDTO findAllDishesPaginated(int pageNo,
-                                                    String sortField, String sortDirection) {
+    public PageableDishesDTO findAllDishesPaginated(
+            Integer pageNo, String sortField, String sortDirection, Integer categoryId) {
         sortField = sortField == null ? sortDefault :
                 (sortField.equals("name")) ? bundler.getMsg("db.name") : sortField;
         sortDirection = sortDirection == null ? sortDirectionDefault : sortDirection;

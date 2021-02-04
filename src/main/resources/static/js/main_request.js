@@ -40,7 +40,9 @@ angular.module("get_form", [])
 
                 },
                 function (error) {
+                    console.log(error);
                     console.log("error");
+                    alert("Incorrect url parameters, reload main page.");
                 }
             );
         }
@@ -58,17 +60,10 @@ angular.module("get_form", [])
                 data: JSON.stringify(object)
             }).then(function (response) {
                 if (response.data) {
-                    $scope.msg = "Post Data Submitted Successfully!";
                     alert("Dish " + itemId + " successfully added.")
                 }
             }, function (response) {
-                console.log(response);
-                alert((response.data.message === undefined) ? 'Wrong input.' : response.data.message);
-
-                $scope.msg = response.data.message;
-                $scope.statusval = response.status;
-                $scope.statustext = response.error;
-                $scope.headers = response.headers();
+                alertErrors(response);
             });
         };
 

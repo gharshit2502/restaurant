@@ -11,7 +11,14 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Builder
 @ToString
+
+// income:
+// - for confirm,
+// - for payment,
+// - for add dish to basket,
+// - for delete dish from basket
+
 public class ItemDTO {
-    @Min(value = 1, message = "Id should be non-negative number.")
+    @Min(value = 1, message = "{error.itemDTO}")
     Long itemId;
 }

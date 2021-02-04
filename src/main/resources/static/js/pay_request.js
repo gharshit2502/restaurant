@@ -22,15 +22,10 @@ angular.module("get_form", [])
                 data: JSON.stringify(object)
             }).then(function (response) {
                 if (response.data) {
-                    console.log("good");
                     location.replace("/orders")
                 }
             }, function (response) {
-                console.log(response.status);
-
-                alert(response.data.message);
-                $scope.msg = "Cannot get payment";
-
+                alertErrors(response);
             });
         };
 

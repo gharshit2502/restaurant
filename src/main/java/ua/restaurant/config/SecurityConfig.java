@@ -27,22 +27,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/", "/signup", "/api/get/**", "/css/*", "/js/*").permitAll()
-                    .antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name())
                     .antMatchers("/manager/**").hasAuthority(RoleType.ROLE_MANAGER.name())
                 .anyRequest().authenticated()
                 .and()
 
                 .formLogin()
-//                    .loginPage("/login")
-////                    .successForwardUrl("/")
-////                    .usernameParameter("login")
-////                    .passwordParameter("password")
-////                    .loginProcessingUrl("/login")
-////                .defaultSuccessUrl("/", true)
-////                .failureUrl("/login?error")
-////                .failureHandler(authenticationFailureHandler())
-                .permitAll()
-
+                .loginPage("/login").permitAll()
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

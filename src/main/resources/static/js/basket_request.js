@@ -20,6 +20,7 @@ angular.module("get_form", [])
                     $scope.totalPrice = data.data.totalPrice;
                 },
                 function (error) {
+                    console.log(error);
                     console.log("error");
                 }
             );
@@ -35,19 +36,11 @@ angular.module("get_form", [])
                 }
             }).then(function (response) {
                 if (response.data) {
-                    $scope.items = response.data;
-                    $scope.msg = "Post Data Submitted Successfully!";
-                    alert("Order successfully created.")
-                    // window.location.replace("/payment");
+                    alert("Order successfully created.");
+                    location.replace('/orders');
                 }
             }, function (response) {
-                // alert("Basket is empty!");
-                alert(response.data.message);
-
-                $scope.msg = response.data.message;
-                $scope.statusval = response.status;
-                $scope.statustext = response.statusText;
-                $scope.headers = response.headers();
+                alertErrors(response);
             });
         };
 
@@ -68,13 +61,7 @@ angular.module("get_form", [])
                 console.log(response);
                 window.location.reload();
             }, function (response) {
-                // $scope.msg = "Cannot delete all";
-                alert(response.data.message);
-
-                $scope.msg = response.data.message;
-                $scope.statusval = response.status;
-                $scope.statustext = response.statusText;
-                $scope.headers = response.headers();
+                alertErrors(response);
             });
         };
 
@@ -90,13 +77,7 @@ angular.module("get_form", [])
                 console.log(response);
                 window.location.reload();
             }, function (response) {
-                // $scope.msg = "Cannot delete all";
-                alert(response.data.message);
-
-                $scope.msg = response.data.message;
-                $scope.statusval = response.status;
-                $scope.statustext = response.statusText;
-                $scope.headers = response.headers();
+                alertErrors(response);
             });
         };
 

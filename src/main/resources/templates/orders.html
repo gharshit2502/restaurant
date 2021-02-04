@@ -80,8 +80,7 @@
                         <td>{{i.status}}</td>
                         <td>{{i.totalPrice}}</td>
                         <td>
-                            <a id="button{{i.id}}" class="button"
-                               th:text="#{orders.pay}"
+                            <a class="hidden" th:text="#{orders.pay}"
                                href="/payment?orderNo={{i.id}}&totalPrice={{i.totalPrice}}"></a>
                         </td>
 
@@ -95,5 +94,24 @@
 
 </div>
 </body>
+
+<script>
+    function showPayButton() {
+        let items = document.querySelectorAll('.rows');
+        items.forEach((elem) => {
+            let tags = elem.getElementsByTagName("td");
+            if (tags[2].innerHTML === 'NEW') {
+                let link = elem.getElementsByTagName('a');
+                link[0].className = 'button';
+            }
+        });
+    }
+
+    let init = () => {
+        setTimeout(showPayButton, 200);
+    }
+    window.onload = init;
+</script>
+
 
 </html>

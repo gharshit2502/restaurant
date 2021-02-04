@@ -1,6 +1,22 @@
 'use strict';
 
 /**
+ * output error responce
+ */
+let alertErrors = (response) => {
+    console.log(response);
+    let msg = '';
+    if (response.data.errors === undefined) {
+        msg = response.data.message;
+    } else {
+        for (let i in response.data.errors) {
+            msg += response.data.errors[i] + "\n";
+        }
+    }
+    alert(msg);
+}
+
+/**
  * shows 'eye' animation in passwords fields
  */
 $(".toggle-password").click(function() {
@@ -40,20 +56,6 @@ let getSelector = () => {
             setSelectedElement(this, "true", "rgba(84, 100, 164, .3)");
 
         }));
-}
-
-/**
- * hides 'pay' buttons where they don't need to be
- */
-let getSelectedRowId = () => {
-    let items = document.querySelectorAll('.rows');
-    items.forEach((elem) => {
-        let tags = elem.getElementsByTagName("td");
-        if (tags[2].innerHTML !== 'NEW') {
-            let link = elem.getElementsByTagName('a');
-            link[0].className = 'hidden';
-        }
-    });
 }
 
 /**

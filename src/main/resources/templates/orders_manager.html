@@ -64,23 +64,16 @@
             </div>
         </div>
 
-        <div class="page_head">
-            <div style="margin: 20px 0;">
-                <p>Stages: NEW, PAYED, CONFIRM_PAYMENT, COOKING, DELIVERY, DONE</p>
-                <label th:text="#{orders.action}"></label>
-                <input ng-model="itemId"/>
-            </div>
-            <div>
-                <a class="button" ng-click="confirmAction(itemId)" th:text="#{orders.button}"></a>
-            </div>
-        </div>
-
-        <div>
-            <p>Output Message: {{msg}}</p>
-            <p>StatusCode: {{statusval}}</p>
-            <p>Status: {{statustext}}</p>
-            <p>Response Headers: {{headers}}</p>
-        </div>
+<!--        <div class="page_head">-->
+<!--            <div style="margin: 20px 0;">-->
+<!--                <p>Stages: NEW, PAYED, CONFIRM_PAYMENT, COOKING, DELIVERY, DONE</p>-->
+<!--                <label th:text="#{orders.action}"></label>-->
+<!--                <input ng-model="itemId"/>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <a class="button" ng-click="confirmAction(itemId)" th:text="#{orders.button}"></a>-->
+<!--            </div>-->
+<!--        </div>-->
 
         <div id="dishes_block">
             <div>
@@ -88,15 +81,21 @@
                     <tr>
                         <th columns="0" onclick="tableSort(this, 'table')" th:text="#{orders.number}"></th>
                         <th columns="1" onclick="tableSort(this, 'table')" th:text="#{orders.time}"></th>
-                        <th columns="2" onclick="tableSort(this, 'table')" th:text="#{orders.status}"></th>
+                        <th columns="2" onclick="tableSort(this, 'table')" th:text="#{orders.username}"></th>
                         <th columns="3" onclick="tableSort(this, 'table')" th:text="#{orders.totalPrice}"></th>
+                        <th columns="4" onclick="tableSort(this, 'table')" th:text="#{orders.status}"></th>
+                        <th columns="5" th:text="#{basket.action}"></th>
                     </tr>
                     <tbody id="dishes_table">
                     <tr ng-repeat="i in orders" class="rows" checked=false>
                         <td>{{i.id}}</td>
                         <td>{{i.time}}</td>
-                        <td>{{i.status}}</td>
+                        <td>{{i.login.login}}</td>
                         <td>{{i.totalPrice}}</td>
+                        <td>{{i.status}}</td>
+                        <td>
+                            <a id="{{i.id}}" class="hidden" ng-click="confirmAction($event)" th:text="#{orders.confirm}"></a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -107,5 +106,23 @@
 
 </div>
 </body>
+
+<script>
+    function showButtons() {
+        let items = document.querySelectorAll('.rows');
+        items.forEach((elem) => {
+            let tags = elem.getElementsByTagName("td");
+            if (tags[4].innerHTML !== 'NEW' && tags[4].innerHTML !== 'DONE') {
+                let link = elem.getElementsByTagName('a');
+                link[0].className = 'button';
+            }
+        });
+    }
+
+    let init = () => {
+        setTimeout(showButtons, 200);
+    }
+    window.onload = init;
+</script>
 
 </html>

@@ -10,12 +10,6 @@
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
             <charset>utf8</charset>
         </encoder>
-<!--        <layout class="ch.qos.logback.classic.PatternLayout">-->
-<!--            <Pattern>-->
-<!--                ${CONSOLE_LOG_PATTERN}-->
-<!--&lt;!&ndash;                %black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable&ndash;&gt;-->
-<!--            </Pattern>-->
-<!--        </layout>-->
     </appender>
 
     <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -41,10 +35,5 @@
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </root>
-
-<!--    <logger name="ua.restaurant" level="trace" additivity="false">-->
-<!--        <appender-ref ref="RollingFile" />-->
-<!--        <appender-ref ref="Console" />-->
-<!--    </logger>-->
 
 </configuration>

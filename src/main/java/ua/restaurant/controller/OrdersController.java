@@ -50,9 +50,9 @@ public class OrdersController {
 
     @PutMapping("/confirm")
     public boolean confirm (@Valid @RequestBody ItemDTO item) {
-        log.info(Constants.CONFIRM + item.toString());
+        log.info(Constants.CONFIRM + item.getItemId());
         try {
-            ordersService.confirm(item);
+            ordersService.confirm(item.getItemId());
             return true;
         } catch (Exception e){
             log.warn(e.getMessage());

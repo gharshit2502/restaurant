@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.dto.DishDTO;
-import ua.restaurant.dto.ItemDTO;
 import ua.restaurant.entity.*;
 import ua.restaurant.repository.*;
 import ua.restaurant.utils.Constants;
@@ -59,20 +58,14 @@ public class OrdersService {
      */
     @Transactional
     public Orders saveNewItem () throws NoSuchElementException {
-        // TODO make query
-
         Logins user = ContextHelpers.getAuthorizedLogin();
 
         List<Baskets> basketsItems = basketRepository.findAllByLogin_Id(user.getId());
         if (basketsItems.isEmpty()) {
-            log.info("empty");
             throw new NoSuchElementException(Constants.EMPTY_LIST);
         }
-
         List<DishDTO> dishes = Converter.basketToDishesDTO(basketsItems);
-
         BigDecimal total = Converter.getTotalPrice(dishes);
-        log.info(total.toString());
 
         basketRepository.deleteByLogin_Id(user.getId());
         log.info(Constants.DELETE_ALL_BASKET);
@@ -90,41 +83,42 @@ public class OrdersService {
 
     /**
      * Manager confirm next order stage
-     * @param item given order
+     * @param id given order id
+     * @return true if all is good
      */
     @Transactional
-    public void confirm(ItemDTO item) {
+    public boolean confirm(Long id) {
 
-        // TODO make UPDATE query
-        // TODO exception msg
+        Orders order = ordersRepository.findById(id)
+                .orElseThrow(() ->
+                        new NoSuchElementException(Constants.ORDER_NOT_FOUND + id));
 
-        Orders order = ordersRepository.findById(item.getItemId())
-                .orElseThrow(() -> new NoSuchElementException(
-                        Constants.ORDER_NOT_FOUND + item.getItemId()));
-
-        if (!order.getStatus().equals(Status.DONE) &&
-                !order.getStatus().equals(Status.NEW)) {
-            order.setStatus(order.getStatus().next());
-            ordersRepository.save(order);
+        if (!ContextHelpers.getAuthorizedLogin().getRole().equals(RoleType.ROLE_MANAGER) ||
+                order.getStatus().equals(Status.DONE) ||
+                order.getStatus().equals(Status.NEW)) {
+            throw new NoSuchElementException(Constants.ORDER_NOT_FOUND + id);
         }
+        ordersRepository.updateStatus(id, order.getStatus().next());
+        return true;
     }
 
     /**
      * update order status if user payed for it.
+     *
+     * use first database access as checking
+     * because update does not throw exception if id not found or status isn't NEW
      * @param id order id
+     * @return true if all is good
      */
     @Transactional
-    public void payment(Long id) {
+    public boolean payment(Long id) {
         Long loginId = ContextHelpers.getAuthorizedLogin().getId();
-        Orders order = ordersRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException(Constants.ORDER_NOT_FOUND + id));
-        if (!order.getStatus().equals(Status.NEW)) {
-            throw new NoSuchElementException(Constants.ORDER_PAYED + id);
-        }
-        try {  // update does not throw exception (if id not found or status isn't NEW)
-            ordersRepository.updateStatus(id, loginId, Status.NEW, Status.PAYED);
-        } catch (Exception e) {
-            throw new NoSuchElementException(Constants.ORDER_PAYED + id);
-        }
+
+        ordersRepository.findByIdAndLogin_IdAndStatus(id, loginId, Status.NEW)
+                .orElseThrow(() ->
+                        new NoSuchElementException(Constants.ORDER_NOT_FOUND + id));
+
+        ordersRepository.updateStatus(id, Status.PAYED);
+        return true;
     }
 }

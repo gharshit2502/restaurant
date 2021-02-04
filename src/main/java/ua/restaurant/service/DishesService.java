@@ -1,6 +1,5 @@
 package ua.restaurant.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -14,7 +13,6 @@ import ua.restaurant.entity.Dishes;
 import ua.restaurant.repository.DishesRepository;
 import ua.restaurant.utils.Converter;
 
-@Slf4j
 @Service
 public class DishesService {
     @Value( "${page.size}" )
@@ -33,14 +31,12 @@ public class DishesService {
         this.bundler = bundler;
     }
 
-    // TODO filter by category
-
     /**
      * Gets paginated dto for main page
      * @param pageNo page number
-     * @param sortField // TODO sort be name and category
-     * @param sortDirection asc or desc
-     * @param categoryId if there is filter by categories
+     * @param sortField field for sort
+     * @param sortDirection asc or desc sort
+     * @param categoryId if there is filter by categories // TODO filter by category
      * @return dto for front
      */
     public PageableDishesDTO findAllDishesPaginated(

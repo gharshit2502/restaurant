@@ -1,7 +1,6 @@
 package ua.restaurant.service;
 
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,6 @@ import ua.restaurant.utils.Converter;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@Slf4j
 @Service
 public class BasketsService {
 
@@ -60,12 +58,9 @@ public class BasketsService {
     public Baskets saveNewItem (@NonNull ItemDTO itemDTO) {
         Logins user = ContextHelpers.getAuthorizedLogin();
 
-        // TODO maybe make custom query for one call to db
-
         Dishes dish = dishesRepository.findById(itemDTO.getItemId())
                 .orElseThrow(() -> new NoSuchElementException(
                         Constants.DISH_NOT_FOUND + itemDTO.getItemId()));
-        log.info(dish.toString());
 
         return basketRepository.save(Baskets.builder()
                 .login(user)

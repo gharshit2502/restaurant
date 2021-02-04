@@ -23,7 +23,6 @@ public interface Constants {
     String EMPTY_LIST = "List of items is empty";
     String DISH_NOT_FOUND = "Dish not found, id: ";
     String ORDER_NOT_FOUND = "Order not found, id: ";
-    String ORDER_PAYED = "Order in process, you cannot pay for it, order id: ";
     String ERROR_DELETE_ALL = "Cannot delete all items from basket.";
     String ERROR_DELETE = "Cannot delete item.";
     String LOGIN_EXISTS = "Login already exists: ";

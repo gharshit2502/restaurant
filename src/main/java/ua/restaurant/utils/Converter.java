@@ -8,6 +8,10 @@ import ua.restaurant.entity.Dishes;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -54,5 +58,22 @@ public class Converter {
                                 ? c.getCategoryEn() : c.getCategoryUa())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public static List<CategoryDTO> dishesToCategoriesDTO(List<Dishes> list) {
+        return list.stream()
+                .filter(distinctByKey(Dishes::getCategories))
+                .map(d -> CategoryDTO.builder()
+                        .id(d.getCategories().getId())
+                        .category(ContextHelpers.isLocaleEnglish()
+                                ? d.getCategories().getCategoryEn()
+                                : d.getCategories().getCategoryUa())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
     }
 }

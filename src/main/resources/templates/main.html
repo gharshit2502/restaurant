@@ -44,6 +44,7 @@
         <a class="abutton" href="/manager/orders" th:text="#{main.manager}"
            sec:authorize="hasRole('ROLE_MANAGER')"></a>
 
+        <label for="locales"></label>
         <select class="abutton" id="locales">
             <option value="" th:text="#{lang.change}"></option>
             <option value="en" th:text="#{lang.en}"></option>
@@ -72,13 +73,22 @@
                 <h2 th:text="#{main.menu}"></h2>
             </div>
 
-            <div>
-<!--                <label for="select_menu" th:text="#{main.menu}"></label>-->
-<!--                <select id="select_menu" class="form-styling" onchange="main.select_wallet_transaction(this)">-->
-<!--                    <option menu_id="0" th:text="#{main.select.all}"></option>-->
-<!--                    <option ng-repeat="c in categories"-->
-<!--                            menu_id="{{c.id}}">{{c.category}}</option>-->
-<!--                </select>-->
+            <div ng-model="categories">
+                <label for="categories_filter"></label>
+                <select id="categories_filter" class="form-styling">
+                    <option th:text="#{menu.filter.name}"></option>
+                    <option value="0" th:text="#{menu.filter.all}"></option>
+                    <option ng-repeat="c in categories" value="{{c.id}}">{{c.category}}</option>
+                </select>
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        $("#categories_filter").change(function () {
+                            categoryId = $('#categories_filter').val();
+                            pageNo = 1;
+                            replace();
+                        });
+                    });
+                </script>
             </div>
         </div>
 
@@ -108,7 +118,8 @@
 
             <div class="pagination">
                 <a ng-repeat="x in [].constructor(pageable.totalPages) track by $index"
-                   class="abutton" href="/?pageNo={{$index+1}}&sortField={{pageable.sortField}}&sortDirection={{pageable.sortDirection}}">{{ $index+1 }}</a>
+                   class="abutton"
+                   href="/?pageNo={{$index+1}}&sortField={{pageable.sortField}}&sortDirection={{pageable.sortDirection}}&categoryId={{pageable.categoryId}}">{{ $index+1 }}</a>
             </div>
 
             <div th:text="#{page.total} + ' {{pageable.totalPages}}'"></div>
@@ -116,8 +127,8 @@
 
         <div class="page_head" sec:authorize="isAuthenticated()">
             <div style="margin: 20px 0;">
-                <label th:text="#{main.addDishId}"></label>
-                <input ng-model="dishId"/>
+                <label for="addDish" th:text="#{main.addDishId}"></label>
+                <input id="addDish" ng-model="dishId"/>
             </div>
             <div>
                 <a class="button" ng-click="postdata(dishId)" th:text="#{button.add}"></a>

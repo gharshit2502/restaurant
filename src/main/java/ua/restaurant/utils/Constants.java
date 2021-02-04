@@ -2,6 +2,9 @@ package ua.restaurant.utils;
 
 public interface Constants {
 
+    String NULL = "null";
+    String NAME = "name";
+
     //Controllers (for logging)
     String REGISTRATION = "Registration new user: ";
     String GET_PAGE_DISHES = "Get page of dishes #";

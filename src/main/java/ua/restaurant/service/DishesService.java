@@ -7,11 +7,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.config.Bundler;
 import ua.restaurant.dto.PageableDishesDTO;
+import ua.restaurant.entity.Categories;
 import ua.restaurant.entity.Dishes;
+import ua.restaurant.repository.CategoriesRepository;
 import ua.restaurant.repository.DishesRepository;
+import ua.restaurant.utils.Constants;
 import ua.restaurant.utils.Converter;
+
+import java.util.List;
 
 @Service
 public class DishesService {
@@ -23,11 +29,14 @@ public class DishesService {
     private String sortDirectionDefault;
 
     private final DishesRepository dishesRepository;
+    private final CategoriesRepository categoriesRepository;
     private final Bundler bundler;
     @Autowired
     public DishesService(DishesRepository dishesRepository,
+                         CategoriesRepository categoriesRepository,
                          Bundler bundler) {
         this.dishesRepository = dishesRepository;
+        this.categoriesRepository = categoriesRepository;
         this.bundler = bundler;
     }
 
@@ -36,28 +45,39 @@ public class DishesService {
      * @param pageNo page number
      * @param sortField field for sort
      * @param sortDirection asc or desc sort
-     * @param categoryId if there is filter by categories // TODO filter by category
+     * @param categoryId if there is filter by categories
      * @return dto for front
      */
+    @Transactional
     public PageableDishesDTO findAllDishesPaginated(
-            Integer pageNo, String sortField, String sortDirection, Integer categoryId) {
-        sortField = sortField == null ? sortDefault :
-                (sortField.equals("name")) ? bundler.getMsg("db.name") : sortField;
-        sortDirection = sortDirection == null ? sortDirectionDefault : sortDirection;
+            Integer pageNo, String sortField, String sortDirection, Long categoryId) {
+        sortField = sortField.equals(Constants.NULL)
+                ? sortDefault
+                : (sortField.equals(Constants.NAME)) ? bundler.getMsg("db.name") : sortField;
+
+        sortDirection = sortDirection.equals(Constants.NULL)
+                ? sortDirectionDefault
+                : sortDirection;
 
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(sortField).ascending() : Sort.by(sortField).descending();
 
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
 
-        Page<Dishes> page = dishesRepository.findAll(pageable);
+        Page<Dishes> page = (categoryId == null || categoryId == 0)
+                ? dishesRepository.findAll(pageable)
+                : dishesRepository.findByCategories_Id(categoryId, pageable);
+
+        List<Categories> categories = categoriesRepository.findAll();
 
         return PageableDishesDTO.builder()
                 .dishes(Converter.dishesToDishesDTO(page.getContent()))
+                .categories(Converter.categoriesToCategoriesDTO(categories))
                 .currentPage(pageNo)
                 .totalPages(page.getTotalPages())
                 .sortField(sortField)
                 .sortDirection(sortDirection)
+                .categoryId(categoryId)
                 .build();
     }
 

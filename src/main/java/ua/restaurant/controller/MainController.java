@@ -25,9 +25,12 @@ public class MainController {
     @GetMapping("/get/{pageNo}")
     public ResponseEntity<PageableDishesDTO>
     findPaginated(@Valid @PathVariable (value = "pageNo") Integer pageNo,
-                  @Valid @RequestParam (value = "sortField", required = false) String sortField,
-                  @Valid @RequestParam (value = "sortDirection", required = false) String sortDirection,
-                  @Valid @RequestParam (value = "categoryId", required = false) Integer categoryId)  {
+                  @RequestParam (value = "sortField", required = false) String sortField,
+                  @RequestParam (value = "sortDirection", required = false) String sortDirection,
+                  @RequestParam (value = "categoryId", required = false) Long categoryId)  {
+
+        log.error(pageNo.toString() + sortField + sortDirection + categoryId.toString());
+
         log.info(Constants.GET_PAGE_DISHES + pageNo);
         try {
             return ResponseEntity.ok(

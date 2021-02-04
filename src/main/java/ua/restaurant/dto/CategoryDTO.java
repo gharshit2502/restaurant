@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @ToString
 
-// TODO use (+ valid) or delete
+// no validation, send to main page in PageableDishesDTO
 
 public class CategoryDTO {
     private Long id;

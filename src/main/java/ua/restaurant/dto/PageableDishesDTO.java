@@ -16,8 +16,10 @@ import java.util.List;
 
 public class PageableDishesDTO {
     private List<DishDTO> dishes;
+    private List<CategoryDTO> categories;
     private int currentPage;
     private int totalPages;
     private String sortField;
     private String sortDirection;
+    private Long categoryId;
 }

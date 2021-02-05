@@ -1,20 +1,20 @@
 'use strict';
 
 let token = document.querySelector('meta[name="_csrf"]').content;
-let sortField = 'id';
-let sortDirection = 'asc';
-let pageNo = 1;
-let categoryId = 0;
+let sort = 'id';
+let direct = 'asc';
+let page = 1;
+let category = 0;
 
 let queryString = window.location.search;
 console.log(queryString);
 let urlParams = new URLSearchParams(queryString);
 
-if (urlParams.has('pageNo')) {
-    pageNo = urlParams.get('pageNo');
-    sortField = urlParams.get('sortField');
-    sortDirection = urlParams.get('sortDirection');
-    categoryId = urlParams.get('categoryId');
+if (urlParams.has('page')) {
+    page = urlParams.get('page');
+    sort = urlParams.get('sort');
+    direct = urlParams.get('direct');
+    category = urlParams.get('category');
 }
 
 angular.module("get_form", [])
@@ -23,10 +23,8 @@ angular.module("get_form", [])
         $scope.getItems = function () {
             $http({
                 method: "GET",
-                url: "/api/get/" + pageNo
-                    + '?sortField=' + sortField
-                    + "&sortDirection=" + sortDirection
-                    + "&categoryId=" + categoryId
+                url: "/api/get/" + page + '?sort=' + sort
+                    + "&direct=" + direct + "&category=" + category
                 ,
                 headers: {
                     "Content-Type": "application/json",
@@ -75,17 +73,15 @@ angular.module("get_form", [])
     }]);
 
 let sorting = (field) => {
-    sortDirection = (sortDirection === 'asc') ? 'desc' : 'asc';
-    sortField = field;
+    direct = (direct === 'asc') ? 'desc' : 'asc';
+    sort = field;
     replace();
 }
 
 let replace = () => {
     location.replace(
-        '/?pageNo='+ pageNo +
-        '&sortField=' + sortField +
-        '&sortDirection=' + sortDirection
-        + "&categoryId=" + categoryId
+        '/?page='+ page + '&sort=' + sort +
+        '&direct=' + direct + "&category=" + category
     );
 }
 

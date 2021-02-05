@@ -22,14 +22,12 @@ public class MainController {
         this.dishesService = dishesService;
     }
 
-    @GetMapping("/get/{pageNo}")
+    @GetMapping("/get/{page}")
     public ResponseEntity<PageableDishesDTO>
-    findPaginated(@Valid @PathVariable (value = "pageNo") Integer pageNo,
-                  @RequestParam (value = "sortField", required = false) String sortField,
-                  @RequestParam (value = "sortDirection", required = false) String sortDirection,
-                  @RequestParam (value = "categoryId", required = false) Long categoryId)  {
-
-        log.error(pageNo.toString() + sortField + sortDirection + categoryId.toString());
+    findPaginated(@Valid @PathVariable (value = "page") Integer pageNo,
+                  @RequestParam (value = "sort", required = false) String sortField,
+                  @RequestParam (value = "direct", required = false) String sortDirection,
+                  @RequestParam (value = "category", required = false) Long categoryId)  {
 
         log.info(Constants.GET_PAGE_DISHES + pageNo);
         try {

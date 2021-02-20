@@ -9,7 +9,7 @@ import ua.restaurant.entity.*;
 import ua.restaurant.repository.*;
 import ua.restaurant.utils.Constants;
 import ua.restaurant.utils.ContextHelpers;
-import ua.restaurant.utils.Converter;
+import ua.restaurant.utils.Mapper;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -64,8 +64,8 @@ public class OrdersService {
         if (basketsItems.isEmpty()) {
             throw new NoSuchElementException(Constants.EMPTY_LIST);
         }
-        List<DishDTO> dishes = Converter.basketToDishesDTO(basketsItems);
-        BigDecimal total = Converter.getTotalPrice(dishes);
+        List<DishDTO> dishes = Mapper.basketToDishesDTO(basketsItems);
+        BigDecimal total = Mapper.getTotalPrice(dishes);
 
         basketRepository.deleteByLogin_Id(user.getId());
         log.info(Constants.DELETE_ALL_BASKET);

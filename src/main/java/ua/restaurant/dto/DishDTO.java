@@ -17,5 +17,5 @@ public class DishDTO {
     private Long id;
     private String name;
     private BigDecimal price;
-    private String category;
+    private CategoryDTO category;
 }

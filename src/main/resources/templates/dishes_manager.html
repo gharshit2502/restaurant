@@ -20,7 +20,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 
     <script th:src="@{/js/general.js}"></script>
-    <script th:src="@{/js/orders_request.js}"></script>
+    <script th:src="@{/js/dishes_request.js}"></script>
 
 </head>
 
@@ -32,10 +32,8 @@
             <a class="hbutton" href="/" th:text="#{main.main}"></a>
             <a class="hbutton" href="/basket" th:text="#{main.basket}"></a>
             <a class="hbutton" href="/orders" th:text="#{main.orders}"></a>
-            <a class="mbutton" href="/manager/manage_orders" th:text="#{main.manage.orders}"
-               sec:authorize="hasRole('ROLE_MANAGER')"></a>
-            <a class="mbutton" href="/manager/manage_dishes" th:text="#{main.manage.dishes}"
-               sec:authorize="hasRole('ROLE_MANAGER')"></a>
+            <a class="mbutton" href="/manager/manage_orders" th:text="#{main.manage.orders}"></a>
+            <a class="mbutton" href="/manager/manage_dishes" th:text="#{main.manage.dishes}"></a>
         </div>
         <div>
             <a id="authorizedLogin" th:text="${#request.getUserPrincipal().getName()}"></a>
@@ -61,35 +59,43 @@
     </section>
 
     <header class="section2">
-        <a href="/"><h2 th:text="#{main.orders}"></h2></a>
+        <a href="/"><h2 th:text="#{main.manage.dishes}"></h2></a>
     </header>
 
     <section class="section4"
-             ng-app="get_form" ng-controller="GetController" data-ng-init="getItems()">
+             ng-app="get_form" ng-controller="GetController" data-ng-init="getAllItems()">
 
         <div id="errorMsg"></div>
 
-        <div id="dishes_block">
+        <div id="no_error_block">
+            <div class="page_head">
+                <div>
+                    <h2 th:text="#{main.menu}"></h2>
+                </div>
+                <div>
+                    <a class="button" href="/manager/dishes/create" th:text="#{button.create}"></a>
+                </div>
+            </div>
+
             <div>
-                <table id="table" ng-model="orders">
+                <table id="table" ng-model="dishes">
                     <tr>
-                        <th columns="0" onclick="tableSort(this, 'table')" th:text="#{orders.number}"></th>
-                        <th columns="1" onclick="tableSort(this, 'table')" th:text="#{orders.time}"></th>
-                        <th columns="2" onclick="tableSort(this, 'table')" th:text="#{orders.status}"></th>
-                        <th columns="3" onclick="tableSort(this, 'table')" th:text="#{orders.totalPrice}"></th>
+                        <th columns="0" onclick="tableSort(this, 'table')">№</th>
+                        <th columns="1" onclick="tableSort(this, 'table')" th:text="#{menu.dish}"></th>
+                        <th columns="2" onclick="tableSort(this, 'table')" th:text="#{menu.price}"></th>
+                        <th columns="3" onclick="tableSort(this, 'table')" th:text="#{menu.category}"></th>
                         <th columns="4" th:text="#{basket.action}"></th>
                     </tr>
                     <tbody id="dishes_table">
-                    <tr ng-repeat="i in orders" class="rows" checked=false>
+                    <tr ng-repeat="i in dishes" class="rows" checked=false>
                         <td>{{i.id}}</td>
-                        <td>{{i.time}}</td>
-                        <td>{{i.status}}</td>
-                        <td>{{i.totalPrice}}</td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.price}}</td>
+                        <td>{{i.category.category}}</td>
                         <td>
-                            <a class="hidden" th:text="#{orders.pay}"
-                               href="/payment?orderNo={{i.id}}&totalPrice={{i.totalPrice}}"></a>
+                            <a class="abutton" href="/manager/dishes/update?id={{i.id}}" th:text="#{button.update}"></a>
+                            <a dishId="{{i.id}}" class="abutton" ng-click="delete($event)" th:text="#{button.delete}"></a>
                         </td>
-
                     </tr>
                     </tbody>
                 </table>
@@ -100,24 +106,5 @@
 
 </div>
 </body>
-
-<script>
-    function showPayButton() {
-        let items = document.querySelectorAll('.rows');
-        items.forEach((elem) => {
-            let tags = elem.getElementsByTagName("td");
-            if (tags[2].innerHTML === 'NEW') {
-                let link = elem.getElementsByTagName('a');
-                link[0].className = 'abutton';
-            }
-        });
-    }
-
-    let init = () => {
-        setTimeout(showPayButton, 200);
-    }
-    window.onload = init;
-</script>
-
 
 </html>

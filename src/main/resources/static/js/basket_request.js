@@ -18,6 +18,10 @@ angular.module("get_form", [])
                     console.log(data.data);
                     $scope.dishes = data.data.dishes;
                     $scope.totalPrice = data.data.totalPrice;
+                    if ($scope.dishes[0] == null) {
+                        document.querySelector("#errorMsg").innerHTML = 'Basket is empty!';
+                        document.querySelector("#dishes_block").className = 'hidden';
+                    }
                 },
                 function (error) {
                     console.log(error);

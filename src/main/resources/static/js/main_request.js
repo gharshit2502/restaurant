@@ -50,7 +50,8 @@ angular.module("get_form", [])
             );
         }
         $scope.itemId = null;
-        $scope.postdata = function (itemId) {
+        $scope.postdata = function(event) {
+            let itemId = event.currentTarget.getAttribute('dishId');
             let object = { "itemId": itemId }
             console.log(object);
             $http({
@@ -79,13 +80,7 @@ let sorting = (field) => {
 }
 
 let replace = () => {
-    location.replace(
-        '/?page='+ page + '&sort=' + sort +
-        '&direct=' + direct + "&category=" + category
-    );
+    let str = '?page='+ page + '&sort=' + sort
+            + '&direct=' + direct + "&category=" + category;
+    location.replace(str);
 }
-
-let init = () => {
-    getSelector();
-}
-window.onload = init;

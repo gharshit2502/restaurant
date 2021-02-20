@@ -17,9 +17,8 @@
     <link rel="stylesheet" th:href="@{/css/sign.css}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<!--    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>-->
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-<!--    <script th:src="@{/js/general.js}"></script>-->
     <script th:src="@{/js/signup_request.js}"></script>
 </head>
 
@@ -28,8 +27,27 @@
 <div class="body-block shadow-large page_width">
 
     <section class="section1">
-        <a class="abutton" href="/login" th:text="#{sign.in}"></a>
-        <a class="abutton" href="/" th:text="#{main.menu}"></a>
+        <div style="display:flex; align-items: center">
+            <a class="hbutton" href="/" th:text="#{main.main}"></a>
+        </div>
+        <div>
+            <a class="abutton" href="/login" th:text="#{sign.in}"></a>
+            <select class="abutton" id="locales">
+                <option value="" th:text="#{lang.change}"></option>
+                <option value="en" th:text="#{lang.en}"></option>
+                <option value="ua" th:text="#{lang.ua}"></option>
+            </select>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $("#locales").change(function () {
+                        let selectedOption = $('#locales').val();
+                        if (selectedOption !== ''){
+                            window.location.replace('?lang=' + selectedOption);
+                        }
+                    });
+                });
+            </script>
+        </div>
     </section>
 
     <header class="section2">
@@ -41,28 +59,23 @@
             <div class="frame">
                 <form id="formSignUp" class="form-signup">
 
-                    <input class="form-styling" style="display: none" type="text" placeholder="" value="not verificated"/>
                     <label for="login" th:text="#{sign.username}"></label>
-
                     <input id="login" class="form-styling" type="text" required autofocus/>
+
                     <label for="email" th:text="#{sign.email}"></label>
-
                     <input id="email" class="form-styling" type="email" required/>
-                    <label for="password" th:text="#{sign.password}"></label>
-
                     <div>
+                        <label for="password" th:text="#{sign.password}"></label>
                         <input id="password" class="form-styling" type="password" name="password" autocomplete="on" required/>
                         <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                     </div>
-
                     <div>
                         <label for="confirmpassword" th:text="#{sign.confirmPassword}"></label>
                         <input id="confirmpassword" class="form-styling" type="password" name="confirmpassword" required
                                autocomplete="on" />
                         <span toggle="#confirmpassword" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                     </div>
-
-                    <input class="btn-signup" ng-click="signup()" th:value="#{sign.up}"/>
+                    <input class="btn-signup" type="button" ng-click="signup()" th:value="#{sign.up}"/>
                 </form>
             </div>
         </main>

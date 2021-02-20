@@ -28,38 +28,43 @@
 <div class="backcolor"></div>
 <div class="body-block shadow-large page_width">
     <section class="section1">
-        <a class="abutton" href="/login" th:method="Post" th:text="#{sign.in}"
-           sec:authorize="!isAuthenticated()"></a>
+        <div style="display:flex; align-items: center">
+            <a class="hbutton" href="/" th:text="#{main.main}"></a>
+            <a class="hbutton" href="/basket" th:text="#{main.basket}" sec:authorize="isAuthenticated()"></a>
+            <a class="hbutton" href="/orders" th:text="#{main.orders}" sec:authorize="isAuthenticated()"></a>
+            <a class="mbutton" href="/manager/manage_orders" th:text="#{main.manage.orders}"
+               sec:authorize="hasRole('ROLE_MANAGER')"></a>
+            <a class="mbutton" href="/manager/manage_dishes" th:text="#{main.manage.dishes}"
+               sec:authorize="hasRole('ROLE_MANAGER')"></a>
+        </div>
+        <div>
+            <span sec:authorize="isAuthenticated()">
+                <a id="authorizedLogin" th:text="${#request.getUserPrincipal().getName()}"></a>
+            </span>
+            <a class="abutton" href="/login" th:text="#{sign.in}"
+               sec:authorize="!isAuthenticated()"></a>
+            <a class="abutton" href="/signup" th:text="#{sign.up}"
+               sec:authorize="!isAuthenticated()"></a>
+            <a class="abutton" href="/logout" th:text="#{sign.out}"
+               sec:authorize="isAuthenticated()"></a>
 
-        <a class="abutton" href="/signup" th:text="#{sign.up}"
-           sec:authorize="!isAuthenticated()"></a>
-
-        <a class="abutton" href="/logout" th:text="#{sign.out}"
-           sec:authorize="isAuthenticated()"></a>
-
-        <a class="abutton" href="/basket" th:text="#{main.basket}"></a>
-
-        <a class="abutton" href="/orders" th:text="#{main.orders}"></a>
-
-        <a class="abutton" href="/manager/orders" th:text="#{main.manager}"
-           sec:authorize="hasRole('ROLE_MANAGER')"></a>
-
-        <label for="locales"></label>
-        <select class="abutton" id="locales">
-            <option value="" th:text="#{lang.change}"></option>
-            <option value="en" th:text="#{lang.en}"></option>
-            <option value="ua" th:text="#{lang.ua}"></option>
-        </select>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $("#locales").change(function () {
-                    let selectedOption = $('#locales').val();
-                    if (selectedOption !== ''){
-                        window.location.replace('?lang=' + selectedOption);
-                    }
+            <label for="locales"></label>
+            <select class="abutton" id="locales">
+                <option value="" th:text="#{lang.change}"></option>
+                <option value="en" th:text="#{lang.en}"></option>
+                <option value="ua" th:text="#{lang.ua}"></option>
+            </select>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $("#locales").change(function () {
+                        let selectedOption = $('#locales').val();
+                        if (selectedOption !== ''){
+                            window.location.replace('?lang=' + selectedOption);
+                        }
+                    });
                 });
-            });
-        </script>
+            </script>
+        </div>
     </section>
 
     <header class="section2">
@@ -100,13 +105,18 @@
                         <th columns="1" onclick="sorting('name', this)" th:text="#{menu.dish}"></th>
                         <th columns="2" onclick="sorting('price')" th:text="#{menu.price}"></th>
                         <th columns="3" onclick="sorting('categories')" th:text="#{menu.category}"></th>
+                        <th columns="4" sec:authorize="isAuthenticated()" th:text="#{basket.action}"></th>
+
                     </tr>
                     <tbody id="dishes_table">
                         <tr ng-repeat="i in dishes" class="rows" checked=false>
                             <td>{{i.id}}</td>
                             <td>{{i.name}}</td>
                             <td>{{i.price}}</td>
-                            <td>{{i.category}}</td>
+                            <td>{{i.category.category}}</td>
+                            <td sec:authorize="isAuthenticated()">
+                                <a class="abutton" dishId="{{i.id}}" ng-click="postdata($event)" th:text="#{button.add}"></a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -123,16 +133,6 @@
             </div>
 
             <div th:text="#{page.total} + ' {{pageable.totalPages}}'"></div>
-        </div>
-
-        <div class="page_head" sec:authorize="isAuthenticated()">
-            <div style="margin: 20px 0;">
-                <label for="addDish" th:text="#{main.addDishId}"></label>
-                <input id="addDish" ng-model="dishId"/>
-            </div>
-            <div>
-                <a class="button" ng-click="postdata(dishId)" th:text="#{button.add}"></a>
-            </div>
         </div>
 
     </section>

@@ -18,6 +18,10 @@ angular.module("get_form", [])
                 function (data) {
                     console.log(data.data);
                     $scope.orders = data.data;
+                    if ($scope.orders[0] == null) {
+                        document.querySelector("#errorMsg").innerHTML = 'Order list is empty!';
+                        document.querySelector("#dishes_block").className = 'hidden';
+                    }
                 },
                 function (error) {
                     console.log(error);

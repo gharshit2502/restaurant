@@ -35,9 +35,23 @@ public class PageController {
         return "payment";
     }
 
-    @RequestMapping("manager/orders")
+    @RequestMapping("manager/manage_orders")
     public String ordersManagerPage(){
         return "orders_manager";
     }
 
+    @RequestMapping("manager/manage_dishes")
+    public String dishesManagerPage(){
+        return "dishes_manager";
+    }
+
+    @RequestMapping("manager/dishes/create")
+    public String dishesCreate(){
+        return "dishes_create";
+    }
+
+    @RequestMapping("manager/dishes/update")
+    public String dishesUpdate(){
+        return "dishes_update";
+    }
 }

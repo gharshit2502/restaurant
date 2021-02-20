@@ -28,40 +28,46 @@
 <div class="backcolor"></div>
 <div class="body-block shadow-large page_width">
     <section class="section1">
-        <a id="authorizedLogin" th:text="${#request.getUserPrincipal().getName()}"></a>
-        <a class="abutton" href="/" th:text="#{main.menu}"></a>
-        <a class="abutton" href="/basket" th:text="#{main.basket}"></a>
-        <a class="abutton" href="/orders" th:text="#{main.orders}"></a>
-        <a class="abutton" href="/manager/orders" th:text="#{main.manager}"
-           sec:authorize="hasRole('ROLE_MANAGER')"></a>
-        <select class="abutton" id="locales">
-            <option value="" th:text="#{lang.change}"></option>
-            <option value="en" th:text="#{lang.en}"></option>
-            <option value="ua" th:text="#{lang.ua}"></option>
-        </select>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $("#locales").change(function () {
-                    let selectedOption = $('#locales').val();
-                    if (selectedOption !== ''){
-                        window.location.replace('?lang=' + selectedOption);
-                    }
+        <div style="display:flex; align-items: center">
+            <a class="hbutton" href="/" th:text="#{main.main}"></a>
+            <a class="hbutton" href="/basket" th:text="#{main.basket}"></a>
+            <a class="hbutton" href="/orders" th:text="#{main.orders}"></a>
+            <a class="mbutton" href="/manager/manage_orders" th:text="#{main.manage.orders}"
+               sec:authorize="hasRole('ROLE_MANAGER')"></a>
+            <a class="mbutton" href="/manager/manage_dishes" th:text="#{main.manage.dishes}"
+               sec:authorize="hasRole('ROLE_MANAGER')"></a>
+        </div>
+        <div>
+            <a id="authorizedLogin" th:text="${#request.getUserPrincipal().getName()}"></a>
+            <a class="abutton" href="/logout" th:text="#{sign.out}"></a>
+
+            <label for="locales"></label>
+            <select class="abutton" id="locales">
+                <option value="" th:text="#{lang.change}"></option>
+                <option value="en" th:text="#{lang.en}"></option>
+                <option value="ua" th:text="#{lang.ua}"></option>
+            </select>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $("#locales").change(function () {
+                        let selectedOption = $('#locales').val();
+                        if (selectedOption !== ''){
+                            window.location.replace('?lang=' + selectedOption);
+                        }
+                    });
                 });
-            });
-        </script>
+            </script>
+        </div>
     </section>
 
     <header class="section2">
-        <a href="/"><h2 th:text="#{main.header}"></h2></a>
+        <a href="/"><h2 th:text="#{main.basket}"></h2></a>
     </header>
 
     <section class="section4"
              ng-app="get_form" ng-controller="GetController" data-ng-init="getItems()">
-        <div class="page_head">
-            <div>
-                <h2 th:text="#{main.basket}"></h2>
-            </div>
-        </div>
+
+        <div id="errorMsg"></div>
 
         <div id="dishes_block">
             <div>
@@ -78,34 +84,33 @@
                         <td>{{i.id}}</td>
                         <td>{{i.name}}</td>
                         <td>{{i.price}}</td>
-                        <td>{{i.category}}</td>
+                        <td>{{i.category.category}}</td>
                         <td>
-                            <a id="{{i.id}}" class="button" ng-click="delete($event)" th:text="#{basket.delete}"></a>
+                            <a id="{{i.id}}" class="abutton" ng-click="delete($event)" th:text="#{button.delete}"></a>
                         </td>
                     </tr>
 
                     </tbody>
                 </table>
             </div>
-        </div>
 
-        <div class="page_head" ng-model="totalPrice">
-            <p style="align-items: end;">
-                <span th:text="#{orders.totalPrice} + ' = '"></span>
-                <span style="font-weight: 700">{{totalPrice}}</span>
-            </p>
+            <div class="page_head" ng-model="totalPrice">
+                <p style="align-items: end;">
+                    <span th:text="#{orders.totalPrice} + ' = '"></span>
+                    <span style="font-weight: 700">{{totalPrice}}</span>
+                </p>
 
-        </div>
-
-        <div class="page_head">
-            <div style="margin: 20px 0;">
-                <a class="button" ng-click="postdata()" th:text="#{basket.create}"></a>
             </div>
-            <div>
-                <a class="button" ng-click="deleteAll()" th:text="#{basket.deleteAll}"></a>
+
+            <div class="page_head">
+                <div style="margin: 20px 0;">
+                    <a class="button" ng-click="postdata()" th:text="#{basket.create}"></a>
+                </div>
+                <div>
+                    <a class="button" ng-click="deleteAll()" th:text="#{basket.deleteAll}"></a>
+                </div>
             </div>
         </div>
-
     </section>
 
 </div>

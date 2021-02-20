@@ -17,30 +17,38 @@ import java.util.stream.Collectors;
 /**
  * Converts entities to DTO objects
  */
-public class Converter {
+public class Mapper {
+
+    private static DishDTO dishDTOMapper(Dishes d) {
+        return DishDTO.builder()
+                .id(d.getId())
+                .price(d.getPrice())
+                .name(ContextHelpers.isLocaleEnglish()
+                        ? d.getNameEn()
+                        : d.getNameUa())
+                .category(categoryDTOMapper(d.getCategories()))
+                .build();
+    }
+
+    private static CategoryDTO categoryDTOMapper(Categories c) {
+        return CategoryDTO.builder()
+                .id(c.getId())
+                .category(ContextHelpers.isLocaleEnglish()
+                        ? c.getCategoryEn()
+                        : c.getCategoryUa())
+                .build();
+    }
 
     public static List<DishDTO> dishesToDishesDTO(List<Dishes> list) {
         return list.stream()
-                .map(d -> DishDTO.builder()
-                        .id(d.getId())
-                        .price(d.getPrice())
-                        .name(ContextHelpers.isLocaleEnglish() ? d.getNameEn() : d.getNameUa())
-                        .category(ContextHelpers.isLocaleEnglish()
-                                ? d.getCategories().getCategoryEn() : d.getCategories().getCategoryUa())
-                        .build())
+                .map(Mapper::dishDTOMapper)
                 .collect(Collectors.toList());
     }
 
     public static List<DishDTO> basketToDishesDTO(List<Baskets> list) {
         return list.stream()
                 .map(Baskets::getDishes)
-                .map(d -> DishDTO.builder()
-                        .id(d.getId())
-                        .price(d.getPrice())
-                        .name(ContextHelpers.isLocaleEnglish() ? d.getNameEn() : d.getNameUa())
-                        .category(ContextHelpers.isLocaleEnglish()
-                                ? d.getCategories().getCategoryEn() : d.getCategories().getCategoryUa())
-                        .build())
+                .map(Mapper::dishDTOMapper)
                 .collect(Collectors.toList());
     }
 
@@ -52,23 +60,14 @@ public class Converter {
 
     public static List<CategoryDTO> categoriesToCategoriesDTO(List<Categories> list) {
         return list.stream()
-                .map(c -> CategoryDTO.builder()
-                        .id(c.getId())
-                        .category(ContextHelpers.isLocaleEnglish()
-                                ? c.getCategoryEn() : c.getCategoryUa())
-                        .build())
+                .map(Mapper::categoryDTOMapper)
                 .collect(Collectors.toList());
     }
 
     public static List<CategoryDTO> dishesToCategoriesDTO(List<Dishes> list) {
         return list.stream()
                 .filter(distinctByKey(Dishes::getCategories))
-                .map(d -> CategoryDTO.builder()
-                        .id(d.getCategories().getId())
-                        .category(ContextHelpers.isLocaleEnglish()
-                                ? d.getCategories().getCategoryEn()
-                                : d.getCategories().getCategoryUa())
-                        .build())
+                .map(d -> categoryDTOMapper(d.getCategories()))
                 .collect(Collectors.toList());
     }
 

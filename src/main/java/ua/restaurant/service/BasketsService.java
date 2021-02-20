@@ -14,7 +14,7 @@ import ua.restaurant.entity.Logins;
 import ua.restaurant.repository.BasketRepository;
 import ua.restaurant.repository.DishesRepository;
 import ua.restaurant.utils.ContextHelpers;
-import ua.restaurant.utils.Converter;
+import ua.restaurant.utils.Mapper;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -37,12 +37,12 @@ public class BasketsService {
      * @return list of baskets
      */
     public BasketDTO findAllDishes() {
-        List<DishDTO> dishes = Converter.basketToDishesDTO(
+        List<DishDTO> dishes = Mapper.basketToDishesDTO(
                 basketRepository.findAllByLogin_Id(
                         ContextHelpers.getAuthorizedLogin().getId()));
         return BasketDTO.builder()
                 .dishes(dishes)
-                .totalPrice(Converter.getTotalPrice(dishes))
+                .totalPrice(Mapper.getTotalPrice(dishes))
                 .build();
     }
 

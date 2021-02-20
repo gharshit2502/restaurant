@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -15,6 +16,8 @@ import java.sql.Timestamp;
 
 @Entity
 public class Dishes {
+    // todo validation for create dish
+
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -28,5 +31,5 @@ public class Dishes {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "categoryId", referencedColumnName = "id")
     private Categories categories;
-    private Timestamp time;
+    private LocalDateTime time;
 }

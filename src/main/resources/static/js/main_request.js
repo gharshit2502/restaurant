@@ -44,7 +44,7 @@ angular.module("get_form", [])
                 },
                 function (error) {
                     console.log(error);
-                    console.log("error");
+                    // alert(error.data.message);
                     alert("Incorrect url parameters, reload main page.");
                 }
             );
@@ -64,7 +64,7 @@ angular.module("get_form", [])
                 data: JSON.stringify(object)
             }).then(function (response) {
                 if (response.data) {
-                    alert("Dish " + itemId + " successfully added.")
+                    // alert("Dish " + itemId + " successfully added.")
                 }
             }, function (response) {
                 alertErrors(response);

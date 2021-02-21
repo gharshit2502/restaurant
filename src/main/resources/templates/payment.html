@@ -31,7 +31,7 @@
         <div style="display:flex; align-items: center">
             <a class="hbutton" href="/" th:text="#{main.main}"></a>
             <a class="hbutton" href="/basket" th:text="#{main.basket}"></a>
-            <a class="hbutton" href="/orders" th:text="#{main.orders}""></a>
+            <a class="hbutton" href="/orders" th:text="#{main.orders}"></a>
             <a class="mbutton" href="/manager/manage_orders" th:text="#{main.manage.orders}"
                sec:authorize="hasRole('ROLE_MANAGER')"></a>
             <a class="mbutton" href="/manager/manage_dishes" th:text="#{main.manage.dishes}"

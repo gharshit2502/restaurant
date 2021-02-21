@@ -29,7 +29,7 @@ public class Bundler {
     public String getMsg(String msg) {
         return messageSource.getMessage(msg, null, LocaleContextHolder.getLocale());
     }
-    public String getDBMsg(String msg) {
+    public String getLogMsg(String msg) {
         return logSource.getMessage(msg, null, Locale.ENGLISH);
     }
 }

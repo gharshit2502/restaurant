@@ -18,7 +18,6 @@ import javax.annotation.PostConstruct;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final LoginService loginService;
-
     @Autowired
     private UserDetailsServiceImpl(LoginService loginService) {
         this.loginService = loginService;
@@ -40,11 +39,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Logins login = loginService.findByUserLogin(username).orElseThrow(
                 () -> new UsernameNotFoundException("Could not find user: " + username)
         );
-//        if (login == null
-////        || login.getValidationStatus() == 0
-//        ) {
-//            throw new UsernameNotFoundException("Could not find user: " + username);
-//        }
         log.info(login.getLogin());
         log.info(login.getPassword());
 

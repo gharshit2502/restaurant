@@ -72,6 +72,8 @@
         </section>
     </div>
 
+<span id="errorMsg" class="hidden" th:text="#{error.signin}"></span>
+
 </body>
 
 <script th:src="@{/js/general.js}"></script>
@@ -80,7 +82,7 @@
     let init = () => {
         let urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('error') !== null) {
-            alert('incorrect login or password!');
+            alert(document.querySelector('#errorMsg').innerHTML);
         }
     }
     window.onload = init;

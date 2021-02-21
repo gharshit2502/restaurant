@@ -11,12 +11,15 @@ import java.util.List;
 @Service
 public class CategoriesService {
     private final CategoriesRepository categoriesRepository;
-
     @Autowired
     public CategoriesService(CategoriesRepository categoriesRepository) {
         this.categoriesRepository = categoriesRepository;
     }
 
+    /**
+     * Get categories for creating dish
+     * @return List<CategoryDTO>
+     */
     public List<CategoryDTO> findAllCategories() {
         return Mapper.categoriesToCategoriesDTO(categoriesRepository.findAll());
     }

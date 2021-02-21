@@ -1,29 +1,35 @@
 package ua.restaurant.service;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import ua.restaurant.config.Bundler;
 import ua.restaurant.dto.LoginDTO;
 import ua.restaurant.entity.Logins;
 import ua.restaurant.entity.RoleType;
 import ua.restaurant.repository.LoginsRepository;
-import ua.restaurant.utils.Constants;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class LoginService {
     private final LoginsRepository loginsRepository;
+    private final Bundler bundler;
     @Autowired
-    public LoginService(LoginsRepository loginsRepository) {
+    public LoginService(LoginsRepository loginsRepository,
+                        Bundler bundler) {
         this.loginsRepository = loginsRepository;
+        this.bundler = bundler;
     }
 
     /**
-     * For creating manager in the first place
+     * For login user
+     * Also use in creating manager if doesn't exists
      * @param login String login
      * @return Login object
      */
@@ -36,7 +42,7 @@ public class LoginService {
      * @param loginDTO parameters of new user
      * @param role role
      * @return Saved user
-     * @throws NoSuchElementException
+     * @throws IllegalArgumentException
      *          if login already exists in database
      */
     public Logins saveNewUser (@NonNull LoginDTO loginDTO, RoleType role) throws NoSuchElementException {
@@ -47,8 +53,11 @@ public class LoginService {
                     .role(role)
                     .time(LocalDateTime.now())
                     .password(new BCryptPasswordEncoder().encode(loginDTO.getPassword())).build());
-        } catch (Exception e) {
-            throw new NoSuchElementException(Constants.LOGIN_EXISTS + loginDTO.getLogin());
+        }
+        catch (Exception e) {
+            String message = "error.signup.login.exists";
+            log.warn(bundler.getLogMsg(message) + loginDTO.getLogin());
+            throw new IllegalArgumentException(bundler.getMsg(message) + loginDTO.getLogin());
         }
     }
 

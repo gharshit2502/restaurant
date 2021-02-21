@@ -40,7 +40,6 @@ angular.module("get_form", [])
                 }
             }).then(function (response) {
                 if (response.data) {
-                    alert("Order successfully created.");
                     location.replace('/orders');
                 }
             }, function (response) {

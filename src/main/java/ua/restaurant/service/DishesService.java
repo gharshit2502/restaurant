@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.restaurant.config.Bundler;
 import ua.restaurant.dto.DishDTO;
 import ua.restaurant.dto.PageableDishesDTO;
-import ua.restaurant.entity.Baskets;
 import ua.restaurant.entity.Categories;
 import ua.restaurant.entity.Dishes;
 import ua.restaurant.repository.CategoriesRepository;
@@ -56,17 +55,8 @@ public class DishesService {
     @Transactional
     public PageableDishesDTO findAllDishesPaginated(
             Integer pageNo, String sortField, String sortDirection, Long categoryId) {
-        sortField = sortField.equals(Constants.NULL)
-                ? sortDefault
-                : (sortField.equals(Constants.NAME)) ? bundler.getMsg("db.name") : sortField;
 
-        sortDirection = sortDirection.equals(Constants.NULL)
-                ? sortDirectionDefault
-                : sortDirection;
-
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
-                Sort.by(sortField).ascending() : Sort.by(sortField).descending();
-
+        Sort sort = validationSetDefault(sortField, sortDirection);
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
 
         Page<Dishes> page = (categoryId == null || categoryId == 0)
@@ -85,33 +75,73 @@ public class DishesService {
                 .categoryId(categoryId)
                 .build();
     }
+    /**
+     * Set default sort if failed get from front
+     * @param sortField sort field
+     * @param sortDirection asc or desc
+     * @return Sort
+     */
+    private Sort validationSetDefault(String sortField, String sortDirection) {
+        sortField = sortField.equals(Constants.NULL)
+                ? sortDefault
+                : (sortField.equals(Constants.NAME)) ? bundler.getMsg("db.name") : sortField;
 
+        sortDirection = sortDirection.equals(Constants.NULL)
+                ? sortDirectionDefault
+                : sortDirection;
+
+        return sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+    }
+
+    /**
+     * Get all dishes for manager
+     * @return List<DishDTO>
+     */
     public List<DishDTO> findAllDishes() {
-        return Mapper.dishesToDishesDTO(dishesRepository.findAll());
+        Sort sort = Sort.by("id").ascending();
+        return Mapper.dishesToDishesDTO(dishesRepository.findAll(sort));
     }
 
-    public Dishes findById(Long id) {
-        return dishesRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(Constants.DISH_NOT_FOUND));
-    }
-
+    /**
+     * Create new dish
+     * @param dish get dish and validate
+     * @return Dishes
+     * @throws NoSuchElementException if category not found
+     */
     @Transactional
     public Dishes saveNewDish (@NonNull Dishes dish) throws NoSuchElementException {
-//        try {
         dish.setTime(LocalDateTime.now());
         dish.setCategories(categoriesRepository.findById(dish.getCategories().getId())
-                .orElseThrow(() -> new NoSuchElementException(Constants.DISH_NOT_FOUND)));
+                .orElseThrow(() -> new NoSuchElementException(
+                        bundler.getLogMsg(Constants.DISHES_ONE_DBE))));
         return dishesRepository.save(dish);
-//        } catch (Exception e) {
-//            throw new NoSuchElementException(Constants.LOGIN_EXISTS + loginDTO.getLogin());
-//        }
     }
 
+    /**
+     * for get mapping for update dish page
+     * @param id dish id
+     * @return Dishes
+     */
+    public Dishes findById(Long id) {
+        return dishesRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(
+                        bundler.getLogMsg(Constants.DISHES_ONE_DBE)));
+    }
+
+    /**
+     * Update dish
+     * @param dish dish and validation
+     */
     public void update(@NonNull Dishes dish) {
         dish.setTime(LocalDateTime.now());
         dishesRepository.save(dish);
     }
 
+    /**
+     * Delete dish
+     * @param id dish id
+     */
     public void delete(@NonNull Long id) {
         dishesRepository.deleteById(id);
     }

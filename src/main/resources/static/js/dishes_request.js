@@ -76,7 +76,7 @@ angular.module("get_form", [])
                 'id': null,
                 'nameEn': document.querySelector('#name_en').value,
                 'nameUa': document.querySelector('#name_ua').value,
-                'price': document.querySelector('#price').value,
+                'price': Number.parseInt(document.querySelector('#price').value),
                 'categories': {
                     'id': document.querySelector('#category').value
                 }
@@ -91,7 +91,6 @@ angular.module("get_form", [])
                 data: JSON.stringify(object)
             }).then(function (response) {
                 if (response.data) {
-                    alert("Dish successfully created.");
                     location.replace('/manager/manage_dishes');
                 }
             }, function (response) {
@@ -117,10 +116,9 @@ angular.module("get_form", [])
                 },
                 data: JSON.stringify(object)
             }).then(function (response) {
-                if (response.data) {
-                    alert("Dish successfully updated.");
+                // if (response.data) {
                     location.replace('/manager/manage_dishes');
-                }
+                // }
             }, function (response) {
                 alertErrors(response);
             });
@@ -140,7 +138,6 @@ angular.module("get_form", [])
                 },
                 data: JSON.stringify(object)
             }).then(function (response) {
-                alert("Dish successfully deleted.");
                 window.location.reload();
             }, function (response) {
                 alertErrors(response);

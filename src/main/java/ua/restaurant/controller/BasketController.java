@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import ua.restaurant.config.Bundler;
 import ua.restaurant.dto.BasketDTO;
 import ua.restaurant.dto.ItemDTO;
 import ua.restaurant.entity.Baskets;
@@ -20,50 +21,70 @@ import javax.validation.Valid;
 @RequestMapping(value = "/api/basket")
 public class BasketController {
     private final BasketsService basketsService;
+    private final Bundler bundler;
     @Autowired
-    public BasketController(BasketsService basketsService) {
+    public BasketController(BasketsService basketsService,
+                            Bundler bundler) {
         this.basketsService = basketsService;
+        this.bundler = bundler;
     }
 
+    /**
+     * Get all baskets dishes for customer
+     * @return BasketDTO
+     */
     @GetMapping("/get")
     public ResponseEntity<BasketDTO> getDishes() {
-        log.info(Constants.GET_ALL_BASKET_DISHES + ContextHelpers.getAuthorizedLogin().getLogin());
+        log.info(bundler.getLogMsg(Constants.BASKET_ALL) +
+                ContextHelpers.getAuthorizedLogin().getLogin());
         return ResponseEntity.ok(basketsService.findAllDishes());
     }
 
+    /**
+     * Add dish to basket
+     * @param itemDTO dish id
+     * @return Baskets
+     */
     @PostMapping("/create")
-    public ResponseEntity<Baskets> add (@Valid @RequestBody ItemDTO itemDTO) {
-        log.info(Constants.ADD_NEW_DISH + itemDTO.toString());
+    public ResponseEntity<Baskets> create(@Valid @RequestBody ItemDTO itemDTO) {
+        log.info(bundler.getLogMsg(Constants.BASKET_CREATE) + itemDTO.getItemId());
         try {
-            return ResponseEntity.ok(
-                    basketsService.saveNewItem(itemDTO));
+            return ResponseEntity.ok(basketsService.saveNewItem(itemDTO));
         } catch (Exception e) {
             log.warn(e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
+    /**
+     * Delete from basket one item
+     * @param itemDTO dish id
+     */
     @DeleteMapping("/delete")
-    public boolean delete (@Valid @RequestBody ItemDTO itemDTO) {
-        log.info(Constants.DELETE_ONE + itemDTO.getItemId());
+    public void delete (@Valid @RequestBody ItemDTO itemDTO) {
+        log.info(bundler.getLogMsg(Constants.BASKET_DELETE) + itemDTO.getItemId());
         try {
             basketsService.delete(itemDTO.getItemId());
-            return true;
         } catch (Exception e) {
-            log.warn(Constants.ERROR_DELETE);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, Constants.ERROR_DELETE);
+            log.warn(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    bundler.getLogMsg(Constants.BASKET_DELETE_DBE));
         }
     }
 
+    /**
+     * delete all basket list for customer
+     */
     @DeleteMapping("/deleteAll")
-    public boolean deleteAll () {
-        log.info(Constants.DELETE_ALL + ContextHelpers.getAuthorizedLogin().getLogin());
+    public void deleteAll () {
+        Long userId = ContextHelpers.getAuthorizedLogin().getId();
+        log.info(bundler.getLogMsg(Constants.BASKET_DELETE_ALL) + userId);
         try {
-            basketsService.deleteByLogin(ContextHelpers.getAuthorizedLogin().getId());
-            return true;
+            basketsService.deleteByLogin(userId);
         } catch (Exception e) {
-            log.warn(Constants.ERROR_DELETE_ALL);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, Constants.ERROR_DELETE_ALL);
+            log.warn(e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    bundler.getLogMsg(Constants.BASKET_DELETE_ALL_DBE));
 
         }
     }

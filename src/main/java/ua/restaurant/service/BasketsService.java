@@ -4,6 +4,7 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.restaurant.config.Bundler;
 import ua.restaurant.dto.BasketDTO;
 import ua.restaurant.utils.Constants;
 import ua.restaurant.dto.ItemDTO;
@@ -21,15 +22,16 @@ import java.util.NoSuchElementException;
 
 @Service
 public class BasketsService {
-
     private final BasketRepository basketRepository;
     private final DishesRepository dishesRepository;
-
+    private final Bundler bundler;
     @Autowired
     public BasketsService(BasketRepository basketRepository,
-                          DishesRepository dishesRepository) {
+                          DishesRepository dishesRepository,
+                          Bundler bundler) {
         this.basketRepository = basketRepository;
         this.dishesRepository = dishesRepository;
+        this.bundler = bundler;
     }
 
     /**
@@ -60,7 +62,7 @@ public class BasketsService {
 
         Dishes dish = dishesRepository.findById(itemDTO.getItemId())
                 .orElseThrow(() -> new NoSuchElementException(
-                        Constants.DISH_NOT_FOUND + itemDTO.getItemId()));
+                        bundler.getLogMsg(Constants.BASKET_CREATE_DBE) + itemDTO.getItemId()));
 
         return basketRepository.save(Baskets.builder()
                 .login(user)
@@ -70,13 +72,14 @@ public class BasketsService {
 
     /**
      * delete one item from users basket
-     * @param id id of dish, than need to be deleted
+     * (there can be more than one identical dishes)
+     * @param id dish id
      */
     @Transactional
     public void delete(@NonNull Long id) {
         List<Baskets> list = basketRepository.findBasketsByDishes_Id(id);
         if (list.isEmpty()) {
-            throw new NoSuchElementException(Constants.EMPTY_LIST);
+            throw new NoSuchElementException(bundler.getLogMsg(Constants.BASKET_DELETE_DBE));
         }
         basketRepository.delete(list.get(0));
     }

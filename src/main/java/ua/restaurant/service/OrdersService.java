@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.restaurant.config.Bundler;
 import ua.restaurant.dto.DishDTO;
 import ua.restaurant.entity.*;
 import ua.restaurant.repository.*;
@@ -19,15 +20,16 @@ import java.util.NoSuchElementException;
 @Slf4j
 @Service
 public class OrdersService {
-
     private final OrdersRepository ordersRepository;
     private final BasketRepository basketRepository;
-
+    private final Bundler bundler;
     @Autowired
     public OrdersService(OrdersRepository ordersRepository,
-                         BasketRepository basketRepository) {
+                         BasketRepository basketRepository,
+                         Bundler bundler) {
         this.ordersRepository = ordersRepository;
         this.basketRepository = basketRepository;
+        this.bundler = bundler;
     }
 
     /**
@@ -62,15 +64,13 @@ public class OrdersService {
 
         List<Baskets> basketsItems = basketRepository.findAllByLogin_Id(user.getId());
         if (basketsItems.isEmpty()) {
-            throw new NoSuchElementException(Constants.EMPTY_LIST);
+            throw new NoSuchElementException(bundler.getLogMsg(Constants.BASKET_ALL_EMPTY));
         }
         List<DishDTO> dishes = Mapper.basketToDishesDTO(basketsItems);
         BigDecimal total = Mapper.getTotalPrice(dishes);
 
         basketRepository.deleteByLogin_Id(user.getId());
-        log.info(Constants.DELETE_ALL_BASKET);
-
-        // TODO create orderList
+        log.info(bundler.getLogMsg(Constants.BASKET_DELETE_ALL));
 
         return ordersRepository.save(Orders.builder()
                 .login(user)
@@ -91,12 +91,14 @@ public class OrdersService {
 
         Orders order = ordersRepository.findById(id)
                 .orElseThrow(() ->
-                        new NoSuchElementException(Constants.ORDER_NOT_FOUND + id));
+                        new NoSuchElementException(
+                                bundler.getLogMsg(Constants.ORDERS_NOT_FOUND) + id));
 
         if (!ContextHelpers.getAuthorizedLogin().getRole().equals(RoleType.ROLE_MANAGER) ||
                 order.getStatus().equals(Status.DONE) ||
                 order.getStatus().equals(Status.NEW)) {
-            throw new NoSuchElementException(Constants.ORDER_NOT_FOUND + id);
+            throw new NoSuchElementException(
+                    bundler.getLogMsg(Constants.ORDERS_NOT_FOUND) + id);
         }
         ordersRepository.updateStatus(id, order.getStatus().next());
         return true;
@@ -115,8 +117,8 @@ public class OrdersService {
         Long loginId = ContextHelpers.getAuthorizedLogin().getId();
 
         ordersRepository.findByIdAndLogin_IdAndStatus(id, loginId, Status.NEW)
-                .orElseThrow(() ->
-                        new NoSuchElementException(Constants.ORDER_NOT_FOUND + id));
+                .orElseThrow(() -> new NoSuchElementException(
+                        bundler.getLogMsg(Constants.ORDERS_NOT_FOUND) + id));
 
         ordersRepository.updateStatus(id, Status.PAYED);
         return true;

@@ -6,28 +6,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import lombok.*;
 import ua.restaurant.entity.Logins;
-import ua.restaurant.entity.RoleType;
 
 @Data
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
-//@AllArgsConstructor
 
 public class UserDetailsImpl implements UserDetails {
-//    private List<RoleType> authorities;
-//    private String username;
-//    private String password;
-//    private boolean accountNonExpired;
-//    private boolean accountNonLocked;
-//    private boolean credentialsNonExpired;
-//    private boolean enabled;
-
     private Logins login;
 
     public UserDetailsImpl(Logins login) {

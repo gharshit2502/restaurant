@@ -21,9 +21,9 @@ angular.module("get_form", [])
                 },
                 data: JSON.stringify(object)
             }).then(function (response) {
-                if (response.data) {
+                // if (response.data) {
                     location.replace("/orders")
-                }
+                // }
             }, function (response) {
                 alertErrors(response);
             });

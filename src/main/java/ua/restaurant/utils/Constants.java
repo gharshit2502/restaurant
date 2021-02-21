@@ -23,6 +23,7 @@ public interface Constants {
     String GET_ALL_DISHES = "Get all dishes";
     String GET_DISH = "Get dish, id: ";
     String CREATE_NEW_DISH = "Create new dish";
+    String UPDATE_DISH = "Update dish, id: ";
     String DELETE_DISH = "Delete dish, id: ";
 //    String DELETE_ALL = "Delete all from basket for user: ";
 

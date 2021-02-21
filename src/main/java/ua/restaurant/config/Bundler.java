@@ -7,12 +7,16 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import java.util.Locale;
+
 @Component
 public class Bundler {
     private final MessageSource messageSource;
+    private final MessageSource logSource;
     @Autowired
-    public Bundler(MessageSource messageSource) {
+    public Bundler(MessageSource messageSource, MessageSource logSource) {
         this.messageSource = messageSource;
+        this.logSource = logSource;
     }
 
     @Bean
@@ -24,5 +28,8 @@ public class Bundler {
 
     public String getMsg(String msg) {
         return messageSource.getMessage(msg, null, LocaleContextHolder.getLocale());
+    }
+    public String getDBMsg(String msg) {
+        return logSource.getMessage(msg, null, Locale.ENGLISH);
     }
 }

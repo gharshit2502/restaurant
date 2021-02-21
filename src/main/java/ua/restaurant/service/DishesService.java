@@ -110,9 +110,6 @@ public class DishesService {
     public void update(@NonNull Dishes dish) {
         dish.setTime(LocalDateTime.now());
         dishesRepository.save(dish);
-
-        // todo with categories with id and find
-
     }
 
     public void delete(@NonNull Long id) {

@@ -4,7 +4,7 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="9">
+          <list size="10">
             <item index="0" class="java.lang.String" itemvalue="sec:authorize" />
             <item index="1" class="java.lang.String" itemvalue="ng-app" />
             <item index="2" class="java.lang.String" itemvalue="ng-controller" />
@@ -14,6 +14,7 @@
             <item index="6" class="java.lang.String" itemvalue="checked" />
             <item index="7" class="java.lang.String" itemvalue="ng-click" />
             <item index="8" class="java.lang.String" itemvalue="dishid" />
+            <item index="9" class="java.lang.String" itemvalue="toggle" />
           </list>
         </value>
       </option>

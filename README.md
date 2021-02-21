@@ -1,4 +1,4 @@
-# restaurant
+# Restaurant
 restaurant service on Spring Boot
 
 ### Description:
@@ -29,25 +29,29 @@ After delivery and receipt of payment, the manager transfers the status of the o
 - Maven
 
 ### Usage:
-```
-1. git clone https://github.com/trohalska/restaurant
-2. apply maven wrapper: mvn -N io.takari:maven:wrapper
+
+1. ```git clone https://github.com/trohalska/restaurant```
+2. apply maven wrapper: ```mvn -N io.takari:maven:wrapper```
 3. postgreSQL database:
 
     3.1. Install PostgreSQL.
 
-    3.2. Create user and databases: 
-        ``` psql postgres; 
-            CREATE USER root WITH PASSWORD [your password];
-            CREATE DATABASE [your login];
-            CREATE DATABASE restaurant;
-            exit;```
-    3.3. Write postgresql password (for root) in application.properties (src/main/resources/application.properties) as password fields.
+    3.2. Create user and databases:
+   
+   ```
+   psql postgres; 
+   CREATE USER root WITH PASSWORD [your password];
+   CREATE DATABASE [your login];
+   CREATE DATABASE restaurant;
+   exit;
+   ```
+    
+    3.3. Write postgresql password (for root) in ```application.properties``` (src/main/resources/application.properties) as password field.
 
-    3.4. Create database tables from data.sql file.
+    3.4. You can insert basic data to database tables from ```data.sql``` file. Basic manager: login ```manager```, password ```password``` will be created by application.
 
-4. run server: ./mvnw spring-boot:run
-5. open website: http://localhost:8080
+4. run server: ```./mvnw spring-boot:run```
+5. open website: ```http://localhost:8080```
 ```
 
 ### View:

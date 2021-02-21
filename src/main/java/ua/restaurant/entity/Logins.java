@@ -2,6 +2,7 @@ package ua.restaurant.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,7 +19,15 @@ import java.time.LocalDateTime;
         uniqueConstraints={@UniqueConstraint(columnNames={"login"})})
 public class Logins {
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "sequence-login-id")
+    @GenericGenerator(
+            name = "sequence-login-id",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "login_id_seq"),
+                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "1"),
+                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
+            })
     @Column(name = "id")
     private Long id;
     @Column(name = "login")
@@ -27,10 +36,7 @@ public class Logins {
     private String password;
     @Column(nullable = false)
     private String email;
-
     @Column(name = "role")
-//    @ElementCollection(targetClass = RoleType.class, fetch = FetchType.EAGER)
-//    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "id"))
     @Enumerated(EnumType.STRING)
     private RoleType role;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")

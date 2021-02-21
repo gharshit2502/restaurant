@@ -42,7 +42,7 @@ After delivery and receipt of payment, the manager transfers the status of the o
             CREATE DATABASE [your login];
             CREATE DATABASE restaurant;
             exit;```
-    3.3. Write postgresql login and password in application.properties (src/main/resources/application.properties) as username and password fields.
+    3.3. Write postgresql password (for root) in application.properties (src/main/resources/application.properties) as password fields.
 
     3.4. Create database tables from data.sql file.
 

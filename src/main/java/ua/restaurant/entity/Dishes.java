@@ -1,13 +1,12 @@
 package ua.restaurant.entity;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Getter
@@ -20,18 +19,26 @@ import java.time.LocalDateTime;
 @Entity
 public class Dishes {
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "sequence-dishes-id")
+    @GenericGenerator(
+            name = "sequence-dishes-id",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "dishes_id_seq"),
+                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "1"),
+                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
+            })
     @Column(name = "id")
     private Long id;
 
     @Pattern(regexp = "^[a-zA-z0-9 -]+$",
             message = "{error.dish.name_en}")
-    @Column(name = "nameEn")
+    @Column(name = "name_en")
     private String nameEn;
 
-    @Pattern(regexp = "^[А-ЩЬЮЯҐЄІЇа-щьюяґєії0-9 \\'-]+$",
+    @Pattern(regexp = "^[А-ЩЬЮЯҐЄІЇа-щьюяґєії0-9 '-]+$",
             message = "{error.dish.name_ua}")
-    @Column(name = "nameUa")
+    @Column(name = "name_ua")
     private String nameUa;
 
     @Min(value = 1/100L, message = "{error.dish.price}")
@@ -39,7 +46,7 @@ public class Dishes {
     private BigDecimal price;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "categoryId", referencedColumnName = "id")
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Categories categories;
     private LocalDateTime time;
 }

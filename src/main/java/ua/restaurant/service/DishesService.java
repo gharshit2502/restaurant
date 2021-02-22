@@ -31,6 +31,8 @@ public class DishesService {
     private String sortDefault;
     @Value( "${page.sortDirectionDefault}" )
     private String sortDirectionDefault;
+    @Value( "${page.category}" )
+    private int categoryIdDefault;
 
     private final DishesRepository dishesRepository;
     private final CategoriesRepository categoriesRepository;
@@ -53,13 +55,13 @@ public class DishesService {
      * @return dto for front
      */
     @Transactional
-    public PageableDishesDTO findAllDishesPaginated(
-            Integer pageNo, String sortField, String sortDirection, Long categoryId) {
-
+    public PageableDishesDTO findAllDishesPaginated(Integer pageNo, String sortField,
+                                                    String sortDirection, Long categoryId) {
+        categoryId = categoryId == null || categoryId < 0 ? categoryIdDefault : categoryId;
         Sort sort = validationSetDefault(sortField, sortDirection);
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
 
-        Page<Dishes> page = (categoryId == null || categoryId == 0)
+        Page<Dishes> page = (categoryId == 0)
                 ? dishesRepository.findAll(pageable)
                 : dishesRepository.findByCategories_Id(categoryId, pageable);
 
@@ -82,14 +84,14 @@ public class DishesService {
      * @return Sort
      */
     private Sort validationSetDefault(String sortField, String sortDirection) {
-        sortField = sortField.equals(Constants.NULL)
+        sortField = sortField == null || sortField.equals(Constants.NULL)
                 ? sortDefault
                 : (sortField.equals(Constants.NAME)) ? bundler.getMsg("db.name") : sortField;
-
-        sortDirection = sortDirection.equals(Constants.NULL)
-                ? sortDirectionDefault
-                : sortDirection;
-
+        sortDirection = sortDirection != null &&
+                (sortDirection.equalsIgnoreCase("asc") ||
+                sortDirection.equalsIgnoreCase("desc"))
+                ? sortDirection
+                : sortDirectionDefault;
         return sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(sortField).ascending() : Sort.by(sortField).descending();
     }
@@ -113,8 +115,7 @@ public class DishesService {
     public Dishes saveNewDish (@NonNull Dishes dish) throws NoSuchElementException {
         dish.setTime(LocalDateTime.now());
         dish.setCategories(categoriesRepository.findById(dish.getCategories().getId())
-                .orElseThrow(() -> new NoSuchElementException(
-                        bundler.getLogMsg(Constants.DISHES_ONE_DBE))));
+                .orElseThrow(() -> new NoSuchElementException(bundler.getLogMsg(Constants.DISHES_ONE_DBE))));
         return dishesRepository.save(dish);
     }
 
@@ -137,7 +138,6 @@ public class DishesService {
         dish.setTime(LocalDateTime.now());
         dishesRepository.save(dish);
     }
-
     /**
      * Delete dish
      * @param id dish id
@@ -145,5 +145,4 @@ public class DishesService {
     public void delete(@NonNull Long id) {
         dishesRepository.deleteById(id);
     }
-
 }

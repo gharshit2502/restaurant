@@ -33,7 +33,7 @@ public class DishesController {
      * Get all dishes for manager
      * @return List<DishDTO>
      */
-    @GetMapping("/getAll")
+    @GetMapping("/get_all")
     public ResponseEntity<List<DishDTO>> getAllDishes() {
         log.info(bundler.getLogMsg(Constants.DISHES_ALL));
         return ResponseEntity.ok(dishesService.findAllDishes());

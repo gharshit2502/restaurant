@@ -25,7 +25,7 @@ After delivery and receipt of payment, the manager transfers the status of the o
 ### Technologies:
 - Spring Boot
 - Spring Security
-- PastgreSQL
+- PostgreSQL
 - Maven
 
 ### Usage:

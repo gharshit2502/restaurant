@@ -3,7 +3,6 @@ package ua.restaurant.dto;
 import lombok.*;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter

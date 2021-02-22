@@ -8,7 +8,7 @@ angular.module("get_form", [])
         $scope.getAllItems = function () {
             $http({
                 method: "GET",
-                url: "/api/manager/dishes/getAll",
+                url: "/api/manager/dishes/get_all",
                 headers: {
                     "Content-Type": "application/json",
                     'X-CSRF-TOKEN': token

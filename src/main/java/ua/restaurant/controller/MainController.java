@@ -42,6 +42,7 @@ public class MainController {
                   @RequestParam (value = "category", required = false) Long categoryId)  {
 
         log.info(bundler.getLogMsg(Constants.DISHES_ALL_PAGE) + pageNo);
+
         try {
             return ResponseEntity.ok(
                     dishesService.findAllDishesPaginated(

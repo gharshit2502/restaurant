@@ -17,5 +17,11 @@
       "type": "java.lang.String",
       "description": "Default sort direction.",
       "defaultValue": "asc"
+    },
+    {
+      "name": "page.categoryId",
+      "type": "java.lang.Integer",
+      "description": "Default category id, without any filtering.",
+      "defaultValue": 0
     }
   ] }

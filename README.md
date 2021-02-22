@@ -52,14 +52,14 @@ After delivery and receipt of payment, the manager transfers the status of the o
 
 4. run server: ```./mvnw spring-boot:run```
 5. open website: ```http://localhost:8080```
-```
+
 
 ### View:
-![view game](https://raw.githubusercontent.com/trohalska/restaurant_servlet/main/src/main/resources/pic/pic01.png?token=ANJGP2CHFPRKSGMDUIYG7UTAHEMLE)
-![view game](https://raw.githubusercontent.com/trohalska/restaurant_servlet/main/src/main/resources/pic/pic02.png?token=ANJGP2HLNLZQW6VJJFLOKULAHEMNW)
-![view game](https://raw.githubusercontent.com/trohalska/restaurant_servlet/main/src/main/resources/pic/pic03.png?token=ANJGP2D4UCZEGUF6QQTYDOLAHEM2C)
-![view game](https://raw.githubusercontent.com/trohalska/restaurant_servlet/main/src/main/resources/pic/pic04.png?token=ANJGP2ESNBXU3XVANRNG3JTAHEM2I)
-![view game](https://raw.githubusercontent.com/trohalska/restaurant_servlet/main/src/main/resources/pic/pic05.png?token=ANJGP2GL2EO4JIUIMQHGYA3AHENX2)
-![view game](https://raw.githubusercontent.com/trohalska/restaurant_servlet/main/src/main/resources/pic/pic06.png?token=ANJGP2FUNBTJWSIYANNSCGTAHENX6)
-![view game](https://raw.githubusercontent.com/trohalska/restaurant_servlet/main/src/main/resources/pic/pic07.png?token=ANJGP2DLTLCDWROY7SKYI3DAHENZS)
-![view game](https://raw.githubusercontent.com/trohalska/restaurant_servlet/main/src/main/resources/pic/pic08.png?token=ANJGP2GGBVDE3BFCZJ235ATAHENZ2)
+![view game](https://raw.githubusercontent.com/trohalska/restaurant/main/src/main/resources/pic/pic01.png)
+![view game](https://raw.githubusercontent.com/trohalska/restaurant/main/src/main/resources/pic/pic02.png)
+![view game](https://raw.githubusercontent.com/trohalska/restaurant/main/src/main/resources/pic/pic03.png)
+![view game](https://raw.githubusercontent.com/trohalska/restaurant/main/src/main/resources/pic/pic04.png)
+![view game](https://raw.githubusercontent.com/trohalska/restaurant/main/src/main/resources/pic/pic05.png)
+![view game](https://raw.githubusercontent.com/trohalska/restaurant/main/src/main/resources/pic/pic06.png)
+![view game](https://raw.githubusercontent.com/trohalska/restaurant/main/src/main/resources/pic/pic07.png)
+![view game](https://raw.githubusercontent.com/trohalska/restaurant/main/src/main/resources/pic/pic08.png)

@@ -16,6 +16,18 @@ import ua.restaurant.security.UserDetailsServiceImpl;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private static final String[] SWAGGER_WHITE_LIST = {
+            "/swagger-ui/**",
+            "/v2/api-docs",
+            "/v3/api-docs/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/api/**"
+    };
 
     @Autowired
     public SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl) {
@@ -28,9 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/", "/signup", "/api/get/**", "/css/*", "/js/*").permitAll()
                     .antMatchers("/manager/**").hasAuthority(RoleType.ROLE_MANAGER.name())
+                    .antMatchers(SWAGGER_WHITE_LIST).hasAuthority(RoleType.ROLE_MANAGER.name())
                 .anyRequest().authenticated()
                 .and()
-
                 .formLogin()
                 .loginPage("/login").permitAll()
                 .and()

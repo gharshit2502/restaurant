@@ -40,7 +40,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 () -> new UsernameNotFoundException("Could not find user: " + username)
         );
         log.info(login.getLogin());
-        log.info(login.getPassword());
 
         return new UserDetailsImpl(login);
     }

@@ -26,6 +26,8 @@ public class DishesServiceTest {
     @Autowired
     private DishesRepository dishesRepository;
 
+    // todo test on test database not on real one
+
     private static final int PAGE_NO = 1;
     private static final String SORT = "id";
     private static final String DIRECTION = "asc";

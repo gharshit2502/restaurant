@@ -1,5 +1,6 @@
 package ua.restaurant.entity;
 
+// todo make this table in DB
 public enum Status {
     NEW,
     PAYED,

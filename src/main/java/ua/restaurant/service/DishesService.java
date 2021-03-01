@@ -25,6 +25,8 @@ import java.util.NoSuchElementException;
 
 @Service
 public class DishesService {
+    // todo remove this or move to controller
+    // todo make validation on page -> if -1 or 100 get first or last page
     @Value( "${page.size}" )
     private int pageSize;
     @Value( "${page.sortDefault}" )

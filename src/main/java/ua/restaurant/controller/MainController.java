@@ -34,6 +34,9 @@ public class MainController {
      * @param categoryId filter by category
      * @return PageableDishesDTO
      */
+
+    // todo page -1 return 1, page 100 returns last
+
     @GetMapping("/get/{page}")
     public ResponseEntity<PageableDishesDTO>
     findPaginated(@Valid @PathVariable (value = "page") Integer pageNo,

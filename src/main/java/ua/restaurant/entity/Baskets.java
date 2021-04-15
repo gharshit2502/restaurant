@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
+// todo names like Basket (без множини, тфльки в однині)
 @Getter
 @Setter
 @AllArgsConstructor

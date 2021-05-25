@@ -22,7 +22,7 @@
 
         <postgresql.version>42.2.18</postgresql.version>
         <jjwt.version>0.9.1</jjwt.version>
-        <lombok.version>1.18.16</lombok.version>
+        <lombok.version>1.18.20</lombok.version>
         <junit.version>4.12</junit.version>
         <guava.version>30.0-jre</guava.version>
     </properties>
